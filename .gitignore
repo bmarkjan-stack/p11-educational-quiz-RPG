@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Keep example environment files
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Local development files
+*.local
+
+# Optional asset exclusions
+*.psd
+*.kra
+*.blend
+*.aseprite
+*.ase
+*.wav
+*.mp4
+
+# Local save/test data
+saves/
+*.save
+*.local.json

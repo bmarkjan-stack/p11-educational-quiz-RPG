@@ -5,6 +5,7 @@ import PreloadScene from "./scenes/PreloadScene.js";
 
 const config = {
     type: Phaser.AUTO,
+    parent: "game-container",
     width: 1280,
     height: 720,
     backgroundColor: "#0b1020",
@@ -14,6 +15,11 @@ const config = {
         width: 1280,
         height: 720,
     },
+
+    input: {
+        activePointers: 3,
+    },
+
     scene: [
         BootScene,
         PreloadScene
