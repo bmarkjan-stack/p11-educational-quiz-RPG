@@ -3,6 +3,8 @@ import Phaser from "phaser";
 import BootScene from "./scenes/BootScene.js";
 import PreloadScene from "./scenes/PreloadScene.js";
 import MenuScene from "./scenes/MenuScene.js";
+import CharacterSelectScene from "./scenes/CharacterSelectScene.js";
+import LessonSelectScene from "./scenes/LessonSelectScene.js";
 
 const config = {
     type: Phaser.AUTO,
@@ -25,6 +27,8 @@ const config = {
         BootScene,
         PreloadScene,
         MenuScene,
+        CharacterSelectScene,
+        LessonSelectScene,
     ]
 };
 

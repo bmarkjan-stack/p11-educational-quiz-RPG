@@ -5,6 +5,13 @@ export default class BootScene extends Phaser.Scene {
         super("BootScene");
     }
 
+    preload() {
+        // Preload background
+        this.load.image( "preload-background", "assets/images/background/bg-preload.png" );
+        // Preload title
+        this.load.image("game-title", "assets/images/background/title.png");
+    }
+
     create() {
         this.cameras.main.setBackgroundColor("#0b1020");
 

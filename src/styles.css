@@ -2,6 +2,13 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: "LearnQuest";
+    src: url("/assets/fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 html,
 body {
     margin: 0;
