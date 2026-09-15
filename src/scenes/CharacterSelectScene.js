@@ -156,7 +156,6 @@ export default class CharacterSelectScene extends Phaser.Scene {
             650,
             "BACK",
             () => {
-                this.sound.stopAll();
                 this.scene.start("MenuScene");
             },
             { width: 180 }

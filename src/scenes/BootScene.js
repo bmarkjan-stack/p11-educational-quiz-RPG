@@ -10,30 +10,19 @@ export default class BootScene extends Phaser.Scene {
         this.load.image( "preload-background", "assets/images/background/bg-preload.png" );
         // Preload title
         this.load.image("game-title", "assets/images/background/title.png");
+        // Music
+        this.load.audio("bgm-main", encodeURI("assets/audio/Music/Main Menu - Rising Sun - DivKid.mp3")
+        );
     }
 
     create() {
-        this.cameras.main.setBackgroundColor("#0b1020");
-
-        this.add
-            .text(640, 310, "LEARNQUEST", {
-                fontFamily: "Arial",
-                fontSize: "64px",
-                fontStyle: "bold",
-                color: "#ffffff",
-            })
-            .setOrigin(0.5);
-
-        this.add
-            .text(640, 385, "Educational Quiz RPG", {
-                fontFamily: "Arial",
-                fontSize: "24px",
-                color: "#a8b3cf",
-            })
-            .setOrigin(0.5);
-
-        this.time.delayedCall(500, () => {
-            this.scene.start("PreloadScene");
-        });
+        if (!this.sound.get("bgm-main")) { 
+            this.sound.play("bgm-main", { 
+                loop: true, 
+                volume: 0.4, 
+            }); 
+        } 
+        
+        this.scene.start("PreloadScene");
     }
 }

@@ -10,7 +10,6 @@ export default class MenuScene extends Phaser.Scene {
         this.drawBackground();
         this.createTitle();
         this.createButtons();
-        this.playMusic();
     }
 
     drawBackground() {
@@ -26,7 +25,6 @@ export default class MenuScene extends Phaser.Scene {
 
     createButtons() {
         new Button(this, 640, 410, "NEW GAME", () => {
-            this.sound.stopAll();
             this.scene.start("CharacterSelectScene");
         });
 
@@ -45,12 +43,6 @@ export default class MenuScene extends Phaser.Scene {
         new Button(this, 640, 650, "QUIT", () => {
             this.showAbout();
         });
-    }
-
-    playMusic() {
-        if (!this.sound.get("bgm-menu")) {
-            this.sound.play("bgm-menu", { loop: true, volume: 0.4 });
-        }
     }
 
     showAbout() {
