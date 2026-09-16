@@ -1,0 +1,336 @@
+{
+    "id": "responsive-web-design",
+    "title": "Responsive Web Design",
+    "description": "Learn how to build layouts that work on any screen size.",
+    "sections": [
+        {
+            "id": "core-concepts",
+            "title": "Mobile-First & the Viewport",
+            "content": "Responsive design means a page reflows to fit different screen sizes. Mobile-first means designing for small screens first, then enhancing the layout for larger screens. The viewport meta tag tells the browser to match the page width to the device width instead of using a fixed desktop viewport.",
+            "examples": [
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+            ],
+            "quiz": [
+                {
+                    "question": "What does responsive design allow a webpage to do?",
+                    "choices": [
+                        "Load faster",
+                        "Adapt to different screen sizes",
+                        "Use more colors",
+                        "Skip CSS"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does mobile-first design mean?",
+                    "choices": [
+                        "Only supporting mobile devices",
+                        "Designing for small screens first, then enhancing for larger screens",
+                        "Testing mobile devices after desktop devices",
+                        "Ignoring desktop layouts"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What is the purpose of the viewport meta tag?",
+                    "choices": [
+                        "To add animations to a webpage",
+                        "To change the page's font",
+                        "To control how the page is displayed on different devices",
+                        "To create CSS media queries"
+                    ],
+                    "answer": 2
+                }
+            ]
+        },
+        {
+            "id": "media-queries",
+            "title": "Media Queries",
+            "content": "Media queries apply CSS rules only when certain conditions are met, such as a minimum screen width. They allow you to change layouts, font sizes, spacing, and other styles at different breakpoints.",
+            "examples": [
+                "@media (min-width: 768px) {",
+                "    .container {",
+                "        flex-direction: row;",
+                "    }",
+                "}"
+            ],
+            "quiz": [
+                {
+                    "question": "What is a media query used for?",
+                    "choices": [
+                        "Running JavaScript code",
+                        "Applying CSS styles based on certain conditions",
+                        "Creating HTML elements",
+                        "Loading images"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does a breakpoint represent in responsive design?",
+                    "choices": [
+                        "A JavaScript error",
+                        "A screen width where the layout or styles can change",
+                        "A broken hyperlink",
+                        "A CSS syntax error"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which media query applies styles when the viewport is at least 768 pixels wide?",
+                    "choices": [
+                        "@media (max-width: 768px)",
+                        "@media (min-width: 768px)",
+                        "@media (width: 768px)",
+                        "@media (screen: 768px)"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "id": "flexible-layouts",
+            "title": "Flexible Layouts (Flexbox & Grid)",
+            "content": "Flexbox arranges items in a single row or column and distributes space between them. CSS Grid arranges items in rows and columns at the same time. Relative units such as %, em, rem, vw, and vh can scale more flexibly than fixed pixel values.",
+            "examples": [
+                "display: flex;",
+                "justify-content: space-between;",
+                "display: grid;",
+                "grid-template-columns: repeat(3, 1fr);"
+            ],
+            "quiz": [
+                {
+                    "question": "Which CSS layout system is designed primarily for arranging items in a single row or column?",
+                    "choices": [
+                        "CSS Grid",
+                        "Flexbox",
+                        "HTML Tables",
+                        "Positioning"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which CSS layout system is designed for two-dimensional rows and columns?",
+                    "choices": [
+                        "Flexbox",
+                        "CSS Grid",
+                        "Inline-block",
+                        "Float"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which unit is relative to the viewport width?",
+                    "choices": [
+                        "px",
+                        "pt",
+                        "vw",
+                        "in"
+                    ],
+                    "answer": 2
+                }
+            ]
+        }
+    ],
+    "exam": [
+        {
+            "question": "What does responsive design allow a webpage to do?",
+            "choices": [
+                "Load faster",
+                "Adapt to different screen sizes",
+                "Use more colors",
+                "Skip CSS"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does mobile-first design mean?",
+            "choices": [
+                "Only creating websites for mobile devices",
+                "Designing for small screens first and then enhancing for larger screens",
+                "Designing for desktop first",
+                "Testing mobile layouts only after deployment"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Why is responsive design important?",
+            "choices": [
+                "It allows layouts to work across different screen sizes",
+                "It eliminates the need for HTML",
+                "It makes JavaScript unnecessary",
+                "It prevents users from resizing their browser"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is the purpose of the viewport meta tag?",
+            "choices": [
+                "To define CSS animations",
+                "To control how the webpage is scaled and displayed on devices",
+                "To load external stylesheets",
+                "To create breakpoints automatically"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does `width=device-width` mean in the viewport meta tag?",
+            "choices": [
+                "Use a fixed width of 768 pixels",
+                "Match the viewport width to the device's CSS width",
+                "Use the physical width of the device in inches",
+                "Set the page width to 1000 pixels"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What is a media query?",
+            "choices": [
+                "A JavaScript event",
+                "A CSS mechanism for applying styles under specific conditions",
+                "An HTML attribute",
+                "A browser extension"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What is a breakpoint?",
+            "choices": [
+                "A point where JavaScript stops running",
+                "A screen condition where responsive styles can change",
+                "A CSS syntax error",
+                "A browser rendering failure"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which media query applies styles when the viewport is at least 768 pixels wide?",
+            "choices": [
+                "@media (max-width: 768px)",
+                "@media (min-width: 768px)",
+                "@media (width: 768px)",
+                "@media (screen-width: 768px)"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What can media queries change at different breakpoints?",
+            "choices": [
+                "Only HTML structure",
+                "Only JavaScript variables",
+                "Layout, font size, spacing, and other CSS properties",
+                "Only image file formats"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Why are media queries useful in responsive web design?",
+            "choices": [
+                "They allow different styles for different screen conditions",
+                "They remove the need for CSS",
+                "They automatically create databases",
+                "They prevent webpages from loading on mobile devices"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which CSS feature arranges elements primarily along one direction?",
+            "choices": [
+                "CSS Grid",
+                "Flexbox",
+                "Table layout",
+                "Float"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which CSS layout system is best suited for two-dimensional layouts?",
+            "choices": [
+                "Flexbox",
+                "CSS Grid",
+                "Inline layout",
+                "Float"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which property enables Flexbox?",
+            "choices": [
+                "position: flex;",
+                "display: flex;",
+                "layout: flex;",
+                "flex: display;"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which Flexbox property distributes space along the main axis?",
+            "choices": [
+                "align-items",
+                "justify-content",
+                "flex-wrap",
+                "order"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which property defines the columns in a CSS Grid layout?",
+            "choices": [
+                "grid-template-columns",
+                "grid-column-gap",
+                "grid-flow",
+                "grid-area"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which unit is relative to the viewport width?",
+            "choices": [
+                "px",
+                "em",
+                "vw",
+                "pt"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which unit is relative to the root element's font size?",
+            "choices": [
+                "em",
+                "rem",
+                "vw",
+                "px"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Why can relative units be useful in responsive layouts?",
+            "choices": [
+                "They can scale more flexibly than fixed pixel values",
+                "They completely eliminate CSS",
+                "They make every element the same size",
+                "They only work on desktop screens"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which declaration creates a three-column CSS Grid using equal fractional widths?",
+            "choices": [
+                "grid-template-columns: repeat(3, 1fr);",
+                "grid-columns: 3px;",
+                "grid-template: 3 columns;",
+                "columns: repeat(3, px);"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which approach combines responsive design concepts most effectively?",
+            "choices": [
+                "Use only fixed pixel widths",
+                "Use mobile-first design, media queries, and flexible layout systems",
+                "Use desktop-only styles",
+                "Avoid relative units completely"
+            ],
+            "answer": 1
+        }
+    ]
+}
