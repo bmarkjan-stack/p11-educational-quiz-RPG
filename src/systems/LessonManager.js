@@ -25,4 +25,24 @@ export default class LessonManager {
 
         return lesson;
     }
+
+    setActiveLesson(lesson) {
+        this.activeLesson = lesson;
+    }
+
+    getActiveLesson() {
+        return this.activeLesson;
+    }
+
+    getSections() {
+        return this.activeLesson?.sections ?? [];
+    }
+
+    getQuiz() {
+        return this.activeLesson?.quiz ?? [];
+    }
+
+    getExam() {
+        return this.activeLesson?.exam ?? [];
+    }
 }
