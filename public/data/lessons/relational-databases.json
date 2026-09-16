@@ -1,0 +1,336 @@
+{
+    "id": "relational-databases",
+    "title": "Relational Databases",
+    "description": "Learn how relational databases store and query data.",
+    "sections": [
+        {
+            "id": "what-is-a-relational-database",
+            "title": "What Is a Relational Database",
+            "content": "A relational database stores data in tables made of rows and columns. Each table usually has a primary key that uniquely identifies each row, and foreign keys that link rows in one table to rows in another.",
+            "examples": [
+                "users(id, name, email)",
+                "orders(id, user_id, total)"
+            ],
+            "quiz": [
+                {
+                    "question": "How does a relational database organize data?",
+                    "choices": [
+                        "Into tables made of rows and columns",
+                        "Only into text files",
+                        "Into images and folders",
+                        "Only into JSON objects"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is the purpose of a primary key?",
+                    "choices": [
+                        "To encrypt a table",
+                        "To uniquely identify each row",
+                        "To sort all rows",
+                        "To delete duplicate rows"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does a foreign key do?",
+                    "choices": [
+                        "Stores a password",
+                        "Uniquely identifies every database",
+                        "Links a row to a related row in another table",
+                        "Deletes a related table"
+                    ],
+                    "answer": 2
+                }
+            ]
+        },
+        {
+            "id": "select-where",
+            "title": "Querying with SELECT & WHERE",
+            "content": "SELECT retrieves columns from a table. WHERE filters rows based on a condition.",
+            "examples": [
+                "SELECT name, age FROM users;",
+                "SELECT * FROM users WHERE age > 18;"
+            ],
+            "quiz": [
+                {
+                    "question": "Which SQL keyword retrieves data from a table?",
+                    "choices": [
+                        "GET",
+                        "SELECT",
+                        "FETCH",
+                        "PULL"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which clause filters rows based on a condition?",
+                    "choices": [
+                        "WHERE",
+                        "FILTER",
+                        "HAVING",
+                        "IF"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does `SELECT * FROM users;` retrieve?",
+                    "choices": [
+                        "Only the first row",
+                        "All columns from the users table",
+                        "Only the primary key",
+                        "Only columns containing text"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "id": "join-and-aggregations",
+            "title": "JOIN & Aggregations",
+            "content": "JOIN combines rows from two or more tables using a related column, such as a foreign key. GROUP BY groups rows sharing a value, often used with aggregate functions like COUNT, SUM, and AVG.",
+            "examples": [
+                "SELECT orders.id, users.name",
+                "FROM orders",
+                "JOIN users ON orders.user_id = users.id;",
+                "SELECT department, COUNT(*)",
+                "FROM employees",
+                "GROUP BY department;"
+            ],
+            "quiz": [
+                {
+                    "question": "What is the purpose of a JOIN?",
+                    "choices": [
+                        "To combine related rows from two or more tables",
+                        "To delete rows from a table",
+                        "To create a database backup",
+                        "To rename a column"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does GROUP BY do?",
+                    "choices": [
+                        "Sorts rows alphabetically",
+                        "Groups rows that share a value",
+                        "Deletes duplicate rows",
+                        "Combines two tables"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which aggregate function counts rows?",
+                    "choices": [
+                        "SUM()",
+                        "AVG()",
+                        "COUNT()",
+                        "TOTAL()"
+                    ],
+                    "answer": 2
+                }
+            ]
+        }
+    ],
+    "exam": [
+        {
+            "question": "How does a relational database organize data?",
+            "choices": [
+                "Into tables made of rows and columns",
+                "Only into text files",
+                "Into images and folders",
+                "Only into JSON objects"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is a row in a relational database table?",
+            "choices": [
+                "A single record containing related values",
+                "A database connection",
+                "A table name",
+                "A SQL command"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is a column in a relational database table?",
+            "choices": [
+                "A collection of related tables",
+                "A field representing a particular type of data",
+                "A complete database",
+                "A SQL query"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What is the purpose of a primary key?",
+            "choices": [
+                "To encrypt a table",
+                "To uniquely identify each row",
+                "To sort rows automatically",
+                "To combine tables"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which property should a primary key have?",
+            "choices": [
+                "It should identify rows uniquely",
+                "It should always contain duplicate values",
+                "It must contain text only",
+                "It must always be named `id`"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does a foreign key represent?",
+            "choices": [
+                "A password field",
+                "A link to a related row in another table",
+                "A database backup",
+                "A comment"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Why are foreign keys useful?",
+            "choices": [
+                "They establish relationships between tables",
+                "They automatically sort data",
+                "They encrypt database records",
+                "They replace primary keys"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which SQL keyword retrieves data from a table?",
+            "choices": [
+                "GET",
+                "SELECT",
+                "FETCH",
+                "PULL"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does `SELECT name, age FROM users;` retrieve?",
+            "choices": [
+                "The name and age columns from users",
+                "All databases named users",
+                "Only rows where age is known",
+                "The primary key only"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does the `*` in `SELECT * FROM users;` represent?",
+            "choices": [
+                "The primary key",
+                "All columns",
+                "All databases",
+                "Only text columns"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which SQL clause filters rows?",
+            "choices": [
+                "WHERE",
+                "FILTER",
+                "GROUP",
+                "IF"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does `SELECT * FROM users WHERE age > 18;` do?",
+            "choices": [
+                "Returns users whose age is greater than 18",
+                "Changes every user's age to 18",
+                "Deletes users older than 18",
+                "Returns only the age column"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is the main purpose of a JOIN?",
+            "choices": [
+                "To combine related data from multiple tables",
+                "To delete a table",
+                "To create a primary key",
+                "To rename a database"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which column is commonly used to connect an order to its user?",
+            "choices": [
+                "orders.total",
+                "users.name",
+                "orders.user_id",
+                "users.email"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What does this condition accomplish: `orders.user_id = users.id`?",
+            "choices": [
+                "It connects related rows between orders and users",
+                "It deletes matching rows",
+                "It creates a new table",
+                "It sorts the users table"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does GROUP BY do?",
+            "choices": [
+                "Groups rows that share a value",
+                "Combines two tables",
+                "Deletes duplicate records",
+                "Filters individual rows"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which function counts rows?",
+            "choices": [
+                "COUNT()",
+                "SUM()",
+                "AVG()",
+                "NUMBER()"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which aggregate function calculates the total of numeric values?",
+            "choices": [
+                "COUNT()",
+                "SUM()",
+                "AVG()",
+                "TOTAL_ROWS()"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which aggregate function calculates the average of numeric values?",
+            "choices": [
+                "COUNT()",
+                "SUM()",
+                "AVG()",
+                "MEAN()"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which query correctly combines users and orders using their related IDs?",
+            "choices": [
+                "SELECT * FROM users JOIN orders ON orders.user_id = users.id;",
+                "SELECT * FROM users WHERE orders.user_id;",
+                "JOIN users AND orders;",
+                "SELECT JOIN users, orders;"
+            ],
+            "answer": 0
+        }
+    ]
+}
