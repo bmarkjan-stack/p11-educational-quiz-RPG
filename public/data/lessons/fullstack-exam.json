@@ -1,0 +1,780 @@
+{
+    "id": "fullstack-exam",
+    "title": "Full-Stack Capstone Exam",
+    "description": "The final boss. Review everything from responsive web design, JavaScript, frontend development libraries, Python, relational databases, and backend development & APIs before taking the 50-question full-stack exam.",
+    "sections": [
+        {
+            "id": "responsive-web-design-review",
+            "title": "Responsive Web Design Review",
+            "content": "Responsive web design makes websites adapt to different screen sizes and devices. A mobile-first approach starts by designing for smaller screens and then adding styles for larger screens. The viewport meta tag helps browsers display pages correctly on mobile devices. Media queries apply CSS rules at specific conditions such as screen width. Flexible units such as vw and rem, along with Flexbox and Grid, help create layouts that adapt to different screen sizes.",
+            "examples": [
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+                "@media (min-width: 768px) { ... }",
+                "display: flex;",
+                "grid-template-columns: repeat(2, 1fr);"
+            ],
+            "quiz": [
+                {
+                    "question": "What is the main goal of responsive web design?",
+                    "choices": [
+                        "To make a website adapt to different screen sizes",
+                        "To make every website use the same font",
+                        "To prevent websites from working on mobile devices",
+                        "To remove CSS from a website"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does the viewport meta tag help control?",
+                    "choices": [
+                        "How a page is scaled and displayed on mobile devices",
+                        "Which database the website uses",
+                        "Which JavaScript function runs first",
+                        "How API requests are authenticated"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which CSS feature can apply styles based on screen width?",
+                    "choices": [
+                        "@media",
+                        "@font-face",
+                        "@import",
+                        "@keyframes"
+                    ],
+                    "answer": 0
+                }
+            ]
+        },
+        {
+            "id": "javascript-review",
+            "title": "JavaScript Fundamentals Review",
+            "content": "JavaScript adds programming logic and interactivity to web applications. Variables store values, with let used when a variable may be reassigned and const used when it should not be reassigned. Functions group reusable instructions and can accept parameters and return values. Arrays store multiple values in an ordered collection and use zero-based indexing, meaning the first item is at index 0.",
+            "examples": [
+                "let score = 100;",
+                "const playerName = \"Ava\";",
+                "function add(a, b) { return a + b; }",
+                "const colors = [\"red\", \"blue\", \"green\"];"
+            ],
+            "quiz": [
+                {
+                    "question": "Which JavaScript keyword declares a variable that can be reassigned?",
+                    "choices": [
+                        "const",
+                        "let",
+                        "static",
+                        "define"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What is a parameter in a function?",
+                    "choices": [
+                        "A value or variable received by the function",
+                        "A CSS property",
+                        "A database table",
+                        "An HTTP status code"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What index represents the first item in a JavaScript array?",
+                    "choices": [
+                        "0",
+                        "1",
+                        "-1",
+                        "10"
+                    ],
+                    "answer": 0
+                }
+            ]
+        },
+        {
+            "id": "frontend-libraries-review",
+            "title": "Frontend Development Libraries Review",
+            "content": "Component-based frontend libraries organize user interfaces into reusable components. Components can receive read-only data from parents through props. State represents data managed by a component that can change over time. Hooks provide features that allow function components to use capabilities such as state. The useState Hook provides a current state value and an updater function. Updating state can cause the component to render again with the new value.",
+            "examples": [
+                "function Welcome() { return <h1>Hello</h1>; }",
+                "<User name=\"Ava\" />",
+                "const [count, setCount] = useState(0);",
+                "setCount(count + 1);"
+            ],
+            "quiz": [
+                {
+                    "question": "What is the main purpose of components in a component-based UI?",
+                    "choices": [
+                        "To create reusable pieces of a user interface",
+                        "To store database passwords",
+                        "To replace HTTP requests",
+                        "To define SQL tables"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What are props used for?",
+                    "choices": [
+                        "Passing read-only data from a parent to a component",
+                        "Changing CSS screen widths",
+                        "Creating database tables",
+                        "Sending HTTP status codes"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does useState provide?",
+                    "choices": [
+                        "A state value and an updater function",
+                        "A database connection",
+                        "An HTTP server",
+                        "A CSS media query"
+                    ],
+                    "answer": 0
+                }
+            ]
+        },
+        {
+            "id": "python-review",
+            "title": "Python Fundamentals Review",
+            "content": "Python is a dynamically typed programming language. Variables can store values such as integers, floats, strings, and booleans without requiring an explicit type declaration. Control flow uses if, elif, and else for decisions, while for and while loops repeat instructions. Python uses indentation to define code blocks. Functions are created with def, can accept parameters, and can return values using return.",
+            "examples": [
+                "name = \"Ava\"",
+                "score = 95",
+                "if score >= 90:",
+                "for item in items:",
+                "def greet(name): return \"Hello \" + name"
+            ],
+            "quiz": [
+                {
+                    "question": "Which keyword is used to define a function in Python?",
+                    "choices": [
+                        "func",
+                        "def",
+                        "function",
+                        "define"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which statement is used to make a decision in Python?",
+                    "choices": [
+                        "if",
+                        "repeat",
+                        "switch",
+                        "choose"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does Python use to define code blocks?",
+                    "choices": [
+                        "Curly braces",
+                        "Indentation",
+                        "Semicolons",
+                        "Square brackets"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "id": "relational-databases-review",
+            "title": "Relational Databases Review",
+            "content": "A relational database organizes data into tables containing rows and columns. A primary key uniquely identifies a row in a table, while a foreign key connects a row to a related row in another table. SQL SELECT retrieves data, and WHERE filters which rows are returned. JOIN combines related data from multiple tables. GROUP BY organizes rows into groups, while aggregate functions such as COUNT(), SUM(), and AVG() calculate values from groups or sets of rows.",
+            "examples": [
+                "SELECT * FROM customers;",
+                "SELECT * FROM products WHERE price > 100;",
+                "SELECT customers.name, orders.id FROM customers JOIN orders ON customers.id = orders.customer_id;",
+                "SELECT category_id, COUNT(*) FROM products GROUP BY category_id;"
+            ],
+            "quiz": [
+                {
+                    "question": "What uniquely identifies a row in a relational table?",
+                    "choices": [
+                        "A foreign key",
+                        "A primary key",
+                        "A column name",
+                        "A query"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does the WHERE clause do in a SELECT query?",
+                    "choices": [
+                        "Filters rows based on a condition",
+                        "Creates a new table",
+                        "Deletes the database",
+                        "Combines two programming languages"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does COUNT() do in SQL?",
+                    "choices": [
+                        "Counts rows or values",
+                        "Adds two strings",
+                        "Creates a primary key",
+                        "Updates a foreign key"
+                    ],
+                    "answer": 0
+                }
+            ]
+        },
+        {
+            "id": "backend-apis-review",
+            "title": "Backend Development & APIs Review",
+            "content": "Backend applications process requests from clients and return responses. HTTP provides methods such as GET for retrieving data, POST for creating data, PUT or PATCH for updating data, and DELETE for removing data. REST APIs expose resources through predictable URLs and commonly return structured JSON data. HTTP status codes communicate results, including 200 for success, 201 for creation, 400 for a bad request, 401 for unauthorized access, 404 for a missing resource, and 500 for a server error. Authentication, such as authentication tokens, helps confirm who is making a request.",
+            "examples": [
+                "GET /api/users/42",
+                "POST /api/users",
+                "PUT /api/users/42",
+                "DELETE /api/users/42",
+                "200 OK",
+                "404 Not Found"
+            ],
+            "quiz": [
+                {
+                    "question": "Which HTTP method is typically used to retrieve data?",
+                    "choices": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What format do REST APIs commonly use for structured data?",
+                    "choices": [
+                        "JSON",
+                        "MP3",
+                        "PNG",
+                        "DOCX"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does HTTP status code 404 indicate?",
+                    "choices": [
+                        "Success",
+                        "Created",
+                        "Not found",
+                        "Server error"
+                    ],
+                    "answer": 2
+                }
+            ]
+        }
+    ],
+    "exam": [
+        {
+            "question": "What is the main goal of responsive web design?",
+            "choices": [
+                "To make a website adapt to different screen sizes",
+                "To make every website use the same layout",
+                "To prevent websites from working on mobile devices",
+                "To remove the need for CSS"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does a mobile-first approach mean?",
+            "choices": [
+                "Designing for smaller screens first and then adapting for larger screens",
+                "Designing only for mobile devices",
+                "Removing desktop styles",
+                "Using JavaScript instead of CSS"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does the viewport meta tag help control?",
+            "choices": [
+                "How a webpage is scaled and displayed on mobile devices",
+                "How a database stores rows",
+                "How Python defines functions",
+                "How an API authenticates users"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which CSS feature applies styles based on conditions such as screen width?",
+            "choices": [
+                "@media",
+                "@font-face",
+                "@import",
+                "@keyframes"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which CSS layout system is designed primarily for arranging items along a single row or column?",
+            "choices": [
+                "Grid",
+                "Flexbox",
+                "Viewport",
+                "Media Query"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which CSS unit is relative to the viewport width?",
+            "choices": [
+                "vw",
+                "rem",
+                "px",
+                "pt"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which JavaScript keyword declares a variable that can be reassigned?",
+            "choices": [
+                "const",
+                "let",
+                "static",
+                "define"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which JavaScript keyword is commonly used when a variable should not be reassigned?",
+            "choices": [
+                "let",
+                "const",
+                "change",
+                "fixed"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What is the purpose of a JavaScript function?",
+            "choices": [
+                "To group reusable instructions",
+                "To define a database table",
+                "To create CSS media queries",
+                "To replace an HTTP response"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does the return statement do in a JavaScript function?",
+            "choices": [
+                "Provides a value back from the function",
+                "Creates a new variable automatically",
+                "Deletes the function",
+                "Changes a CSS layout"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What index represents the first item in a JavaScript array?",
+            "choices": [
+                "0",
+                "1",
+                "-1",
+                "10"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which is a valid JavaScript array literal?",
+            "choices": [
+                "[\"red\", \"blue\"]",
+                "{\"red\", \"blue\"}",
+                "(\"red\", \"blue\")",
+                "<red, blue>"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is the main purpose of reusable components in a frontend library?",
+            "choices": [
+                "To organize interfaces into reusable pieces",
+                "To create SQL queries",
+                "To authenticate API requests",
+                "To define Python indentation"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What are props?",
+            "choices": [
+                "Read-only data passed from a parent to a component",
+                "Data stored permanently in a database",
+                "HTTP status codes",
+                "Python variables"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does state represent in a component?",
+            "choices": [
+                "Data managed by the component that can change over time",
+                "A fixed CSS media query",
+                "A database primary key",
+                "An HTTP method"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does useState provide?",
+            "choices": [
+                "A state value and an updater function",
+                "A SQL query and database connection",
+                "A URL and HTTP method",
+                "A CSS class and media query"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What can happen when a component's state is updated?",
+            "choices": [
+                "The component can render again with the updated state",
+                "The database is automatically deleted",
+                "The browser must close",
+                "The API server is permanently stopped"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which keyword is used to define a function in Python?",
+            "choices": [
+                "func",
+                "def",
+                "function",
+                "define"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which Python data type represents whole numbers?",
+            "choices": [
+                "int",
+                "float",
+                "str",
+                "bool"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which Python data type represents text?",
+            "choices": [
+                "int",
+                "float",
+                "str",
+                "bool"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which Python statement is used to make a decision?",
+            "choices": [
+                "if",
+                "for",
+                "def",
+                "return"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which Python construct repeats instructions over items in a sequence?",
+            "choices": [
+                "for",
+                "if",
+                "def",
+                "return"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does Python use to define code blocks?",
+            "choices": [
+                "Curly braces",
+                "Indentation",
+                "Semicolons",
+                "HTML tags"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does a Python function parameter represent?",
+            "choices": [
+                "A value or variable that the function can receive",
+                "A CSS property",
+                "A database table",
+                "An HTTP status code"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is the purpose of return in a Python function?",
+            "choices": [
+                "To send a value back from the function",
+                "To define indentation",
+                "To create a database",
+                "To start an HTTP request"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is a relational database primarily organized into?",
+            "choices": [
+                "Tables",
+                "CSS files",
+                "HTTP requests",
+                "Functions"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What uniquely identifies a row in a relational table?",
+            "choices": [
+                "A primary key",
+                "A foreign key",
+                "A WHERE clause",
+                "A JOIN"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does a foreign key represent?",
+            "choices": [
+                "A link to a related row in another table",
+                "A password",
+                "A CSS property",
+                "A JavaScript function"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does SELECT do in SQL?",
+            "choices": [
+                "Retrieves data from a table",
+                "Deletes a table",
+                "Creates a Python function",
+                "Sends an HTTP request"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does the WHERE clause do?",
+            "choices": [
+                "Filters rows based on a condition",
+                "Creates a primary key",
+                "Combines programming languages",
+                "Groups CSS properties"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is the purpose of a JOIN in SQL?",
+            "choices": [
+                "To combine related data from multiple tables",
+                "To define a Python function",
+                "To style a webpage",
+                "To authenticate an API request"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which JOIN returns only rows that have matching data in both tables?",
+            "choices": [
+                "LEFT JOIN",
+                "RIGHT JOIN",
+                "INNER JOIN",
+                "OUTER JOIN"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What does GROUP BY do in SQL?",
+            "choices": [
+                "Groups rows according to one or more columns",
+                "Deletes duplicate tables",
+                "Creates a primary key",
+                "Sends data to a server"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which SQL function counts rows or values?",
+            "choices": [
+                "COUNT()",
+                "SUM()",
+                "AVG()",
+                "TOTAL()"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which HTTP method is typically used to retrieve data?",
+            "choices": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which HTTP method is typically used to create a new resource?",
+            "choices": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which HTTP method is typically used to update an existing resource?",
+            "choices": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which HTTP method is typically used to remove a resource?",
+            "choices": [
+                "GET",
+                "POST",
+                "DELETE",
+                "HEAD"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What does a REST API expose through its endpoints?",
+            "choices": [
+                "Resources",
+                "CSS styles",
+                "Python indentation",
+                "Browser settings"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What kind of URLs does a REST API generally use?",
+            "choices": [
+                "Predictable, resource-based URLs",
+                "Random URLs",
+                "URLs that contain only numbers",
+                "URLs that cannot identify resources"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What format do REST APIs commonly use for structured data?",
+            "choices": [
+                "JSON",
+                "MP3",
+                "PNG",
+                "DOCX"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does HTTP status code 200 usually indicate?",
+            "choices": [
+                "OK or successful request",
+                "Created",
+                "Not found",
+                "Server error"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does HTTP status code 201 typically indicate?",
+            "choices": [
+                "A resource was created",
+                "A resource was not found",
+                "The request was unauthorized",
+                "The server encountered an error"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does HTTP status code 400 indicate?",
+            "choices": [
+                "The request was invalid or badly formed",
+                "The request succeeded",
+                "A resource was created",
+                "The server successfully found the resource"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does HTTP status code 401 indicate?",
+            "choices": [
+                "Success",
+                "Created",
+                "Unauthorized",
+                "Not found"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What does HTTP status code 404 indicate?",
+            "choices": [
+                "Success",
+                "Not found",
+                "Created",
+                "Unauthorized"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does HTTP status code 500 indicate?",
+            "choices": [
+                "A successful request",
+                "A newly created resource",
+                "A server error",
+                "An unauthorized request"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What is authentication used for in an API?",
+            "choices": [
+                "To confirm who is making a request",
+                "To format JSON",
+                "To create CSS layouts",
+                "To define SQL tables"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which example represents a client requesting a specific resource from an API?",
+            "choices": [
+                "GET /api/users/42",
+                "SELECT * FROM users",
+                "def get_user():",
+                "display: flex;"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which layer is primarily responsible for storing structured application data?",
+            "choices": [
+                "The relational database",
+                "The CSS layout",
+                "The browser viewport",
+                "The frontend component"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which combination best describes a typical full-stack application?",
+            "choices": [
+                "Responsive frontend, application logic, API, and database",
+                "Only HTML and CSS",
+                "Only SQL queries",
+                "Only Python functions"
+            ],
+            "answer": 0
+        }
+    ]
+}
