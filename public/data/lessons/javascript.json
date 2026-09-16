@@ -1,0 +1,333 @@
+{
+    "id": "javascript",
+    "title": "JavaScript Fundamentals",
+    "description": "Learn the fundamentals of JavaScript.",
+    "sections": [
+        {
+            "id": "variables",
+            "title": "Variables",
+            "content": "Variables store values you can use later. Use 'let' for values that can be reassigned, and 'const' for values that cannot be reassigned after initialization.",
+            "examples": [
+                "let score = 0;",
+                "const name = \"Ava\";"
+            ],
+            "quiz": [
+                {
+                    "question": "Which keyword declares a variable that cannot be reassigned?",
+                    "choices": [
+                        "let",
+                        "const",
+                        "var",
+                        "static"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which keyword should you use for a variable whose value will change?",
+                    "choices": [
+                        "const",
+                        "let",
+                        "fixed",
+                        "static"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What value is stored in the variable `score`?",
+                    "choices": [
+                        "The string \"score\"",
+                        "0",
+                        "undefined",
+                        "true"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "id": "functions",
+            "title": "Functions",
+            "content": "Functions are reusable blocks of code. They can take inputs called parameters and return a value. You call a function by using its name followed by parentheses.",
+            "examples": [
+                "function add(a, b) {",
+                "    return a + b;",
+                "}"
+            ],
+            "quiz": [
+                {
+                    "question": "What is a function in JavaScript?",
+                    "choices": [
+                        "A reusable block of code",
+                        "A type of variable",
+                        "A CSS rule",
+                        "An HTML element"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What are `a` and `b` in `function add(a, b)`?",
+                    "choices": [
+                        "Arguments",
+                        "Parameters",
+                        "Variables declared outside the function",
+                        "Return values"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does `add(2, 3)` return if the function returns `a + b`?",
+                    "choices": [
+                        "23",
+                        "5",
+                        "undefined",
+                        "Error"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "id": "arrays",
+            "title": "Arrays",
+            "content": "Arrays store ordered lists of values. You can access individual items using an index, and array indexes start at 0.",
+            "examples": [
+                "const colors = [\"red\", \"green\", \"blue\"];",
+                "console.log(colors[0]); // \"red\""
+            ],
+            "quiz": [
+                {
+                    "question": "What is an array used for?",
+                    "choices": [
+                        "Storing an ordered list of values",
+                        "Defining a CSS style",
+                        "Creating a function",
+                        "Declaring a constant only"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is the index of the first item in a JavaScript array?",
+                    "choices": [
+                        "1",
+                        "-1",
+                        "0",
+                        "It depends on the array"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What does `colors[0]` return for `[\"red\", \"green\", \"blue\"]`?",
+                    "choices": [
+                        "\"green\"",
+                        "\"blue\"",
+                        "\"red\"",
+                        "undefined"
+                    ],
+                    "answer": 2
+                }
+            ]
+        }
+    ],
+    "exam": [
+        {
+            "question": "Which keyword should you use when a variable's value needs to be reassigned?",
+            "choices": [
+                "const",
+                "let",
+                "fixed",
+                "static"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which keyword declares a variable that cannot be reassigned?",
+            "choices": [
+                "let",
+                "const",
+                "var",
+                "change"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does `let score = 0;` do?",
+            "choices": [
+                "Creates a variable named score with a value of 0",
+                "Creates a function named score",
+                "Creates an array named score",
+                "Deletes score"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which statement correctly declares a constant?",
+            "choices": [
+                "let name = \"Ava\";",
+                "const name = \"Ava\";",
+                "constant name = \"Ava\";",
+                "fixed name = \"Ava\";"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What happens when you try to reassign a variable declared with `const`?",
+            "choices": [
+                "The value changes normally",
+                "The variable is automatically converted to `let`",
+                "JavaScript reports an error",
+                "The variable becomes an array"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What is a JavaScript function?",
+            "choices": [
+                "A reusable block of code",
+                "A CSS selector",
+                "An HTML tag",
+                "A database table"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which syntax correctly declares a function named `greet` with no parameters?",
+            "choices": [
+                "function greet() {}",
+                "def greet():",
+                "func greet() {}",
+                "greet function() {}"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What are the values inside the parentheses of a function declaration called?",
+            "choices": [
+                "Arguments",
+                "Parameters",
+                "Indexes",
+                "Properties"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What keyword sends a value back from a function?",
+            "choices": [
+                "return",
+                "send",
+                "output",
+                "value"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does `add(2, 3)` return if `add` returns `a + b`?",
+            "choices": [
+                "23",
+                "5",
+                "undefined",
+                "Error"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Why are functions useful?",
+            "choices": [
+                "They allow code to be reused",
+                "They prevent variables from existing",
+                "They replace arrays",
+                "They are required for every HTML element"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is an array used for?",
+            "choices": [
+                "Storing an ordered list of values",
+                "Creating a CSS stylesheet",
+                "Declaring a function",
+                "Changing a variable into a constant"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which of the following is a valid JavaScript array?",
+            "choices": [
+                "(1, 2, 3)",
+                "{1, 2, 3}",
+                "[1, 2, 3]",
+                "<1, 2, 3>"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What is the index of the first item in a JavaScript array?",
+            "choices": [
+                "1",
+                "0",
+                "-1",
+                "It depends on the array"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does `colors[0]` return for `const colors = [\"red\", \"green\", \"blue\"];`?",
+            "choices": [
+                "\"red\"",
+                "\"green\"",
+                "\"blue\"",
+                "undefined"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does `colors[2]` return for `const colors = [\"red\", \"green\", \"blue\"];`?",
+            "choices": [
+                "\"red\"",
+                "\"green\"",
+                "\"blue\"",
+                "undefined"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which statement correctly creates an array containing three numbers?",
+            "choices": [
+                "const numbers = 1, 2, 3;",
+                "const numbers = [1, 2, 3];",
+                "const numbers = {1, 2, 3};",
+                "const numbers = (1, 2, 3);"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "If an array contains `\"red\"`, `\"green\"`, and `\"blue\"`, what is the index of `\"green\"`?",
+            "choices": [
+                "0",
+                "1",
+                "2",
+                "3"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which line correctly combines a function with variables?",
+            "choices": [
+                "let result = add(2, 3);",
+                "function = add(2, 3);",
+                "const add = 2 + 3;",
+                "array add(2, 3);"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which statement correctly combines the concepts taught in this lesson?",
+            "choices": [
+                "const numbers = [1, 2, 3];",
+                "const numbers = function [1, 2, 3];",
+                "let = [1, 2, 3] function;",
+                "array const numbers = 1, 2, 3;"
+            ],
+            "answer": 0
+        }
+    ]
+}
