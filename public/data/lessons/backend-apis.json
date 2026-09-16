@@ -1,0 +1,338 @@
+{
+    "id": "backend-apis",
+    "title": "Backend Development & APIs",
+    "description": "Learn how servers expose data and logic through APIs.",
+    "sections": [
+        {
+            "id": "client-server-http",
+            "title": "The Client-Server Model & HTTP",
+            "content": "A client, such as a browser or app, sends HTTP requests to a server. The server processes the request and sends back an HTTP response. Common HTTP methods are GET for reading data, POST for creating data, PUT or PATCH for updating data, and DELETE for removing data.",
+            "examples": [
+                "GET /users/42",
+                "POST /users { \"name\": \"Ava\" }",
+                "PUT /users/42",
+                "DELETE /users/42"
+            ],
+            "quiz": [
+                {
+                    "question": "In the client-server model, who typically initiates an HTTP request?",
+                    "choices": [
+                        "The server",
+                        "The client",
+                        "The database",
+                        "The DNS"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which HTTP method is typically used to retrieve data?",
+                    "choices": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which HTTP method is typically used to create a new resource?",
+                    "choices": [
+                        "GET",
+                        "POST",
+                        "DELETE",
+                        "PATCH"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "id": "building-rest-apis",
+            "title": "Building REST APIs",
+            "content": "A REST API exposes resources, such as users or orders, through predictable URLs. Each endpoint provides access to a particular resource or operation. REST APIs commonly return structured data, usually JSON, so different clients can consume the data.",
+            "examples": [
+                "GET /api/orders/7",
+                "{ \"id\": 7, \"total\": 42.50 }"
+            ],
+            "quiz": [
+                {
+                    "question": "What does a REST API expose through its endpoints?",
+                    "choices": [
+                        "Resources",
+                        "CSS styles",
+                        "Computer hardware",
+                        "Browser settings"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What kind of URLs does a REST API generally use?",
+                    "choices": [
+                        "Random URLs",
+                        "Predictable, resource-based URLs",
+                        "URLs that only contain numbers",
+                        "URLs that cannot contain resource names"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What format does a REST API commonly use to return structured data?",
+                    "choices": [
+                        "JSON",
+                        "MP3",
+                        "Word documents",
+                        "Video files"
+                    ],
+                    "answer": 0
+                }
+            ]
+        },
+        {
+            "id": "auth-and-status-codes",
+            "title": "Authentication & Status Codes",
+            "content": "APIs use HTTP status codes to describe the result of a request. A 200 status means success, 201 means a resource was created, 400 means the request was invalid, 401 means the request is unauthorized, 404 means the requested resource was not found, and 500 indicates a server error. Authentication, such as using tokens, helps confirm who is making a request.",
+            "examples": [
+                "200 OK",
+                "201 Created",
+                "400 Bad Request",
+                "401 Unauthorized",
+                "404 Not Found",
+                "500 Internal Server Error"
+            ],
+            "quiz": [
+                {
+                    "question": "What does HTTP status code 200 usually indicate?",
+                    "choices": [
+                        "Not found",
+                        "OK or successful request",
+                        "Unauthorized",
+                        "Server error"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does HTTP status code 404 mean?",
+                    "choices": [
+                        "Success",
+                        "Created",
+                        "Not found",
+                        "Unauthorized"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What is authentication used for in an API?",
+                    "choices": [
+                        "To confirm who is making a request",
+                        "To change the URL",
+                        "To format JSON",
+                        "To create CSS styles"
+                    ],
+                    "answer": 0
+                }
+            ]
+        }
+    ],
+    "exam": [
+        {
+            "question": "In the client-server model, who typically initiates an HTTP request?",
+            "choices": [
+                "The server",
+                "The client",
+                "The database",
+                "The DNS"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does a server do after receiving an HTTP request?",
+            "choices": [
+                "Processes the request and sends a response",
+                "Automatically shuts down",
+                "Deletes the client",
+                "Changes the client's browser"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which HTTP method is typically used to retrieve data?",
+            "choices": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which HTTP method is typically used to create a new resource?",
+            "choices": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "Which HTTP method is typically used to update an existing resource?",
+            "choices": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "Which HTTP method is typically used to remove a resource?",
+            "choices": [
+                "GET",
+                "POST",
+                "DELETE",
+                "PATCH"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What is the purpose of an HTTP response?",
+            "choices": [
+                "To provide the server's result back to the client",
+                "To create a database",
+                "To replace the original request",
+                "To define CSS styles"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does REST emphasize when designing API URLs?",
+            "choices": [
+                "Random URLs",
+                "Predictable, resource-based URLs",
+                "Only URLs containing numbers",
+                "URLs that do not identify resources"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What is a resource in a REST API?",
+            "choices": [
+                "An entity or piece of data exposed by the API",
+                "A CSS property",
+                "A browser extension",
+                "A database password"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What is an endpoint?",
+            "choices": [
+                "A URL through which an API exposes a resource or operation",
+                "A database backup",
+                "A CSS selector",
+                "A programming language"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What format do REST APIs commonly use for structured data?",
+            "choices": [
+                "JSON",
+                "MP3",
+                "PNG",
+                "DOCX"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does `GET /api/orders/7` represent?",
+            "choices": [
+                "A request to retrieve order 7",
+                "A request to delete order 7",
+                "A request to create a CSS file",
+                "A request to restart the server"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does HTTP status code 200 usually indicate?",
+            "choices": [
+                "Not found",
+                "OK or successful request",
+                "Unauthorized",
+                "Server error"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does HTTP status code 201 typically indicate?",
+            "choices": [
+                "A resource was created",
+                "A resource was not found",
+                "The request was unauthorized",
+                "The server encountered an error"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does HTTP status code 400 indicate?",
+            "choices": [
+                "The request was invalid or badly formed",
+                "The request succeeded",
+                "A resource was created",
+                "The resource was not found"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "What does HTTP status code 401 indicate?",
+            "choices": [
+                "Success",
+                "Created",
+                "Unauthorized",
+                "Server error"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What does HTTP status code 404 indicate?",
+            "choices": [
+                "Success",
+                "Not found",
+                "Created",
+                "Unauthorized"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "What does HTTP status code 500 indicate?",
+            "choices": [
+                "A successful request",
+                "A newly created resource",
+                "A server error",
+                "An unauthorized request"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "What is authentication used for in an API?",
+            "choices": [
+                "To confirm who is making a request",
+                "To format JSON",
+                "To create URLs",
+                "To change an HTTP method"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "Which is an example of a method that can be used for authentication?",
+            "choices": [
+                "An authentication token",
+                "A CSS class",
+                "A viewport tag",
+                "A media query"
+            ],
+            "answer": 0
+        }
+    ]
+}
