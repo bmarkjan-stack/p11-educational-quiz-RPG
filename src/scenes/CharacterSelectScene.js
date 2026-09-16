@@ -4,6 +4,13 @@ import Button from "../ui/Button.js";
 export default class CharacterSelectScene extends Phaser.Scene {
     constructor() {
         super("CharacterSelectScene");
+
+        // Name input 
+        this.nameInputActive = false; 
+        this.cursorVisible = true; 
+        this.cursorText = null; 
+        this.cursorBlinkEvent = null; 
+        this.keydownHandler = null;
     }
 
     create() {
@@ -13,21 +20,29 @@ export default class CharacterSelectScene extends Phaser.Scene {
 
         this.drawBackground();
         this.createTitle();
+        this.createCharacterPanel();
         this.createCharacterOptions();
         this.createNameInput();
         this.createButtons();
         this.bindKeyboard();
 
-        this.events.once("shutdown", () => this.cleanupKeyboard());
+        this.events.once("shutdown", () => {
+            this.cleanupKeyboard()
+            this.cleanupCursor();
+        });
     }
 
+    // Background
     drawBackground() {
-        this.add.image(640, 360, "bg-character-creation").setDisplaySize(1280, 720);
+        this.add
+            .image(640, 360, "bg-character-creation")
+            .setDisplaySize(1280, 720);
     }
 
+    // Title
     createTitle() {
         this.add
-            .text(640, 85, "CHOOSE YOUR ADVENTURER", {
+            .text(640, 85, "", {
                 fontFamily: "Arial",
                 fontSize: "36px",
                 fontStyle: "bold",
@@ -44,129 +59,304 @@ export default class CharacterSelectScene extends Phaser.Scene {
             .setOrigin(0.5);
     }
 
+    // Character Panel
+    createCharacterPanel() { 
+        this.add 
+            .image(640, 350, "create-char-panel") 
+            .setDepth(1); 
+    }
+
+    // Character Options
     createCharacterOptions() {
-        this.createCharacterCard(420, "male", "MALE", "Male Adventurer");
-        this.createCharacterCard(860, "female", "FEMALE", "Female Adventurer");
+        this.createCharacterCard(485, "male", "MALE");
+        this.createCharacterCard(795, "female", "FEMALE");
     }
 
     createCharacterCard(x, id, title, description) {
-        const card = this.add
-            .rectangle(x, 340, 280, 220, 0x111827, 0.9)
-            .setStrokeStyle(2, 0x5f74bd);
+        const normalKey = `${id}-normal`; 
+        const selectKey = `${id}-select`; 
+        const activeKey = `${id}-active`;
 
-        const sprite = this.add.image(x, 280, `player-${id}`).setScale(0.35);
+        // Portrait
+        const sprite = this.add 
+            .image(x, 255, normalKey) 
+            .setDisplaySize(260, 260) 
+            .setDepth(2);
 
-        const titleText = this.add
-            .text(x, 400, title, {
-                fontFamily: "Arial",
-                fontSize: "26px",
-                fontStyle: "bold",
-                color: "#ffffff",
-            })
-            .setOrigin(0.5);
+        // Invisible clickable area
+        const hitArea = this.add 
+            .rectangle(x, 255, 260, 260, 0xffffff, 0) 
+            .setInteractive({ 
+                useHandCursor: true 
+            }) 
+            .setDepth(3); 
 
-        const descriptionText = this.add
-            .text(x, 435, description, {
-                fontFamily: "Arial",
-                fontSize: "16px",
-                color: "#c7d2fe",
-            })
-            .setOrigin(0.5);
-
-        card.setInteractive({ useHandCursor: true });
-
-        card.on("pointerover", () => card.setStrokeStyle(3, 0x8da2e8));
-
-        card.on("pointerout", () => {
-            if (this.selectedCharacter !== id) {
-                card.setStrokeStyle(2, 0x5f74bd);
-            }
-        });
-
-        card.on("pointerdown", () => this.selectCharacter(id));
-
-        this.characterCards[id] = { card, sprite, titleText, descriptionText };
+        // Character Title
+        const titleText = this.add 
+            .text(x, 395, title, { 
+                fontFamily: "LearnQuest", 
+                fontSize: "22px", 
+                fontStyle: "bold", 
+                color: "#ffffff", 
+            }) 
+            .setOrigin(0.5) 
+            .setDepth(4); 
+        
+        // Character Description
+        const descriptionText = this.add 
+            .text(x, 402, description, { 
+                fontFamily: "Arial", 
+                fontSize: "14px", 
+                color: "#c7d2fe", 
+            }) 
+            .setOrigin(0.5) 
+            .setDepth(4); 
+        
+        // Hover
+        hitArea.on("pointerover", () => { 
+            if (this.selectedCharacter !== id) { 
+                sprite.setTexture(selectKey); 
+            } 
+        }); 
+        
+        hitArea.on("pointerout", () => { 
+            if (this.selectedCharacter !== id) { 
+                sprite.setTexture(normalKey); 
+            } 
+        }); 
+        
+        // Selection
+        hitArea.on("pointerdown", () => { 
+            this.selectCharacter(id); 
+        }); 
+        
+        this.characterCards[id] = { 
+            hitArea, 
+            sprite, 
+            titleText, 
+            descriptionText, 
+            normalKey, 
+            selectKey,
+            activeKey, 
+        }; 
     }
 
+    // Character Selection
     selectCharacter(id) {
         this.selectedCharacter = id;
 
-        Object.entries(this.characterCards).forEach(([characterId, character]) => {
-            const isSelected = characterId === id;
+        Object.entries(this.characterCards).forEach(
+            ([characterId, character]) => {
+                const isSelected = characterId === id;
 
-            character.card.setStrokeStyle(isSelected ? 4 : 2, isSelected ? 0xffffff : 0x5f74bd);
-            character.card.setFillStyle(isSelected ? 0x1e293b : 0x111827, isSelected ? 0.95 : 0.9);
+                character.sprite.setTexture( 
+                    isSelected 
+                        ? character.activeKey 
+                        : character.normalKey 
+                ); 
+
+                character.titleText.setColor( 
+                    isSelected 
+                        ? "#ffffff" 
+                        : "#c7d2fe"
+                );
+            }
+        );
+    }
+
+    // Name Input
+    createNameInput() {
+        this.nameBox = this.add
+            .image(640, 490, "enter-name")
+            .setDisplaySize(530, 160)
+            .setDepth(2)
+            .setInteractive({ 
+                useHandCursor: true 
+            });
+
+        this.nameText = this.add
+            .text(640, 510, "Enter your name...", {
+                fontFamily: "LearnQuest",
+                fontSize: "26px",
+                color: "#94a3b8",
+            })
+            .setOrigin(0.5)
+            .setDepth(3);
+
+        // Click name box
+        this.nameBox.on("pointerdown", () => { 
+            this.nameInputActive = true; 
+
+            if (!this.characterName) { 
+                this.nameText.setText(""); 
+            } 
+            
+            this.nameText.setColor("#ffffff"); 
+            this.cursorVisible = true; this.updateNameCursor(); 
+            this.startCursorBlink(); 
         });
     }
 
-    createNameInput() {
-        this.add
-            .text(640, 500, "ADVENTURER NAME (type to enter)", {
-                fontFamily: "Arial",
-                fontSize: "16px",
-                fontStyle: "bold",
-                color: "#ffffff",
-            })
-            .setOrigin(0.5);
-
-        this.nameBox = this.add
-            .rectangle(640, 540, 400, 55, 0x111827, 0.95)
-            .setStrokeStyle(2, 0x5f74bd);
-
-        this.nameText = this.add
-            .text(640, 540, "Enter your name...", {
-                fontFamily: "Arial",
-                fontSize: "18px",
-                color: "#94a3b8",
-            })
-            .setOrigin(0.5);
-    }
-
+    // Keyboard Input
     bindKeyboard() {
-        this.keydownHandler = (event) => {
-            if (event.key === "Backspace") {
-                this.characterName = this.characterName.slice(0, -1);
-            } else if (
-                event.key.length === 1 &&
-                this.characterName.length < 14 &&
-                /[a-zA-Z0-9 ]/.test(event.key)
-            ) {
-                this.characterName += event.key;
-            } else {
-                return;
+        this.keydownHandler = (event) => { 
+            // Ignore keyboard input if the scene is no longer active.
+            if (!this.scene.isActive()) { 
+                return; 
+            } 
+
+            // Only accept keyboard input when the name box is active.
+            if (!this.nameInputActive) { 
+                return; 
             }
 
-            this.nameText.setColor(this.characterName ? "#ffffff" : "#94a3b8");
-            this.nameText.setText(this.characterName || "Enter your name...");
-        };
+            // Backspace
+            if (event.key === "Backspace") { 
+                this.characterName = 
+                    this.characterName.slice(0, -1); 
+            } 
 
-        this.input.keyboard.on("keydown", this.keydownHandler);
+            // Letters, numbers, and space
+            else if ( 
+                event.key.length === 1 && 
+                this.characterName.length < 14 && 
+                /[a-zA-Z0-9 ]/.test(event.key) 
+            ) { 
+                this.characterName += event.key; 
+            } 
+            
+            // Ignore everything else
+            else { 
+                return; 
+            } 
+
+            // Always use white text while typing 
+            this.nameText.setColor("#ffffff"); 
+
+            // Display the character name 
+            this.nameText.setText(this.characterName);
+
+            // Keep cursor visible
+            this.cursorVisible = true; 
+            this.updateNameCursor();
+        }; 
+
+        this.input.keyboard.on( 
+            "keydown", 
+            this.keydownHandler 
+        );
     }
 
+    // Update Cursor Position 
+    updateNameCursor() { 
+        if (!this.nameInputActive) { 
+            return; 
+        } 
+        
+        // Create cursor if it doesn't exist 
+        if (!this.cursorText) { 
+            this.cursorText = this.add 
+            .text(0, 0, "|", { 
+                fontFamily: "LearnQuest", 
+                fontSize: "28px", 
+                color: "#ffffff", 
+            }) 
+            .setOrigin(0, 0.5) 
+            .setDepth(4); 
+        } 
+        
+        // Position cursor immediately after the name 
+        const textWidth = this.nameText.width; 
+        
+        this.cursorText.setPosition( 
+            this.nameText.x + (textWidth / 2) + 4, 
+            this.nameText.y 
+        ); 
+
+        this.cursorText.setVisible( 
+            this.cursorVisible 
+        ); 
+    } 
+
+    // Start Cursor Blinking 
+    startCursorBlink() { 
+        // Prevent multiple timers 
+        if (this.cursorBlinkEvent) { 
+            this.cursorBlinkEvent.remove(); 
+        } 
+        
+        this.cursorBlinkEvent = this.time.addEvent({ 
+            delay: 500, 
+            loop: true, 
+
+            callback: () => { 
+                if (!this.nameInputActive) { 
+                    return; 
+                } 
+                
+                this.cursorVisible = !this.cursorVisible; 
+                this.updateNameCursor(); 
+            } 
+        }); 
+    } 
+    
+    // Clean Up Cursor 
+    cleanupCursor() { 
+        if (this.cursorBlinkEvent) { 
+            this.cursorBlinkEvent.remove(); 
+            this.cursorBlinkEvent = null; 
+        } 
+        
+        if (this.cursorText) { 
+            this.cursorText.destroy(); 
+            this.cursorText = null; 
+        } 
+    }
+
+    // Clean Up Keyboard 
     cleanupKeyboard() {
         if (this.keydownHandler) {
-            this.input.keyboard.off("keydown", this.keydownHandler);
+            this.input.keyboard.off(
+                "keydown", 
+                this.keydownHandler
+            );
+
+            this.keydownHandler = null;
         }
     }
 
+    // Buttons
     createButtons() {
-        new Button(
-            this,
-            500,
-            650,
-            "BACK",
-            () => {
+        const backButton = new Button(
+            this, 500, 610, "BACK",() => {
                 this.scene.start("MenuScene");
             },
-            { width: 180 }
+            { 
+                width: 180 
+            }
         );
 
-        new Button(this, 780, 650, "CONFIRM", () => this.confirmCharacter(), { width: 180 });
+        const confirmButton = new Button(
+            this, 780, 610, "CONFIRM", () => {
+                this.confirmCharacter()
+            }, 
+            { 
+                width: 180 
+            }
+        );
+        
+        backButton.setDepth(5); 
+        confirmButton.setDepth(5);
     }
 
+    // Confirm Character
     confirmCharacter() {
         if (!this.selectedCharacter) {
-            this.showMessage("Character Required", "Please select a character first.");
+            this.showMessage(
+                "Character Required", 
+                "Please select a character first."
+            );
+
             return;
         }
 
@@ -176,6 +366,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
         });
     }
 
+    // Message
     showMessage(title, message) {
         const overlay = this.add
             .rectangle(640, 360, 700, 300, 0x070b18, 0.97)
@@ -198,23 +389,23 @@ export default class CharacterSelectScene extends Phaser.Scene {
                 fontSize: "18px",
                 color: "#c7d2fe",
                 align: "center",
-                wordWrap: { width: 550 },
+                wordWrap: { 
+                    width: 550 
+                },
             })
             .setOrigin(0.5)
             .setDepth(11);
 
         const closeButton = new Button(
-            this,
-            640,
-            430,
-            "OK",
-            () => {
+            this, 640, 430, "OK", () => {
                 overlay.destroy();
                 titleText.destroy();
                 messageText.destroy();
                 closeButton.destroy();
             },
-            { width: 160 }
+            { 
+                width: 160 
+            }
         );
 
         closeButton.setDepth(11);

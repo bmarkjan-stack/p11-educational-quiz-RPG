@@ -30,10 +30,22 @@ export default class PreloadScene extends Phaser.Scene {
 
         // Music
 
-        // UI
+        // UI Button States
         this.load.image("button-normal", "assets/images/ui/button-normal.png");
         this.load.image("button-hover", "assets/images/ui/button-hover.png");
         this.load.image("button-active", "assets/images/ui/button-active.png");
+
+        // Character Creation UI
+        this.load.image("create-char-panel", "assets/images/ui/create-char-panel.png");
+        this.load.image("enter-name", "assets/images/ui/enter-name.png");
+
+        // Character Selection States
+        this.load.image("female-normal", "assets/images/ui/female-normal.png");
+        this.load.image("female-select", "assets/images/ui/female-select.png");
+        this.load.image("female-active", "assets/images/ui/female-active.png");
+        this.load.image("male-normal", "assets/images/ui/male-normal.png");
+        this.load.image("male-select", "assets/images/ui/male-select.png");
+        this.load.image("male-active", "assets/images/ui/male-active.png");
 
 
         // Loading Progress
