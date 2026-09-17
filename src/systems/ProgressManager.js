@@ -118,4 +118,26 @@ export default class ProgressManager {
 
         this.save();
     }
+
+    // Walks the whole curriculum graph and unlocks any lesson whose
+    // prerequisites are now all completed. Handles single- and
+    // multi-prerequisite lessons alike (e.g. the capstone exam).
+    recomputeUnlocks() {
+        Object.entries(CURRICULUM).forEach(([id, def]) => {
+            const lesson = this.progress.lessons[id];
+            if (!lesson || lesson.unlocked) return;
+
+            const requirementsMet = def.requires.every(
+                (requiredId) => this.progress.lessons[requiredId]?.completed
+            );
+
+            if (requirementsMet) {
+                lesson.unlocked = true;
+            }
+        });
+    }
+
+    isTrackComplete(trackLessonIds) {
+        return trackLessonIds.every((id) => this.isCompleted(id));
+    }
 }
