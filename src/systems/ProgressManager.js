@@ -140,4 +140,9 @@ export default class ProgressManager {
     isTrackComplete(trackLessonIds) {
         return trackLessonIds.every((id) => this.isCompleted(id));
     }
+
+    resetProgress() {
+        this.progress = defaultProgress();
+        this.save();
+    }
 }
