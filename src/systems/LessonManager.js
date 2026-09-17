@@ -27,7 +27,7 @@ export default class LessonManager {
     }
 
     validate(lesson) {
-        const requiredFields = ["id", "title", "sections", "quiz", "exam"];
+        const requiredFields = ["id", "title", "sections", "exam"];
 
         requiredFields.forEach((field) => {
             if (!(field in lesson)) {
@@ -39,19 +39,42 @@ export default class LessonManager {
             throw new Error(`Lesson "${lesson.id}" must have at least one section.`);
         }
 
-        [...lesson.quiz, ...lesson.exam].forEach((question, index) => {
-            if (!question.question || !Array.isArray(question.choices)) {
-                throw new Error(`Question ${index} in "${lesson.id}" is malformed.`);
+        lesson.sections.forEach((section, sectionIndex) => {
+            if (!Array.isArray(section.quiz) || section.quiz.length === 0) {
+                throw new Error(
+                    `Section ${sectionIndex} ("${section.id}") in "${lesson.id}" must have its own quiz.`
+                );
             }
 
-            if (
-                typeof question.answer !== "number" ||
-                question.answer < 0 ||
-                question.answer >= question.choices.length
-            ) {
-                throw new Error(`Question ${index} in "${lesson.id}" has an invalid answer index.`);
-            }
+            section.quiz.forEach((question, questionIndex) =>
+                this.validateQuestion(
+                    question,
+                    `${lesson.id} / section "${section.id}" / quiz question ${questionIndex}`
+                )
+            );
         });
+
+        if (!Array.isArray(lesson.exam) || lesson.exam.length === 0) {
+            throw new Error(`Lesson "${lesson.id}" must have at least one exam question.`);
+        }
+
+        lesson.exam.forEach((question, questionIndex) =>
+            this.validateQuestion(question, `${lesson.id} / exam question ${questionIndex}`)
+        );
+    }
+
+    validateQuestion(question, context) {
+        if (!question.question || !Array.isArray(question.choices)) {
+            throw new Error(`Malformed question at ${context}.`);
+        }
+
+        if (
+            typeof question.answer !== "number" ||
+            question.answer < 0 ||
+            question.answer >= question.choices.length
+        ) {
+            throw new Error(`Invalid answer index at ${context}.`);
+        }
     }
 
     setActiveLesson(lesson) {
@@ -66,8 +89,8 @@ export default class LessonManager {
         return this.activeLesson?.sections ?? [];
     }
 
-    getQuiz() {
-        return this.activeLesson?.quiz ?? [];
+    getSectionQuiz(sectionIndex) {
+        return this.activeLesson?.sections?.[sectionIndex]?.quiz ?? [];
     }
 
     getExam() {
