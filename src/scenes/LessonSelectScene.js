@@ -22,11 +22,14 @@ export default class LessonSelectScene extends Phaser.Scene {
     create() {
         this.lessonManager = new LessonManager();
         this.progressManager = new ProgressManager();
+        this.progressManager.setCharacter(this.character, this.characterName);
 
         this.drawBackground();
         this.createTitle();
+        this.createTracks();
         this.createLessonNode();
         this.createCapstoneNode();
+        this.createBackButton();
     }
 
     drawBackground() {
@@ -50,6 +53,34 @@ export default class LessonSelectScene extends Phaser.Scene {
                 color: "#c7d2fe",
             })
             .setOrigin(0.5);
+    }
+
+    createTracks() {
+        const columnX = { frontend: 340, backend: 940 };
+        const startY = TRACK_START_Y;
+
+        TRACKS.forEach((track) => {
+            const x = columnX[track.id];
+
+            this.add
+                .text(x, startY - 40, track.title.toUpperCase(), {
+                    fontFamily: "Arial",
+                    fontSize: "20px",
+                    fontStyle: "bold",
+                    color: track.id === "frontend" ? "#93c5fd" : "#86efac",
+                })
+                .setOrigin(0.5);
+
+            track.lessons.forEach((lessonId, index) => {
+                const y = startY + index * NODE_GAP_Y;
+
+                if (index > 0) {
+                    this.drawConnector(x, y - NODE_GAP_Y + NODE_HEIGHT / 2, x, y - NODE_HEIGHT / 2);
+                }
+
+                this.createLessonNode(x, y, lessonId, index + 1);
+            });
+        });
     }
 
     drawConnector(x1, y1, x2, y2) {
@@ -160,5 +191,45 @@ export default class LessonSelectScene extends Phaser.Scene {
             node.on("pointerout", () => node.setStrokeStyle(3, strokeColor));
             node.on("pointerdown", () => this.selectLesson(CAPSTONE_LESSON));
         }
+    }
+
+    async selectLesson(lessonId) {
+        try {
+            const lesson = await this.lessonManager.loadLesson(lessonId);
+
+            this.scene.start("LessonScene", {
+                lesson,
+                character: this.character,
+                characterName: this.characterName,
+            });
+        } catch (error) {
+            console.error(error);
+            this.showError("Could not load this lesson. Please try again.");
+        }
+    }
+
+    showError(message) {
+        const text = this.add
+            .text(640, 706, message, {
+                fontFamily: "Arial",
+                fontSize: "15px",
+                color: "#f87171",
+            })
+            .setOrigin(0.5);
+
+        this.time.delayedCall(2500, () => text.destroy());
+    }
+
+    createBackButton() {
+        new Button(
+            this,
+            95,
+            40,
+            "BACK",
+            () => {
+                this.scene.start("CharacterSelectScene");
+            },
+            { width: 130, height: 40, fontSize: "16px" }
+        );
     }
 }
