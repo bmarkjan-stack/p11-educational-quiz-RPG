@@ -26,6 +26,34 @@ export default class LessonManager {
         return lesson;
     }
 
+    validate(lesson) {
+        const requiredFields = ["id", "title", "sections", "quiz", "exam"];
+
+        requiredFields.forEach((field) => {
+            if (!(field in lesson)) {
+                throw new Error(`Lesson is missing required field "${field}".`);
+            }
+        });
+
+        if (!Array.isArray(lesson.sections) || lesson.sections.length === 0) {
+            throw new Error(`Lesson "${lesson.id}" must have at least one section.`);
+        }
+
+        [...lesson.quiz, ...lesson.exam].forEach((question, index) => {
+            if (!question.question || !Array.isArray(question.choices)) {
+                throw new Error(`Question ${index} in "${lesson.id}" is malformed.`);
+            }
+
+            if (
+                typeof question.answer !== "number" ||
+                question.answer < 0 ||
+                question.answer >= question.choices.length
+            ) {
+                throw new Error(`Question ${index} in "${lesson.id}" has an invalid answer index.`);
+            }
+        });
+    }
+
     setActiveLesson(lesson) {
         this.activeLesson = lesson;
     }
