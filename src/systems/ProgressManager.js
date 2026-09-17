@@ -70,4 +70,52 @@ export default class ProgressManager {
             console.warn("Could not save progress.", error);
         }
     }
+
+    setCharacter(character, characterName) {
+        this.progress.character = character;
+        this.progress.characterName = characterName;
+        this.save();
+    }
+
+    getCharacter() {
+        return {
+            character: this.progress.character,
+            characterName: this.progress.characterName,
+        };
+    }
+
+    getLessonStatus(id) {
+        return this.progress.lessons[id] || null;
+    }
+
+    isUnlocked(id) {
+        return !!this.progress.lessons[id]?.unlocked;
+    }
+
+    isCompleted(id) {
+        return !!this.progress.lessons[id]?.completed;
+    }
+
+    recordBattleResult(id, score) {
+        const lesson = this.progress.lessons[id];
+        if (!lesson) return;
+
+        lesson.bestBattleScore = Math.max(lesson.bestBattleScore, score);
+        this.save();
+    }
+
+    markLessonComplete(id, { examScore, accuracy, passed }) {
+        const lesson = this.progress.lessons[id];
+        if (!lesson) return;
+
+        lesson.bestExamScore = Math.max(lesson.bestExamScore, examScore);
+        lesson.bestAccuracy = Math.max(lesson.bestAccuracy, accuracy);
+
+        if (passed) {
+            lesson.completed = true;
+            this.recomputeUnlocks();
+        }
+
+        this.save();
+    }
 }
