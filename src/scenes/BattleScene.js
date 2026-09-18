@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import Player from "../entities/Player.js";
 import Boss from "../entities/Boss.js";
+import HealthBar from "../ui/HealthBar.js";
+import QuestionPanel from "../ui/QuestionPanel.js";
 import Button from "../ui/Button.js";
 import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
@@ -27,6 +29,9 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     init(data) {
+        this.lesson = data.lesson;
+        this.character = data.character;
+        this.characterName = data.characterName;
         this.sectionIndex = data.sectionIndex ?? 0;
 
         // Cumulative correct/total carried in from earlier section battles in this lesson.
@@ -43,6 +48,10 @@ export default class BattleScene extends Phaser.Scene {
 
         this.drawBackground();
         this.createCombatants(section);
+        this.createHealthBars();
+        this.createQuestionPanel();
+
+        this.nextQuestion();
     }
 
     drawBackground() {
@@ -75,6 +84,55 @@ export default class BattleScene extends Phaser.Scene {
                 color: "#ffffff",
             })
             .setOrigin(0.5);
+    }
+
+    createHealthBars() {
+        this.playerHealthBar = new HealthBar(this, 130, 230, 260, 24, this.player.maxHp);
+        this.bossHealthBar = new HealthBar(this, 890, 230, 260, 24, this.boss.maxHp);
+    }
+
+    createQuestionPanel() {
+        this.questionPanel = new QuestionPanel(this, 640, 460, 900);
+    }
+
+    nextQuestion() {
+        if (this.quizManager.isComplete()) {
+            this.endBattle();
+            return;
+        }
+
+        const question = this.quizManager.getCurrentQuestion();
+        this.questionPanel.showQuestion(question, (isCorrect) => this.resolveTurn(isCorrect));
+    }
+
+    resolveTurn(isCorrect) {
+        this.sound.play(isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
+
+        if (isCorrect) {
+            this.player.attack(this.boss);
+            this.sound.play("sfx-player-attack", { volume: 0.4 });
+        } else {
+            this.boss.attack(this.player);
+            this.sound.play("sfx-boss-attack", { volume: 0.4 });
+        }
+
+        this.time.delayedCall(400, () => {
+            this.playerHealthBar.setHealth(this.player.hp, this.player.maxHp);
+            this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
+
+            if (!this.boss.isAlive()) {
+                this.boss.playDefeatAnimation(() => this.endBattle());
+                return;
+            }
+
+            if (!this.player.isAlive()) {
+                this.showDefeat();
+                return;
+            }
+
+            this.quizManager.next();
+            this.time.delayedCall(300, () => this.nextQuestion());
+        });
     }
 
     endBattle() {

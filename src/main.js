@@ -6,6 +6,7 @@ import MenuScene from "./scenes/MenuScene.js";
 import CharacterSelectScene from "./scenes/CharacterSelectScene.js";
 import LessonSelectScene from "./scenes/LessonSelectScene.js";
 import LessonScene from "./scenes/LessonScene.js";
+import BattleScene from "./scenes/BattleScene.js";
 
 const config = {
     type: Phaser.AUTO,
@@ -31,6 +32,7 @@ const config = {
         CharacterSelectScene,
         LessonSelectScene,
         LessonScene,
+        BattleScene,
     ]
 };
 
