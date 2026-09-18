@@ -21,8 +21,8 @@ export default class PreloadScene extends Phaser.Scene {
         // Backgrounds
         this.load.image("bg-main-menu", "assets/images/background/bg-main-menu.png");
         this.load.image("bg-character-creation", "assets/images/background/bg-character-creation.png");
-        this.load.image("bg-classroom", "assets/images/bg-classroom.png");
-        this.load.image("bg-dungeon", "assets/images/bg-dungeon.png");
+        this.load.image("bg-classroom", "assets/images/background/bg-classroom.png");
+        this.load.image("bg-dungeon", "assets/images/background/bg-dungeon.png");
 
         // Characters & bosses
         this.load.image("player-male", "assets/images/characters/male/player-male.png");
