@@ -1,4 +1,4 @@
-import { CURRICULUM } from "./curriculum.js";
+import { CURRICULUM, CAPSTONE_LESSON } from "./curriculum.js";
 
 const STORAGE_KEY = "learnquest-progress";
 const PROGRESS_VERSION = 2;
@@ -21,6 +21,12 @@ function defaultProgress() {
         character: null,
         characterName: null,
         lessons,
+        dailyChallenge: {
+            streak: 0,
+            longestStreak: 0,
+            totalSolved: 0,
+            lastCompletedDate: null, // "YYYY-MM-DD", local date
+        },
     };
 }
 
@@ -139,6 +145,49 @@ export default class ProgressManager {
 
     isTrackComplete(trackLessonIds) {
         return trackLessonIds.every((id) => this.isCompleted(id));
+    }
+
+    // --- Daily Coding Challenges (bonus chapter, unlocked after the capstone) ---
+
+    isDailyChallengeUnlocked() {
+        return this.isCompleted(CAPSTONE_LESSON);
+    }
+
+    getDailyChallengeStats() {
+        return { ...this.progress.dailyChallenge };
+    }
+
+    hasCompletedTodayChallenge() {
+        return this.progress.dailyChallenge.lastCompletedDate === this.getDateString(0);
+    }
+
+    recordDailyChallengeResult(isCorrect) {
+        const dailyChallenge = this.progress.dailyChallenge;
+        const today = this.getDateString(0);
+
+        if (dailyChallenge.lastCompletedDate === today) {
+            // Already recorded today — don't let repeated answers inflate the streak.
+            return;
+        }
+
+        if (isCorrect) {
+            const yesterday = this.getDateString(-1);
+            dailyChallenge.streak =
+                dailyChallenge.lastCompletedDate === yesterday ? dailyChallenge.streak + 1 : 1;
+            dailyChallenge.longestStreak = Math.max(dailyChallenge.longestStreak, dailyChallenge.streak);
+            dailyChallenge.totalSolved += 1;
+        } else {
+            dailyChallenge.streak = 0;
+        }
+
+        dailyChallenge.lastCompletedDate = today;
+        this.save();
+    }
+
+    getDateString(dayOffset = 0) {
+        const date = new Date();
+        date.setDate(date.getDate() + dayOffset);
+        return date.toISOString().slice(0, 10);
     }
 
     resetProgress() {
