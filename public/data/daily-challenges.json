@@ -1,0 +1,24 @@
+{
+    "challenges": [
+        { "topic": "JavaScript", "question": "What does `[1, 2, 3].map(n => n * 2)` return?", "choices": ["[1, 2, 3]", "[2, 4, 6]", "6", "undefined"], "answer": 1 },
+        { "topic": "CSS", "question": "Which property changes the space between an element's border and its content?", "choices": ["margin", "padding", "gap", "inset"], "answer": 1 },
+        { "topic": "Python", "question": "What does `\"abc\"[::-1]` evaluate to?", "choices": ["\"abc\"", "\"cba\"", "Error", "\"\""], "answer": 1 },
+        { "topic": "SQL", "question": "Which clause would you add to only return the top 5 rows?", "choices": ["TOP 5", "LIMIT 5", "MAX 5", "FIRST 5"], "answer": 1 },
+        { "topic": "HTTP", "question": "Which status code means the request succeeded and a new resource was created?", "choices": ["200", "201", "204", "301"], "answer": 1 },
+        { "topic": "JavaScript", "question": "What is the result of `typeof null`?", "choices": ["\"null\"", "\"undefined\"", "\"object\"", "\"boolean\""], "answer": 2 },
+        { "topic": "React", "question": "Which hook lets a component remember a value between renders without causing a re-render on change?", "choices": ["useState", "useRef", "useEffect", "useMemo"], "answer": 1 },
+        { "topic": "SQL", "question": "Which JOIN keeps all rows from the left table even if there's no match on the right?", "choices": ["INNER JOIN", "LEFT JOIN", "CROSS JOIN", "SELF JOIN"], "answer": 1 },
+        { "topic": "Python", "question": "What does `len({\"a\": 1, \"b\": 2})` return?", "choices": ["1", "2", "4", "Error"], "answer": 1 },
+        { "topic": "CSS", "question": "Which value makes a flex item grow to fill available space?", "choices": ["flex-grow: 0", "flex-grow: 1", "flex-shrink: 1", "flex-basis: auto"], "answer": 1 },
+        { "topic": "JavaScript", "question": "Which array method removes the last element and returns it?", "choices": ["shift()", "pop()", "slice()", "splice(0,1)"], "answer": 1 },
+        { "topic": "HTTP", "question": "Which HTTP method is idempotent and safe to retry automatically?", "choices": ["POST", "GET", "PATCH", "It depends, none are safe by default"], "answer": 1 },
+        { "topic": "Databases", "question": "What is 'normalization' primarily used to reduce?", "choices": ["Query speed", "Data redundancy", "Table count", "Index size"], "answer": 1 },
+        { "topic": "React", "question": "What triggers a React component to re-render?", "choices": ["Changing a prop or state value", "Refreshing the CSS file", "Reloading a font", "Scrolling the page"], "answer": 0 },
+        { "topic": "Python", "question": "Which keyword pauses a function and returns a generator value?", "choices": ["return", "yield", "pass", "break"], "answer": 1 },
+        { "topic": "JavaScript", "question": "What does `Number(\"42\") + 1` equal?", "choices": ["\"421\"", "43", "NaN", "Error"], "answer": 1 },
+        { "topic": "CSS", "question": "Which unit is relative to the viewport height?", "choices": ["vh", "em", "rem", "ch"], "answer": 0 },
+        { "topic": "SQL", "question": "Which SQL keyword combines the results of two SELECT statements, removing duplicates?", "choices": ["JOIN", "UNION", "MERGE", "CONCAT"], "answer": 1 },
+        { "topic": "HTTP", "question": "Which header tells the server what data format the client expects back?", "choices": ["Content-Type", "Accept", "User-Agent", "Host"], "answer": 1 },
+        { "topic": "JavaScript", "question": "What does the `===` operator check that `==` doesn't?", "choices": ["Only value", "Only type", "Both value and type", "Nothing different"], "answer": 2 }
+    ]
+}
