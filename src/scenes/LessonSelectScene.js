@@ -30,6 +30,12 @@ export default class LessonSelectScene extends Phaser.Scene {
         this.createLessonNode();
         this.createCapstoneNode();
         this.createBackButton();
+        this.playMusic();
+    }
+
+    playMusic() {
+        this.sound.stopAll();
+        this.sound.play("bgm-lesson", { loop: true, volume: 0.35 });
     }
 
     drawBackground() {

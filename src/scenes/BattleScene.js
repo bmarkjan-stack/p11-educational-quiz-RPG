@@ -50,6 +50,7 @@ export default class BattleScene extends Phaser.Scene {
         this.createCombatants(section);
         this.createHealthBars();
         this.createQuestionPanel();
+        this.playMusic();
 
         this.nextQuestion();
     }
@@ -93,6 +94,11 @@ export default class BattleScene extends Phaser.Scene {
 
     createQuestionPanel() {
         this.questionPanel = new QuestionPanel(this, 640, 460, 900);
+    }
+
+    playMusic() {
+        this.sound.stopAll();
+        this.sound.play("bgm-battle", { loop: true, volume: 0.35 });
     }
 
     nextQuestion() {

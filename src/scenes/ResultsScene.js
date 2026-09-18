@@ -25,6 +25,8 @@ export default class ResultsScene extends Phaser.Scene {
 
         const isCapstoneVictory = lesson.id === CAPSTONE_LESSON && passed;
 
+        this.playContextualMusic(passed);
+
         this.add.image(640, 360, "bg-classroom").setDisplaySize(1280, 720);
 
         this.add
@@ -81,6 +83,24 @@ export default class ResultsScene extends Phaser.Scene {
 
         this.createButtons(isCapstoneVictory);
     }
+
+    playContextualMusic(passed) {
+    // Stop any previously playing result music
+    if (this.sound.get("bgm-victory")) {
+        this.sound.stopByKey("bgm-victory");
+    }
+
+    if (this.sound.get("bgm-defeat")) {
+        this.sound.stopByKey("bgm-defeat");
+    }
+
+    const musicKey = passed ? "bgm-victory" : "bgm-defeat";
+
+    this.sound.play(musicKey, {
+        loop: true,
+        volume: 0.5,
+    });
+}
 
     createButtons(isCapstoneVictory) {
         if (isCapstoneVictory) {
