@@ -199,6 +199,59 @@ export default class LessonSelectScene extends Phaser.Scene {
         }
     }
 
+    createDailyChallengeNode() {
+        const unlocked = this.progressManager.isDailyChallengeUnlocked();
+        const stats = this.progressManager.getDailyChallengeStats();
+
+        const x = 640;
+        const y = 660;
+
+        this.drawConnector(x, 590, x, y - 32);
+
+        const fillColor = unlocked ? 0x1e1033 : 0x0b0f1a;
+        const strokeColor = unlocked ? 0xfacc15 : 0x334155;
+
+        const node = this.add
+            .rectangle(x, y, 460, 64, fillColor, 0.96)
+            .setStrokeStyle(3, strokeColor);
+
+        this.add
+            .text(x, y - 12, "\u2605 BONUS: DAILY CODING CHALLENGES \u2605", {
+                fontFamily: "Arial",
+                fontSize: "16px",
+                fontStyle: "bold",
+                color: unlocked ? "#facc15" : "#64748b",
+            })
+            .setOrigin(0.5);
+
+        this.add
+            .text(
+                x,
+                y + 12,
+                unlocked
+                    ? `Current streak: ${stats.streak} \u00b7 Best: ${stats.longestStreak}`
+                    : "Locked \u2014 clear the Full-Stack Exam to unlock.",
+                {
+                    fontFamily: "Arial",
+                    fontSize: "13px",
+                    color: unlocked ? "#c4b5fd" : "#64748b",
+                }
+            )
+            .setOrigin(0.5);
+
+        if (unlocked) {
+            node.setInteractive({ useHandCursor: true });
+            node.on("pointerover", () => node.setStrokeStyle(4, 0xfde68a));
+            node.on("pointerout", () => node.setStrokeStyle(3, strokeColor));
+            node.on("pointerdown", () => {
+                this.scene.start("DailyChallengesScene", {
+                    character: this.character,
+                    characterName: this.characterName,
+                });
+            });
+        }
+    }
+
     async selectLesson(lessonId) {
         try {
             const lesson = await this.lessonManager.loadLesson(lessonId);
