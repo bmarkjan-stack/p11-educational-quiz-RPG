@@ -21,6 +21,8 @@ export default class PreloadScene extends Phaser.Scene {
         // Backgrounds
         this.load.image("bg-main-menu", "assets/images/background/bg-main-menu.png");
         this.load.image("bg-character-creation", "assets/images/background/bg-character-creation.png");
+        this.load.image("bg-classroom", "assets/images/bg-classroom.png");
+        this.load.image("bg-dungeon", "assets/images/bg-dungeon.png");
 
         // Characters & bosses
         this.load.image("player-male", "assets/images/characters/male/player-male.png");
@@ -29,6 +31,17 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("final-boss-dragon", "assets/images/characters/enemies/final-boss-dragon.png");
 
         // Music
+        this.load.audio("bgm-menu", encodeURI("assets/audio/Music/Main Menu - Rising Sun - DivKid.mp3"));
+        this.load.audio("bgm-lesson", encodeURI("assets/audio/Music/Lesson Learn - Cartoon Bank Heist - Doug Maxwell_Media Right Productions.mp3"));
+        this.load.audio("bgm-battle", encodeURI("assets/audio/Music/Boss Fight - Galactic Damages - Jingle Punks.mp3"));
+        this.load.audio("bgm-victory", encodeURI( "assets/audio/Music/Victory Sound - Cartoon Bank Heist (Sting) - Doug Maxwell_Media Right Productions.mp3"));
+        this.load.audio("bgm-defeat", encodeURI("assets/audio/Music/Defeat Sound - Space Coast - Topher Mohr and Alex Elena.mp3"));
+
+        // SFX
+        this.load.audio("sfx-correct", encodeURI("assets/audio/SFX/Correct Sound.wav"));
+        this.load.audio("sfx-incorrect", encodeURI("assets/audio/SFX/Incorrect Sound.mp3"));
+        this.load.audio("sfx-player-attack", encodeURI("assets/audio/SFX/Sword Slash.wav"));
+        this.load.audio("sfx-boss-attack", encodeURI("assets/audio/SFX/Slime attack.mp3"));
 
         // UI Button States
         this.load.image("button-normal", "assets/images/ui/button-normal.png");
