@@ -21,6 +21,7 @@ export default class PreloadScene extends Phaser.Scene {
         // Backgrounds
         this.load.image("bg-main-menu", "assets/images/background/bg-main-menu.png");
         this.load.image("bg-character-creation", "assets/images/background/bg-character-creation.png");
+        this.load.image("bg-lesson-select", "assets/images/background/bg-lesson-select.png");
         this.load.image("bg-classroom", "assets/images/background/bg-classroom.png");
         this.load.image("bg-dungeon", "assets/images/background/bg-dungeon.png");
 
@@ -60,6 +61,53 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("male-select", "assets/images/ui/male-select.png");
         this.load.image("male-active", "assets/images/ui/male-active.png");
 
+        // Lesson Select UIs
+        // Frontend
+        this.load.image("frontend-normal", "assets/images/ui/frontend-normal.png");
+        this.load.image("frontend-hover", "assets/images/ui/frontend-hover.png");
+        this.load.image("frontend-active", "assets/images/ui/frontend-active.png");
+        this.load.image("frontend-cloud", "assets/images/ui/frontend-cloud.png");
+
+        // Backend
+        this.load.image("backend-normal", "assets/images/ui/backend-normal.png");
+        this.load.image("backend-hover", "assets/images/ui/backend-hover.png");
+        this.load.image("backend-active", "assets/images/ui/backend-active.png");
+        this.load.image("backend-cloud", "assets/images/ui/backend-cloud.png");
+
+        // Responsive Web Design
+        this.load.image("responsive-normal", "assets/images/ui/responsive-normal.png");
+        this.load.image("responsive-hover", "assets/images/ui/responsive-hover.png");
+        this.load.image("responsive-active", "assets/images/ui/responsive-active.png");
+
+        // JavaScript
+        this.load.image("javascript-normal", "assets/images/ui/javascript-normal.png");
+        this.load.image("javascript-hover", "assets/images/ui/javascript-hover.png");
+        this.load.image("javascript-active", "assets/images/ui/javascript-active.png");
+        this.load.image("javascript-cloud", "assets/images/ui/javascript-cloud.png");
+
+        // Python
+        this.load.image("python-normal", "assets/images/ui/python-normal.png");
+        this.load.image("python-hover", "assets/images/ui/python-hover.png");
+        this.load.image("python-active", "assets/images/ui/python-active.png");
+
+        // Relational Databases
+        this.load.image("relational-database-normal", "assets/images/ui/relational-database-normal.png");
+        this.load.image("relational-database-hover", "assets/images/ui/relational-database-hover.png");
+        this.load.image("relational-database-active", "assets/images/ui/relational-database-active.png");
+        this.load.image("relational-databases-cloud", "assets/images/ui/relational-databases-cloud.png");
+
+        // Full-Stack Exam
+        this.load.image("full-stack-normal", "assets/images/ui/full-stack-normal.png");
+        this.load.image("full-stack-normal-locked", "assets/images/ui/full-stack-normal-locked.png");
+        this.load.image("full-stack-hover", "assets/images/ui/full-stack-hover.png");
+        this.load.image("full-stack-active", "assets/images/ui/full-stack-active.png");
+        this.load.image("full-stack-cloud", "assets/images/ui/full-stack-cloud.png");
+
+        // Daily Coding Challenges
+        this.load.image("daily-normal", "assets/images/ui/daily-normal.png");
+        this.load.image("daily-hover", "assets/images/ui/daily-hover.png");
+        this.load.image("daily-active", "assets/images/ui/daily-active.png");
+        this.load.image("daily-coding-cloud", "assets/images/ui/daily-coding-cloud.png");
 
         // Loading Progress
         this.load.on("progress", (value) => { 
