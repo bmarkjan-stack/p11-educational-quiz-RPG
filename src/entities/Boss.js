@@ -3,7 +3,13 @@ export default class Boss {
         scene,
         x,
         y,
-        { textureKey = "boss1-slime", name = "Slime", maxHp = 100, attackPower = 10 } = {}
+        {
+            textureKey,
+            name = "Enemy",
+            maxHp = 100,
+            attackPower = 10,
+            scale = 0.6,
+        } = {}
     ) {
         this.scene = scene;
         this.name = name;
@@ -11,7 +17,7 @@ export default class Boss {
         this.hp = maxHp;
         this.attackPower = attackPower;
 
-        this.sprite = scene.add.sprite(x, y, textureKey).setOrigin(0.5).setScale(0.6);
+        this.sprite = scene.add.sprite(x, y, textureKey).setOrigin(0.5).setScale(scale);
 
         this.baseX = x;
         this.baseY = y;

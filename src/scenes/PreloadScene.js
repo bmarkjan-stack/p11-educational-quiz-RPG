@@ -25,11 +25,48 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("bg-classroom", "assets/images/background/bg-classroom.png");
         this.load.image("bg-dungeon", "assets/images/background/bg-dungeon.png");
 
-        // Characters & bosses
+        // Characters
         this.load.image("player-male", "assets/images/characters/male/player-male.png");
         this.load.image("player-female", "assets/images/characters/female/player-female.png");
-        this.load.image("boss1-slime", "assets/images/characters/enemies/boss1-slime.png");
-        this.load.image("final-boss-dragon", "assets/images/characters/enemies/final-boss-dragon.png");
+
+        // Responsive Web Design enemies
+        this.load.image("rwd-mobile-first-mite", "assets/images/characters/enemies/01-responsive-web-design/1-mobile-first-mite.png");
+        this.load.image("rwd-breakpoint-beetle", "assets/images/characters/enemies/01-responsive-web-design/2-breakpoint-beetle.png");
+        this.load.image("rwd-grid-flex-gnat", "assets/images/characters/enemies/01-responsive-web-design/3-grid-flex-gnat.png");
+        this.load.image("rwd-layout-gremlin", "assets/images/characters/enemies/01-responsive-web-design/boss-layout-gremlin.png");
+
+        // Python enemies
+        this.load.image("python-variable-ghost", "assets/images/characters/enemies/01-python/1-variable-ghost.png");
+        this.load.image("python-control-flow-jester", "assets/images/characters/enemies/01-python/2-control-flow-jester.png");
+        this.load.image("python-function-larva", "assets/images/characters/enemies/01-python/3-function-larva.png");
+        this.load.image("python-indentation-imp", "assets/images/characters/enemies/01-python/boss-indentation-imp.png");
+
+        // JavaScript enemies
+        this.load.image("javascript-variable-void", "assets/images/characters/enemies/02-javascript/1-variable-void.png");
+        this.load.image("javascript-function-fume", "assets/images/characters/enemies/02-javascript/2-function-fume.png");
+        this.load.image("javascript-array-abomination", "assets/images/characters/enemies/02-javascript/3-array-abomination.png");
+        this.load.image("javascript-null-pointer-ooze", "assets/images/characters/enemies/02-javascript/boss-null-pointer-ooze.png");
+
+        // Relational Databases enemies
+        this.load.image("database-warden", "assets/images/characters/enemies/02-relational-databases/1-database-warden.png");
+        this.load.image("predicate-sentry", "assets/images/characters/enemies/02-relational-databases/2-predicate-sentry.png");
+        this.load.image("relational-aggregate-twins", "assets/images/characters/enemies/02-relational-databases/3-relational-aggregate-twins.png");
+        this.load.image("foreign-key-fiend", "assets/images/characters/enemies/02-relational-databases/boss-foreign-key-fiend.png");
+
+        // Backend & APIs enemies
+        this.load.image("request-response-pixie", "assets/images/characters/enemies/03-backend-and-apis/1-request-imp-response-pixie.png");
+        this.load.image("rest-resource-mimic", "assets/images/characters/enemies/03-backend-and-apis/2-REST-resource-mimic.png");
+        this.load.image("status-code-golem", "assets/images/characters/enemies/03-backend-and-apis/3-status-code-golem.png");
+        this.load.image("api-archon", "assets/images/characters/enemies/03-backend-and-apis/boss-the-api-archon.png");
+
+        // Frontend Libraries enemies
+        this.load.image("component-wyrmling", "assets/images/characters/enemies/03-frontend-libraries/1-component-wyrmling.png");
+        this.load.image("data-flow-wyrmling", "assets/images/characters/enemies/03-frontend-libraries/2-data-flow-wyrmling.png");
+        this.load.image("hook-fiend-wyrmling", "assets/images/characters/enemies/03-frontend-libraries/3-hook-fiend-wyrmling.png");
+        this.load.image("framework-wyrm", "assets/images/characters/enemies/03-frontend-libraries/boss-framework-wyrm.png");
+
+        // Full-Stack boss; regular enemies will be added with the full-stack roster.
+        this.load.image("full-stack-overlord", "assets/images/characters/enemies/04-full-stack/04-the-full-stack-overload.png");
 
         // Music
         this.load.audio("bgm-menu", encodeURI("assets/audio/Music/Main Menu - Rising Sun - DivKid.mp3"));

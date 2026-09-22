@@ -157,13 +157,8 @@ export default class LessonScene extends Phaser.Scene {
 
         this.exampleText.setVisible(examples.length > 0);
 
-        const isFinalSection =
-            this.sectionIndex === sections.length - 1;
-
         this.continueButton.setText(
-            isFinalSection
-                ? "FACE THE FINAL BOSS"
-                : "START SECTION QUIZ"
+            "START SECTION QUIZ"
         );
     }
 

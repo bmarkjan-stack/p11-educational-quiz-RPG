@@ -39,8 +39,15 @@ export default class QuizManager {
         return isCorrect;
     }
 
-    next() {
+    next({ repeatCurrent = false } = {}) {
+        const currentQuestion = this.getCurrentQuestion();
+
         this.currentIndex += 1;
+
+        if (repeatCurrent && currentQuestion) {
+            this.questions.push(currentQuestion);
+        }
+
         this.answered = false;
         return this.getCurrentQuestion();
     }

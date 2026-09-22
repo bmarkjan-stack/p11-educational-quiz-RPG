@@ -7,21 +7,38 @@ import Button from "../ui/Button.js";
 import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 
-// The "real" boss for each lesson — fought only in that lesson's FINAL section.
-const BOSS_BY_LESSON = {
-    "responsive-web-design": { textureKey: "boss1-slime", name: "Layout Gremlin", maxHp: 90, attackPower: 7 },
-    "javascript": { textureKey: "boss1-slime", name: "Null Pointer Ooze", maxHp: 105, attackPower: 8 },
-    "frontend-libraries": { textureKey: "final-boss-dragon", name: "Framework Wyrm", maxHp: 140, attackPower: 11 },
-
-    "python": { textureKey: "boss1-slime", name: "Indentation Imp", maxHp: 95, attackPower: 7 },
-    "relational-databases": { textureKey: "boss1-slime", name: "Foreign Key Fiend", maxHp: 110, attackPower: 8 },
-    "backend-apis": { textureKey: "final-boss-dragon", name: "Endpoint Hydra", maxHp: 145, attackPower: 11 },
-
-    "fullstack-exam": { textureKey: "final-boss-dragon", name: "The Full-Stack Overlord", maxHp: 200, attackPower: 14 },
+const ENEMY_ROSTERS = {
+    "responsive-web-design": [
+        { textureKey: "rwd-mobile-first-mite", name: "Mobile-First Mite", maxHp: 42, attackPower: 5 },
+        { textureKey: "rwd-breakpoint-beetle", name: "Breakpoint Beetle", maxHp: 42, attackPower: 6 },
+        { textureKey: "rwd-grid-flex-gnat", name: "Grid-Flex Gnat", maxHp: 42, attackPower: 7 },
+    ],
+    javascript: [
+        { textureKey: "javascript-variable-void", name: "Variable Void", maxHp: 42, attackPower: 5 },
+        { textureKey: "javascript-function-fume", name: "Function Fume", maxHp: 42, attackPower: 6 },
+        { textureKey: "javascript-array-abomination", name: "Array Abomination", maxHp: 42, attackPower: 7 },
+    ],
+    python: [
+        { textureKey: "python-variable-ghost", name: "Variable Ghost", maxHp: 42, attackPower: 5 },
+        { textureKey: "python-control-flow-jester", name: "Control Flow Jester", maxHp: 42, attackPower: 6 },
+        { textureKey: "python-function-larva", name: "Function Larva", maxHp: 42, attackPower: 7 },
+    ],
+    "relational-databases": [
+        { textureKey: "database-warden", name: "Database Warden", maxHp: 42, attackPower: 5 },
+        { textureKey: "predicate-sentry", name: "Predicate Sentry", maxHp: 42, attackPower: 6 },
+        { textureKey: "relational-aggregate-twins", name: "Relational Aggregate Twins", maxHp: 42, attackPower: 8 },
+    ],
+    "backend-apis": [
+        { textureKey: "request-response-pixie", name: "Request/Response Pixie", maxHp: 42, attackPower: 6 },
+        { textureKey: "rest-resource-mimic", name: "REST Resource Mimic", maxHp: 42, attackPower: 7 },
+        { textureKey: "status-code-golem", name: "Status Code Golem", maxHp: 42, attackPower: 8 },
+    ],
+    "frontend-libraries": [
+        { textureKey: "component-wyrmling", name: "Component Wyrmling", maxHp: 42, attackPower: 6 },
+        { textureKey: "data-flow-wyrmling", name: "Data Flow Wyrmling", maxHp: 42, attackPower: 7 },
+        { textureKey: "hook-fiend-wyrmling", name: "Hook Fiend Wyrmling", maxHp: 42, attackPower: 9 },
+    ],
 };
-
-// A smaller, weaker enemy used for every section battle that ISN'T the final one.
-const SECTION_ENEMY = { textureKey: "boss1-slime", maxHp: 40, attackPower: 5 };
 
 export default class BattleScene extends Phaser.Scene {
     constructor() {
@@ -62,9 +79,8 @@ export default class BattleScene extends Phaser.Scene {
     createCombatants(section) {
         this.player = new Player(this, 260, 300, this.character, this.characterName);
 
-        const bossConfig = this.isFinalSection
-            ? BOSS_BY_LESSON[this.lesson.id] ?? BOSS_BY_LESSON.javascript
-            : { ...SECTION_ENEMY, name: `${section.title} Sprite` };
+        const lessonRoster = ENEMY_ROSTERS[this.lesson.id] ?? ENEMY_ROSTERS["responsive-web-design"];
+        const bossConfig = lessonRoster[this.sectionIndex] ?? lessonRoster[0];
 
         this.boss = new Boss(this, 1020, 300, bossConfig);
 
@@ -103,15 +119,20 @@ export default class BattleScene extends Phaser.Scene {
 
     nextQuestion() {
         if (this.quizManager.isComplete()) {
-            this.endBattle();
+            if (this.boss.isAlive()) {
+                this.showBattleIncomplete();
+            }
             return;
         }
 
         const question = this.quizManager.getCurrentQuestion();
-        this.questionPanel.showQuestion(question, (isCorrect) => this.resolveTurn(isCorrect));
+        this.questionPanel.showQuestion(question, (isCorrect, selectedIndex) =>
+            this.resolveTurn(isCorrect, selectedIndex)
+        );
     }
 
-    resolveTurn(isCorrect) {
+    resolveTurn(isCorrect, selectedIndex) {
+        this.quizManager.checkAnswer(selectedIndex);
         this.sound.play(isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
 
         if (isCorrect) {
@@ -136,12 +157,17 @@ export default class BattleScene extends Phaser.Scene {
                 return;
             }
 
-            this.quizManager.next();
+            this.quizManager.next({ repeatCurrent: !isCorrect });
             this.time.delayedCall(300, () => this.nextQuestion());
         });
     }
 
     endBattle() {
+        if (this.boss.isAlive()) {
+            this.showBattleIncomplete();
+            return;
+        }
+
         const results = this.quizManager.getResults();
         const cumulativeScore = this.priorBattleScore + results.correct;
         const cumulativeTotal = this.priorBattleTotal + results.total;
@@ -149,6 +175,10 @@ export default class BattleScene extends Phaser.Scene {
         this.progressManager.recordBattleResult(this.lesson.id, cumulativeScore);
         this.sound.stopAll();
 
+        this.showVictory(() => this.continueAfterVictory(cumulativeScore, cumulativeTotal));
+    }
+
+    continueAfterVictory(cumulativeScore, cumulativeTotal) {
         if (this.isFinalSection) {
             this.scene.start("ExamScene", {
                 lesson: this.lesson,
@@ -167,6 +197,115 @@ export default class BattleScene extends Phaser.Scene {
                 battleTotal: cumulativeTotal,
             });
         }
+    }
+
+    showVictory(onContinue) {
+        const overlay = this.add
+            .rectangle(640, 360, 760, 360, 0x07130d, 0.97)
+            .setStrokeStyle(2, 0x22c55e)
+            .setDepth(10);
+
+        this.add
+            .text(640, 265, "VICTORY!", {
+                fontFamily: "Arial",
+                fontSize: "34px",
+                fontStyle: "bold",
+                color: "#86efac",
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
+        this.add
+            .text(640, 315, `${this.boss.name} has been defeated!`, {
+                fontFamily: "Arial",
+                fontSize: "22px",
+                color: "#ffffff",
+                align: "center",
+                wordWrap: { width: 650 },
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
+        const continueButton = new Button(
+            this,
+            640,
+            390,
+            "CONTINUE",
+            onContinue,
+            { width: 280 }
+        );
+
+        const exitButton = new Button(
+            this,
+            640,
+            465,
+            "EXIT TO LESSON SELECT",
+            () => {
+                this.scene.start("LessonSelectScene", {
+                    character: this.character,
+                    characterName: this.characterName,
+                });
+            },
+            { width: 300 }
+        );
+
+        [continueButton, exitButton].forEach((button) => {
+            button.normalImage.setDepth(11);
+            button.hoverImage.setDepth(11);
+            button.activeImage.setDepth(11);
+            button.background.setDepth(12);
+            button.label.setDepth(12);
+        });
+    }
+
+    showBattleIncomplete() {
+        this.sound.stopAll();
+        this.sound.play("bgm-defeat", { volume: 0.5 });
+
+        this.add
+            .rectangle(640, 360, 700, 260, 0x070b18, 0.97)
+            .setStrokeStyle(2, 0xdc2626)
+            .setDepth(10);
+
+        this.add
+            .text(640, 300, "BATTLE INCOMPLETE", {
+                fontFamily: "Arial",
+                fontSize: "30px",
+                fontStyle: "bold",
+                color: "#facc15",
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
+        this.add
+            .text(640, 345, "Defeat the enemy to continue.", {
+                fontFamily: "Arial",
+                fontSize: "18px",
+                color: "#e2e8f0",
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
+        const retryButton = new Button(
+            this,
+            640,
+            410,
+            "RETRY BATTLE",
+            () => {
+                // Retry only THIS section's battle — prior sections' scores stay banked.
+                this.scene.restart({
+                    lesson: this.lesson,
+                    character: this.character,
+                    characterName: this.characterName,
+                    sectionIndex: this.sectionIndex,
+                    battleScore: this.priorBattleScore,
+                    battleTotal: this.priorBattleTotal,
+                });
+            },
+            { width: 220 }
+        );
+
+        retryButton.setDepth(11);
     }
 
     showDefeat() {
