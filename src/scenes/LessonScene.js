@@ -12,14 +12,15 @@ export default class LessonScene extends Phaser.Scene {
         this.characterName = data.characterName;
         this.sectionIndex = data.sectionIndex ?? 0;
 
-        // Cumulative correct/total across every section battle fought so far
-        // in this lesson attempt, carried forward to the final exam & results.
+        // Cumulative correct/total across every section battle
+        // fought so far in this lesson attempt.
         this.battleScore = data.battleScore ?? 0;
         this.battleTotal = data.battleTotal ?? 0;
     }
 
     create() {
         this.drawBackground();
+        this.createLessonPanel();
         this.createHeader();
         this.createContentArea();
         this.createContinueButton();
@@ -27,72 +28,143 @@ export default class LessonScene extends Phaser.Scene {
     }
 
     drawBackground() {
-        this.add.image(640, 360, "bg-classroom").setDisplaySize(1280, 720);
-        this.add.rectangle(640, 380, 1000, 480, 0x0b0f1a, 0.75).setStrokeStyle(2, 0x5f74bd);
+        this.add
+            .image(640, 360, "bg-classroom")
+            .setDisplaySize(1280, 720);
+    }
+
+    createLessonPanel() {
+        // The panel artwork is already sized for the 1280x720 canvas.
+        // Both UI images are simply centered on the canvas.
+        this.add
+            .image(640, 360, "lesson-panel-body")
+            .setOrigin(0.5);
+
+        this.add
+            .image(640, 360, "lesson-panel-title")
+            .setOrigin(0.5);
     }
 
     createHeader() {
+        // Text is positioned independently of the title artwork.
         this.add
-            .text(640, 90, this.lesson.title, {
-                fontFamily: "Arial",
-                fontSize: "34px",
+            .text(640, 95, this.lesson.title, {
+                fontFamily: "Cinzel Decorative",
+                fontSize: "28px",
                 fontStyle: "bold",
                 color: "#ffffff",
+                stroke: "#1a0f05",
+                strokeThickness: 4,
+                shadow: {
+                    offsetX: 2,
+                    offsetY: 2,
+                    color: "#000000",
+                    blur: 4,
+                    stroke: true,
+                    fill: true,
+                },
             })
             .setOrigin(0.5);
 
         this.progressLabel = this.add
-            .text(640, 130, "", {
-                fontFamily: "Arial",
-                fontSize: "16px",
-                color: "#c7d2fe",
+            .text(640, 143, "", {
+                fontFamily: "MedievalSharp",
+                fontSize: "18px",
+                color: "#f5e6c8",
+                stroke: "#1a0f05",
+                strokeThickness: 2,
             })
             .setOrigin(0.5);
     }
 
     createContentArea() {
-        this.sectionTitle = this.add.text(220, 190, "", {
-            fontFamily: "Arial",
-            fontSize: "26px",
+        this.sectionTitle = this.add.text(240, 215, "", {
+            fontFamily: "Cinzel Decorative",
+            fontSize: "25px",
             fontStyle: "bold",
             color: "#facc15",
+            stroke: "#1a0f05",
+            strokeThickness: 3,
         });
 
-        this.sectionContent = this.add.text(220, 240, "", {
-            fontFamily: "Arial",
-            fontSize: "18px",
-            color: "#e2e8f0",
-            wordWrap: { width: 840 },
-            lineSpacing: 6,
+        this.sectionContent = this.add.text(220, 295, "", {
+            fontFamily: "IM Fell English",
+            fontSize: "21px",
+            color: "#f5ead7",
+            wordWrap: {
+                width: 840,
+            },
+            lineSpacing: 8,
+            shadow: {
+                offsetX: 1,
+                offsetY: 1,
+                color: "#000000",
+                blur: 2,
+                stroke: true,
+                fill: true,
+            },
         });
 
-        this.exampleText = this.add.text(220, 470, "", {
-            fontFamily: "monospace",
-            fontSize: "16px",
+        this.exampleText = this.add.text(220, 495, "", {
+            fontFamily: "Pixelify Sans",
+            fontSize: "17px",
             color: "#93c5fd",
-            wordWrap: { width: 840 },
+            wordWrap: {
+                width: 840,
+            },
+            lineSpacing: 5,
         });
     }
 
     createContinueButton() {
-        this.continueButton = new Button(this, 640, 650, "", () => this.startSectionBattle(), {
-            width: 320,
-        });
+        this.continueButton = new Button(
+            this,
+            640,
+            650,
+            "",
+            () => this.startSectionBattle(),
+            {
+                width: 320,
+            }
+        );
     }
 
     renderSection() {
         const sections = this.lesson.sections;
         const section = sections[this.sectionIndex];
 
-        this.progressLabel.setText(`Section ${this.sectionIndex + 1} / ${sections.length}`);
+        if (!section) {
+            console.warn(
+                `LessonScene: Section ${this.sectionIndex} does not exist.`
+            );
+            return;
+        }
+
+        this.progressLabel.setText(
+            `Section ${this.sectionIndex + 1} / ${sections.length}`
+        );
+
         this.sectionTitle.setText(section.title);
         this.sectionContent.setText(section.content);
 
         const examples = section.examples ?? [];
-        this.exampleText.setText(examples.length ? examples.join("\n") : "");
 
-        const isFinalSection = this.sectionIndex === sections.length - 1;
-        this.continueButton.setText(isFinalSection ? "FACE THE FINAL BOSS" : "START SECTION QUIZ");
+        this.exampleText.setText(
+            examples.length
+                ? examples.join("\n")
+                : ""
+        );
+
+        this.exampleText.setVisible(examples.length > 0);
+
+        const isFinalSection =
+            this.sectionIndex === sections.length - 1;
+
+        this.continueButton.setText(
+            isFinalSection
+                ? "FACE THE FINAL BOSS"
+                : "START SECTION QUIZ"
+        );
     }
 
     startSectionBattle() {

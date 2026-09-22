@@ -109,6 +109,10 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("daily-active", "assets/images/ui/daily-active.png");
         this.load.image("daily-coding-cloud", "assets/images/ui/daily-coding-cloud.png");
 
+        // Lesson UIs
+        this.load.image("lesson-panel-body", "assets/images/ui/lesson-panel-body.png");
+        this.load.image("lesson-panel-title", "assets/images/ui/lesson-panel-title.png");
+
         // Loading Progress
         this.load.on("progress", (value) => { 
             this.loadingBar.width = 410 * value; 

@@ -3,8 +3,33 @@
 }
 
 @font-face {
-    font-family: "LearnQuest";
-    src: url("/assets/fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf") format("truetype");
+    font-family: "Cinzel Decorative";
+    src: url("/assets/fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf")
+        format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "IM Fell English";
+    src: url("/assets/fonts/IM_Fell_English/IMFellEnglish-Regular.ttf")
+        format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "MedievalSharp";
+    src: url("/assets/fonts/MedievalSharp/MedievalSharp-Regular.ttf")
+        format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Pixelify Sans";
+    src: url("/assets/fonts/Pixelify_Sans/PixelifySans-Regular.ttf")
+        format("truetype");
     font-weight: normal;
     font-style: normal;
 }
