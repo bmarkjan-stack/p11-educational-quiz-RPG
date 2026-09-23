@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Button from "../ui/Button.js";
 import LessonManager from "../systems/LessonManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 import { TRACKS, CAPSTONE_LESSON } from "../systems/curriculum.js";
@@ -105,6 +106,7 @@ export default class LessonSelectScene extends Phaser.Scene {
         this.createCapstoneNode();
         this.createDailyChallengeNode();
         this.playMusic();
+        this.createBackButton();
     }
 
     // --------------------------------------------------
@@ -438,5 +440,18 @@ export default class LessonSelectScene extends Phaser.Scene {
             .setDepth(200);
 
         this.time.delayedCall(2500, () => text.destroy());
+    }
+
+    createBackButton() {
+        new Button(
+            this,
+            1200,
+            695,
+            "BACK",
+            () => {
+                this.scene.start("MenuScene");
+            },
+            { width: 130, height: 40, fontSize: "16px" }
+        );
     }
 }
