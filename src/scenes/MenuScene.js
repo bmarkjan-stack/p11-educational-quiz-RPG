@@ -25,32 +25,26 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     createButtons() {
+        const progressManager = new ProgressManager();
+        const savedCharacter = progressManager.getCharacter();
+        const hasCharacter = Boolean(
+            savedCharacter.character && savedCharacter.characterName?.trim()
+        );
+
         // New Game
-        new Button(this, 640, 410, "NEW GAME", () => {
+        this.newGameButton = new Button(this, 640, 410, "NEW GAME", () => {
             this.scene.start("CharacterSelectScene");
         });
+        this.newGameButton.setEnabled(!hasCharacter);
 
         // Continue
-        const progressManager = new ProgressManager(); 
-        const character = progressManager.getCharacter(); 
-        
-        this.continueButton = new Button(this, 640, 470, "CONTINUE", () => { 
-            const savedCharacter = progressManager.getCharacter(); 
-
-            if (!savedCharacter) { 
-                return; 
-            } 
-            
-            this.scene.start("LessonSelectScene", { 
-                character: savedCharacter, 
-                characterName: savedCharacter.name, 
-            }); 
+        this.continueButton = new Button(this, 640, 470, "CONTINUE", () => {
+            this.scene.start("LessonSelectScene", {
+                character: savedCharacter.character,
+                characterName: savedCharacter.characterName,
+            });
         });
-
-        // Disable CONTINUE if there is no saved character 
-        if (!character) { 
-            this.disableButton(this.continueButton); 
-        }
+        this.continueButton.setEnabled(hasCharacter);
 
         new Button(this, 640, 530, "SETTINGS", () => {
             this.showSettings();
@@ -63,13 +57,6 @@ export default class MenuScene extends Phaser.Scene {
         new Button(this, 640, 650, "QUIT", () => {
             this.showQuit();
         });
-    }
-
-    disableButton(button) { 
-        button.setAlpha(0.4); 
-        if (button.disableInteractive) { 
-            button.disableInteractive(); 
-        } 
     }
 
     showSettings() { 

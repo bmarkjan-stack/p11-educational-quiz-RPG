@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
+import ProgressManager from "../systems/ProgressManager.js";
 
 export default class LessonScene extends Phaser.Scene {
     constructor() {
@@ -11,6 +12,7 @@ export default class LessonScene extends Phaser.Scene {
         this.character = data.character;
         this.characterName = data.characterName;
         this.sectionIndex = data.sectionIndex ?? 0;
+        this.awardsExperience = data.awardsExperience ?? true;
 
         // Cumulative correct/total across every section battle
         // fought so far in this lesson attempt.
@@ -19,6 +21,9 @@ export default class LessonScene extends Phaser.Scene {
     }
 
     create() {
+        this.progressManager = new ProgressManager();
+        this.saveCheckpoint();
+
         this.drawBackground();
         this.createLessonPanel();
         this.createHeader();
@@ -28,6 +33,17 @@ export default class LessonScene extends Phaser.Scene {
         this.createBackButton();
     }
 
+    saveCheckpoint() {
+        if (!this.awardsExperience) return;
+
+        this.progressManager.saveLessonCheckpoint(this.lesson.id, {
+            stage: "lesson",
+            sectionIndex: this.sectionIndex,
+            battleScore: this.battleScore,
+            battleTotal: this.battleTotal,
+        });
+    }
+
     drawBackground() {
         this.add
             .image(640, 360, "bg-classroom")
@@ -35,8 +51,6 @@ export default class LessonScene extends Phaser.Scene {
     }
 
     createLessonPanel() {
-        // The panel artwork is already sized for the 1280x720 canvas.
-        // Both UI images are simply centered on the canvas.
         this.add
             .image(640, 360, "lesson-panel-body")
             .setOrigin(0.5);
@@ -47,7 +61,6 @@ export default class LessonScene extends Phaser.Scene {
     }
 
     createHeader() {
-        // Text is positioned independently of the title artwork.
         this.add
             .text(640, 95, this.lesson.title, {
                 fontFamily: "Cinzel Decorative",

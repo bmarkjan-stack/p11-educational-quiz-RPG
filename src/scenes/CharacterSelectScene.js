@@ -360,9 +360,18 @@ export default class CharacterSelectScene extends Phaser.Scene {
             return;
         }
 
+        if (!this.characterName.trim()) {
+            this.showMessage(
+                "Name Required",
+                "Please enter a name before continuing."
+            );
+
+            return;
+        }
+
         this.scene.start("LessonSelectScene", {
             character: this.selectedCharacter,
-            characterName: this.characterName.trim() || "Adventurer",
+            characterName: this.characterName.trim(),
         });
     }
 

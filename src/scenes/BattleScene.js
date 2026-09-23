@@ -220,6 +220,15 @@ export default class BattleScene extends Phaser.Scene {
         const currentStats = this.xpResult?.stats ?? this.progressManager.getCharacterStats();
         this.playerExperienceBar.setExperience(currentStats.xp, currentStats.xpToNextLevel);
 
+        if (this.awardsExperience) {
+            this.progressManager.saveLessonCheckpoint(this.lesson.id, {
+                stage: this.isFinalSection ? "exam" : "lesson",
+                sectionIndex: this.isFinalSection ? this.sectionIndex : this.sectionIndex + 1,
+                battleScore: cumulativeScore,
+                battleTotal: cumulativeTotal,
+            });
+        }
+
         this.sound.stopAll();
 
         this.showVictory(() => this.continueAfterVictory(cumulativeScore, cumulativeTotal));
@@ -227,15 +236,6 @@ export default class BattleScene extends Phaser.Scene {
 
     continueAfterVictory(cumulativeScore, cumulativeTotal) {
         if (this.isFinalSection) {
-            if (this.awardsExperience) {
-                this.progressManager.saveLessonCheckpoint(this.lesson.id, {
-                    stage: "exam",
-                    sectionIndex: this.sectionIndex,
-                    battleScore: cumulativeScore,
-                    battleTotal: cumulativeTotal,
-                });
-            }
-
             this.scene.start("ExamScene", {
                 lesson: this.lesson,
                 character: this.character,

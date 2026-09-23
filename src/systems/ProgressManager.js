@@ -42,7 +42,7 @@ const BASE_STATS = {
 // Flat stat growth applied on every level up.
 const HP_PER_LEVEL = 3;
 const ATTACK_PER_LEVEL = 1;
-const XP_PER_LEVEL_BASE = 8;
+const XP_PER_LEVEL_BASE = 10;
 
 export default class ProgressManager {
     constructor() {
@@ -160,13 +160,13 @@ export default class ProgressManager {
         while (stats.xp >= stats.xpToNextLevel) {
             stats.xp -= stats.xpToNextLevel;
             stats.level += 1;
-            const levelHpGained = HP_PER_LEVEL * stats.level;
-            const levelDamageGained = ATTACK_PER_LEVEL * stats.level;
+            const levelHpGained = HP_PER_LEVEL * (stats.level * 0.35);
+            const levelDamageGained = ATTACK_PER_LEVEL * (stats.level * 0.25);
             stats.maxHp += levelHpGained;
             stats.attackPower += levelDamageGained;
             maxHpGained += levelHpGained;
             damageGained += levelDamageGained;
-            stats.xpToNextLevel = XP_PER_LEVEL_BASE * stats.level;
+            stats.xpToNextLevel = XP_PER_LEVEL_BASE * (stats.level * 0.75);
             levelsGained += 1;
         }
 
