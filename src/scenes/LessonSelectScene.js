@@ -105,6 +105,7 @@ export default class LessonSelectScene extends Phaser.Scene {
         this.createLessonNodes();
         this.createCapstoneNode();
         this.createDailyChallengeNode();
+        this.createLastPlayedIndicator();
         this.playMusic();
         this.createBackButton();
     }
@@ -404,17 +405,103 @@ export default class LessonSelectScene extends Phaser.Scene {
     }
 
     // --------------------------------------------------
+    // "Last Played" Indicator
+    // --------------------------------------------------
+
+    createLastPlayedIndicator() {
+        const lastId = this.progressManager.getLastVisitedLesson();
+        if (!lastId) return;
+
+        const hitbox = lastId === CAPSTONE_LESSON ? CAPSTONE.hitbox : NODES[lastId]?.hitbox;
+        if (!hitbox) return;
+
+        const markerX = hitbox.x + hitbox.width - 6;
+        const markerY = hitbox.y + 6;
+
+        const badge = this.add
+            .circle(markerX, markerY, 13, 0xfacc15, 1)
+            .setStrokeStyle(2, 0x1a0f05)
+            .setDepth(DEPTH_CLOUD + 1);
+
+        const glyph = this.add
+            .text(markerX, markerY, "\u25B6", {
+                fontFamily: "Arial",
+                fontSize: "14px",
+                fontStyle: "bold",
+                color: "#1a0f05",
+            })
+            .setOrigin(0.5)
+            .setDepth(DEPTH_CLOUD + 2);
+
+        const label = this.add
+            .text(markerX, markerY - 28, "LAST PLAYED", {
+                fontFamily: "Arial",
+                fontSize: "12px",
+                fontStyle: "bold",
+                color: "#facc15",
+                stroke: "#1a0f05",
+                strokeThickness: 3,
+            })
+            .setOrigin(0.5)
+            .setDepth(DEPTH_CLOUD + 2);
+
+        this.tweens.add({
+            targets: [badge, glyph],
+            scale: { from: 1, to: 1.18 },
+            duration: 650,
+            yoyo: true,
+            repeat: -1,
+        });
+    }
+
+    // --------------------------------------------------
     // Lesson Selection
     // --------------------------------------------------
 
-    async selectLesson(lessonId) {
+    selectLesson(lessonId) {
+        // Remember this as the lesson the player last engaged with,
+        // regardless of how they leave (requirement #2).
+        this.progressManager.setLastVisitedLesson(lessonId);
+
+        if (this.progressManager.isCompleted(lessonId)) {
+            // requirement #6: warn that replaying won't grant XP.
+            this.showReplayConfirm(lessonId);
+            return;
+        }
+
+        this.beginLesson(lessonId, { awardsExperience: true });
+    }
+
+    async beginLesson(lessonId, { awardsExperience }) {
         try {
             const lesson = await this.lessonManager.loadLesson(lessonId);
 
-            this.scene.start("LessonScene", {
+            // requirement #3: resume where the player left off, if anywhere.
+            const checkpoint = awardsExperience
+                ? this.progressManager.getLessonCheckpoint(lessonId)
+                : null;
+
+            const basePayload = {
                 lesson,
                 character: this.character,
                 characterName: this.characterName,
+                awardsExperience,
+            };
+
+            if (checkpoint?.stage === "exam") {
+                this.scene.start("ExamScene", {
+                    ...basePayload,
+                    battleScore: checkpoint.battleScore ?? 0,
+                    battleTotal: checkpoint.battleTotal ?? 0,
+                });
+                return;
+            }
+
+            this.scene.start("LessonScene", {
+                ...basePayload,
+                sectionIndex: checkpoint?.sectionIndex ?? 0,
+                battleScore: checkpoint?.battleScore ?? 0,
+                battleTotal: checkpoint?.battleTotal ?? 0,
             });
         } catch (error) {
             console.error(error);
@@ -423,6 +510,83 @@ export default class LessonSelectScene extends Phaser.Scene {
                 "Could not load this lesson. Please try again."
             );
         }
+    }
+
+    // --------------------------------------------------
+    // Replay Confirmation
+    // --------------------------------------------------
+
+    showReplayConfirm(lessonId) {
+        const overlay = this.add
+            .rectangle(640, 360, 760, 300, 0x070b18, 0.97)
+            .setStrokeStyle(2, 0xfacc15)
+            .setDepth(20);
+
+        const title = this.add
+            .text(640, 260, "LESSON ALREADY COMPLETED", {
+                fontFamily: "Arial",
+                fontSize: "24px",
+                fontStyle: "bold",
+                color: "#facc15",
+            })
+            .setOrigin(0.5)
+            .setDepth(21);
+
+        const message = this.add
+            .text(
+                640,
+                315,
+                "You will no longer gain experience for completing this lesson again.\nWould you still like to continue?",
+                {
+                    fontFamily: "Arial",
+                    fontSize: "16px",
+                    color: "#e2e8f0",
+                    align: "center",
+                    wordWrap: { width: 660 },
+                    lineSpacing: 6,
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(21);
+
+        const cleanup = () => {
+            overlay.destroy();
+            title.destroy();
+            message.destroy();
+            yesButton.destroy();
+            noButton.destroy();
+        };
+
+        const yesButton = new Button(
+            this,
+            500,
+            410,
+            "YES, CONTINUE",
+            () => {
+                cleanup();
+                this.beginLesson(lessonId, { awardsExperience: false });
+            },
+            { width: 260 }
+        );
+
+        const noButton = new Button(
+            this,
+            780,
+            410,
+            "CANCEL",
+            () => {
+                cleanup();
+            },
+            { width: 220 }
+        );
+
+        [yesButton, noButton].forEach((button) => {
+            button.normalImage.setDepth(21);
+            button.hoverImage.setDepth(21);
+            button.activeImage.setDepth(21);
+            button.background.setDepth(22);
+            button.label.setDepth(22);
+        });
     }
 
     // --------------------------------------------------

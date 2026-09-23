@@ -38,6 +38,16 @@ export default class ExamScene extends Phaser.Scene {
 
     create() {
         this.progressManager = new ProgressManager();
+
+        if (this.awardsExperience) {
+            this.progressManager.saveLessonCheckpoint(this.lesson.id, {
+                stage: "exam",
+                sectionIndex: this.lesson.sections.length,
+                battleScore: this.battleScore,
+                battleTotal: this.battleTotal,
+            });
+        }
+
         this.quizManager = new QuizManager(this.lesson.exam);
 
         this.drawBackground();

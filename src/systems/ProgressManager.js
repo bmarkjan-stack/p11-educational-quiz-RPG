@@ -21,6 +21,8 @@ function defaultProgress() {
         character: null,
         characterName: null,
         characterStats: null,
+        lastVisitedLesson: null,
+        lessonCheckpoints: {},
         lessons,
         dailyChallenge: {
             streak: 0,
@@ -177,6 +179,34 @@ export default class ProgressManager {
             damageGained,
             stats: { ...stats },
         };
+    }
+
+    // --- Resume-in-progress lesson tracking (requirements #2, #3, #6) ---
+
+    setLastVisitedLesson(id) {
+        this.progress.lastVisitedLesson = id;
+        this.save();
+    }
+
+    getLastVisitedLesson() {
+        return this.progress.lastVisitedLesson;
+    }
+
+    saveLessonCheckpoint(lessonId, checkpoint) {
+        this.progress.lessonCheckpoints = this.progress.lessonCheckpoints || {};
+        this.progress.lessonCheckpoints[lessonId] = { ...checkpoint };
+        this.save();
+    }
+
+    getLessonCheckpoint(lessonId) {
+        return (this.progress.lessonCheckpoints || {})[lessonId] || null;
+    }
+
+    clearLessonCheckpoint(lessonId) {
+        if (this.progress.lessonCheckpoints && this.progress.lessonCheckpoints[lessonId]) {
+            delete this.progress.lessonCheckpoints[lessonId];
+            this.save();
+        }
     }
 
     getLessonStatus(id) {

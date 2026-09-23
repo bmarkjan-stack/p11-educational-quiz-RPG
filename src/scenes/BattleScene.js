@@ -64,6 +64,16 @@ export default class BattleScene extends Phaser.Scene {
 
     create() {
         this.progressManager = new ProgressManager();
+
+        if (this.awardsExperience) {
+            this.progressManager.saveLessonCheckpoint(this.lesson.id, {
+                stage: "lesson",
+                sectionIndex: this.sectionIndex,
+                battleScore: this.priorBattleScore,
+                battleTotal: this.priorBattleTotal,
+            });
+        }
+
         const section = this.lesson.sections[this.sectionIndex];
         this.isFinalSection = this.sectionIndex === this.lesson.sections.length - 1;
         this.quizManager = new QuizManager(section.quiz);
@@ -217,6 +227,15 @@ export default class BattleScene extends Phaser.Scene {
 
     continueAfterVictory(cumulativeScore, cumulativeTotal) {
         if (this.isFinalSection) {
+            if (this.awardsExperience) {
+                this.progressManager.saveLessonCheckpoint(this.lesson.id, {
+                    stage: "exam",
+                    sectionIndex: this.sectionIndex,
+                    battleScore: cumulativeScore,
+                    battleTotal: cumulativeTotal,
+                });
+            }
+
             this.scene.start("ExamScene", {
                 lesson: this.lesson,
                 character: this.character,
