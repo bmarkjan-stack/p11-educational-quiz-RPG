@@ -68,8 +68,8 @@ export default class CharacterSelectScene extends Phaser.Scene {
 
     // Character Options
     createCharacterOptions() {
-        this.createCharacterCard(485, "male", "MALE");
-        this.createCharacterCard(795, "female", "FEMALE");
+        this.createCharacterCard(485, "male", "MALE", "HP 20  \u2022  DMG 6");
+        this.createCharacterCard(795, "female", "FEMALE", "HP 15  \u2022  DMG 8");
     }
 
     createCharacterCard(x, id, title, description) {
@@ -104,10 +104,10 @@ export default class CharacterSelectScene extends Phaser.Scene {
         
         // Character Description
         const descriptionText = this.add 
-            .text(x, 402, description, { 
-                fontFamily: "Arial", 
-                fontSize: "14px", 
-                color: "#c7d2fe", 
+            .text(x, 420, description, { 
+                fontFamily: "LearnQuest", 
+                fontSize: "13px", 
+                color: "#ffbf75", 
             }) 
             .setOrigin(0.5) 
             .setDepth(4); 
@@ -167,7 +167,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
     // Name Input
     createNameInput() {
         this.nameBox = this.add
-            .image(640, 490, "enter-name")
+            .image(640, 505, "enter-name")
             .setDisplaySize(530, 160)
             .setDepth(2)
             .setInteractive({ 
@@ -175,7 +175,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
             });
 
         this.nameText = this.add
-            .text(640, 510, "Enter your name...", {
+            .text(640, 525, "Enter your name...", {
                 fontFamily: "LearnQuest",
                 fontSize: "26px",
                 color: "#94a3b8",
@@ -328,7 +328,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
     // Buttons
     createButtons() {
         const backButton = new Button(
-            this, 500, 610, "BACK",() => {
+            this, 500, 620, "BACK",() => {
                 this.scene.start("MenuScene");
             },
             { 
@@ -337,7 +337,7 @@ export default class CharacterSelectScene extends Phaser.Scene {
         );
 
         const confirmButton = new Button(
-            this, 780, 610, "CONFIRM", () => {
+            this, 780, 620, "CONFIRM", () => {
                 this.confirmCharacter()
             }, 
             { 

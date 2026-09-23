@@ -1,12 +1,20 @@
 export default class Player {
-    constructor(scene, x, y, character = "male", name = "Adventurer") {
+    constructor(scene, x, y, character = "male", name = "Adventurer", stats = {}) {
         this.scene = scene;
         this.name = name;
         this.character = character;
 
-        this.maxHp = 100;
-        this.hp = 100;
-        this.attackPower = 15;
+        // Stats come from ProgressManager (requirement #4: male = 20hp/6dmg,
+        // female = 15hp/8dmg, growing via the experience system). Fall back
+        // to the base values if no saved stats were provided.
+        const fallback = character === "female"
+            ? { maxHp: 15, attackPower: 8 }
+            : { maxHp: 20, attackPower: 6 };
+
+        this.level = stats.level ?? 1;
+        this.maxHp = stats.maxHp ?? fallback.maxHp;
+        this.hp = this.maxHp;
+        this.attackPower = stats.attackPower ?? fallback.attackPower;
 
         const textureKey = character === "female" ? "player-female" : "player-male";
 

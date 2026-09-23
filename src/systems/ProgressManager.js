@@ -20,6 +20,7 @@ function defaultProgress() {
         version: PROGRESS_VERSION,
         character: null,
         characterName: null,
+        characterStats: null,
         lessons,
         dailyChallenge: {
             streak: 0,
@@ -29,6 +30,17 @@ function defaultProgress() {
         },
     };
 }
+
+// Base stats per character class (requirement: male = 20hp/6dmg, female = 15hp/8dmg).
+const BASE_STATS = {
+    male: { maxHp: 20, attackPower: 6 },
+    female: { maxHp: 15, attackPower: 8 },
+};
+
+// Flat stat growth applied on every level up.
+const HP_PER_LEVEL = 5;
+const ATTACK_PER_LEVEL = 2;
+const XP_PER_LEVEL_BASE = 50;
 
 export default class ProgressManager {
     constructor() {
@@ -90,6 +102,29 @@ export default class ProgressManager {
         };
     }
 
+    createBaseStats(character) {
+        const base = BASE_STATS[character] ?? BASE_STATS.male;
+
+        return {
+            type: character,
+            level: 1,
+            xp: 0,
+            xpToNextLevel: XP_PER_LEVEL_BASE,
+            maxHp: base.maxHp,
+            attackPower: base.attackPower,
+        };
+    }
+
+    getCharacterStats() {
+        if (!this.progress.characterStats) {
+            this.progress.characterStats = this.createBaseStats(
+                this.progress.character || "male"
+            );
+        }
+
+        return this.progress.characterStats;
+    }
+
     getLessonStatus(id) {
         return this.progress.lessons[id] || null;
     }
@@ -120,6 +155,11 @@ export default class ProgressManager {
         if (passed) {
             lesson.completed = true;
             this.recomputeUnlocks();
+
+            // The lesson is finished — there's nothing left to resume.
+            if (this.progress.lessonCheckpoints) {
+                delete this.progress.lessonCheckpoints[id];
+            }
         }
 
         this.save();
