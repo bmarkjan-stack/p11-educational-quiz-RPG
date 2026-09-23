@@ -34,6 +34,7 @@ export default class ExamScene extends Phaser.Scene {
         this.battleScore = data.battleScore ?? 0;
         this.battleTotal = data.battleTotal ?? 0;
         this.awardsExperience = data.awardsExperience ?? true;
+        this.bossPhase = 1;
     }
 
     create() {
@@ -169,6 +170,12 @@ export default class ExamScene extends Phaser.Scene {
                 this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
 
                 if (!this.boss.isAlive()) {
+                    
+                    if (this.lesson.id === CAPSTONE_LESSON && this.bossPhase === 1) {
+                        this.boss.playDefeatAnimation(() => this.startBossPhaseTwo());
+                        return;
+                    }
+                    
                     this.boss.playDefeatAnimation(() => this.finishExam());
                     return;
                 }
@@ -182,6 +189,70 @@ export default class ExamScene extends Phaser.Scene {
                 this.nextQuestion();
             });
         });
+    }
+
+    startBossPhaseTwo() {
+        // The question that just defeated phase 1 was correct — advance
+        // past it (without re-queueing it) before continuing.
+        this.quizManager.next({ repeatCurrent: false });
+
+        this.bossPhase = 2;
+        this.boss.hp = this.boss.maxHp;
+        this.boss.attackPower += 3;
+        this.boss.sprite.setAlpha(1).setScale(this.boss.scale);
+        this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
+
+        this.showPhaseTransition(() => this.nextQuestion());
+    }
+
+    showPhaseTransition(onContinue) {
+        this.sound.stopAll();
+        this.sound.play("bgm-battle", { loop: true, volume: 0.35 });
+
+        const overlay = this.add
+            .rectangle(640, 360, 780, 260, 0x1a0b1f, 0.97)
+            .setStrokeStyle(2, 0xfacc15)
+            .setDepth(10);
+
+        const title = this.add
+            .text(640, 300, "THE FULL-STACK OVERLORD RISES AGAIN!", {
+                fontFamily: "Arial",
+                fontSize: "26px",
+                fontStyle: "bold",
+                color: "#facc15",
+                align: "center",
+                wordWrap: { width: 720 },
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
+        const subtitle = this.add
+            .text(640, 345, "Phase 2 \u2014 the boss has fully healed and hits harder!", {
+                fontFamily: "Arial",
+                fontSize: "17px",
+                color: "#e2e8f0",
+                align: "center",
+                wordWrap: { width: 700 },
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
+        const continueButton = new Button(
+            this,
+            640,
+            410,
+            "CONTINUE",
+            () => {
+                overlay.destroy();
+                title.destroy();
+                subtitle.destroy();
+                continueButton.destroy();
+                onContinue();
+            },
+            { width: 260 }
+        );
+
+        continueButton.setDepth(11);
     }
 
     finishExam() {
