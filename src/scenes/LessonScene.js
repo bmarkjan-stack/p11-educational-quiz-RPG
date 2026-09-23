@@ -25,6 +25,7 @@ export default class LessonScene extends Phaser.Scene {
         this.createContentArea();
         this.createContinueButton();
         this.renderSection();
+        this.createBackButton();
     }
 
     drawBackground() {
@@ -87,12 +88,12 @@ export default class LessonScene extends Phaser.Scene {
             strokeThickness: 3,
         });
 
-        this.sectionContent = this.add.text(220, 295, "", {
+        this.sectionContent = this.add.text(190, 300, "", {
             fontFamily: "IM Fell English",
             fontSize: "21px",
             color: "#f5ead7",
             wordWrap: {
-                width: 840,
+                width: 500,
             },
             lineSpacing: 8,
             shadow: {
@@ -105,12 +106,12 @@ export default class LessonScene extends Phaser.Scene {
             },
         });
 
-        this.exampleText = this.add.text(220, 495, "", {
+        this.exampleText = this.add.text(800, 235, "", {
             fontFamily: "Pixelify Sans",
             fontSize: "17px",
             color: "#93c5fd",
             wordWrap: {
-                width: 840,
+                width: 300,
             },
             lineSpacing: 5,
         });
@@ -119,7 +120,7 @@ export default class LessonScene extends Phaser.Scene {
     createContinueButton() {
         this.continueButton = new Button(
             this,
-            640,
+            840,
             650,
             "",
             () => this.startSectionBattle(),
@@ -171,5 +172,18 @@ export default class LessonScene extends Phaser.Scene {
             battleScore: this.battleScore,
             battleTotal: this.battleTotal,
         });
+    }
+
+    createBackButton() {
+        new Button(
+            this,
+            440,
+            650,
+            "BACK",
+            () => {
+                this.scene.start("LessonSelectScene");
+            },
+            { width: 320 }
+        );
     }
 }
