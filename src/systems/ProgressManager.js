@@ -38,9 +38,9 @@ const BASE_STATS = {
 };
 
 // Flat stat growth applied on every level up.
-const HP_PER_LEVEL = 5;
-const ATTACK_PER_LEVEL = 2;
-const XP_PER_LEVEL_BASE = 50;
+const HP_PER_LEVEL = 3;
+const ATTACK_PER_LEVEL = 1;
+const XP_PER_LEVEL_BASE = 8;
 
 export default class ProgressManager {
     constructor() {
@@ -92,6 +92,14 @@ export default class ProgressManager {
     setCharacter(character, characterName) {
         this.progress.character = character;
         this.progress.characterName = characterName;
+
+        // Only (re)initialize stats when there are none yet, or the
+        // player picked a different class than the one already saved.
+        // Continuing with the same class must never reset level/xp.
+        if (!this.progress.characterStats || this.progress.characterStats.type !== character) {
+            this.progress.characterStats = this.createBaseStats(character);
+        }
+
         this.save();
     }
 
@@ -123,6 +131,52 @@ export default class ProgressManager {
         }
 
         return this.progress.characterStats;
+    }
+
+    // Adds XP to the saved character and levels up (possibly multiple
+    // times) whenever enough XP has been earned. Returns whether a level
+    // up happened and the resulting stats, so scenes can show feedback.
+    addExperience(amount) {
+        const stats = this.getCharacterStats();
+
+        if (!amount || amount <= 0) {
+            return {
+                leveledUp: false,
+                levelsGained: 0,
+                maxHpGained: 0,
+                damageGained: 0,
+                stats: { ...stats },
+            };
+        }
+
+        stats.xp += amount;
+
+        let levelsGained = 0;
+        let maxHpGained = 0;
+        let damageGained = 0;
+
+        while (stats.xp >= stats.xpToNextLevel) {
+            stats.xp -= stats.xpToNextLevel;
+            stats.level += 1;
+            const levelHpGained = HP_PER_LEVEL * stats.level;
+            const levelDamageGained = ATTACK_PER_LEVEL * stats.level;
+            stats.maxHp += levelHpGained;
+            stats.attackPower += levelDamageGained;
+            maxHpGained += levelHpGained;
+            damageGained += levelDamageGained;
+            stats.xpToNextLevel = XP_PER_LEVEL_BASE * stats.level;
+            levelsGained += 1;
+        }
+
+        this.save();
+
+        return {
+            leveledUp: levelsGained > 0,
+            levelsGained,
+            maxHpGained,
+            damageGained,
+            stats: { ...stats },
+        };
     }
 
     getLessonStatus(id) {

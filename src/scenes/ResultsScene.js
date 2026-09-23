@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
+import ExperienceBar from "../ui/ExperienceBar.js";
 import { CAPSTONE_LESSON } from "../systems/curriculum.js";
 
 export default class ResultsScene extends Phaser.Scene {
@@ -21,6 +22,13 @@ export default class ResultsScene extends Phaser.Scene {
             examTotal,
             accuracy,
             passed,
+            awardsExperience,
+            xpGained,
+            leveledUp,
+            newLevel,
+            maxHpGained,
+            damageGained,
+            currentStats,
         } = this.data;
 
         const isCapstoneVictory = lesson.id === CAPSTONE_LESSON && passed;
@@ -65,10 +73,54 @@ export default class ResultsScene extends Phaser.Scene {
             )
             .setOrigin(0.5);
 
+        if (passed) {
+            const xpLine = awardsExperience
+                ? `+${xpGained} XP${leveledUp ? `  \u2014  LEVEL UP! Now Lv. ${newLevel}\nGains: +${maxHpGained} Max HP, +${damageGained} Damage` : ""}`
+                : "No XP gained \u2014 lesson already completed";
+
+            this.add
+                .text(640, 370, xpLine, {
+                    fontFamily: "Arial",
+                    fontSize: "16px",
+                    fontStyle: "bold",
+                    color: awardsExperience ? "#facc15" : "#94a3b8",
+                    align: "center",
+                    wordWrap: { width: 620 },
+                })
+                .setOrigin(0.5);
+
+            const stats = currentStats ?? {};
+            new ExperienceBar(
+                this,
+                460,
+                395,
+                360,
+                18,
+                stats.xp ?? 0,
+                stats.xpToNextLevel ?? 10
+            );
+
+            this.add
+                .text(
+                    820,
+                    395,
+                    `Max HP: ${stats.maxHp ?? "-"}\nDamage: ${stats.attackPower ?? "-"}`,
+                    {
+                        fontFamily: "Arial",
+                        fontSize: "16px",
+                        fontStyle: "bold",
+                        color: "#e2e8f0",
+                        align: "left",
+                        lineSpacing: 6,
+                    }
+                )
+                .setOrigin(0, 0.5);
+        }
+
         this.add
             .text(
                 640,
-                430,
+                460,
                 isCapstoneVictory ? "\u2605 You mastered the full stack! \u2605" : passed ? "\u2605 PASSED \u2605" : "TRY AGAIN",
                 {
                     fontFamily: "Arial",

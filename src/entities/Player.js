@@ -4,9 +4,6 @@ export default class Player {
         this.name = name;
         this.character = character;
 
-        // Stats come from ProgressManager (requirement #4: male = 20hp/6dmg,
-        // female = 15hp/8dmg, growing via the experience system). Fall back
-        // to the base values if no saved stats were provided.
         const fallback = character === "female"
             ? { maxHp: 15, attackPower: 8 }
             : { maxHp: 20, attackPower: 6 };

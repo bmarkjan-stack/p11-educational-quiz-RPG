@@ -2,16 +2,21 @@ import Phaser from "phaser";
 import Player from "../entities/Player.js";
 import Boss from "../entities/Boss.js";
 import HealthBar from "../ui/HealthBar.js";
+import ExperienceBar from "../ui/ExperienceBar.js";
 import QuestionPanel from "../ui/QuestionPanel.js";
 import Button from "../ui/Button.js";
 import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
+import { CAPSTONE_LESSON } from "../systems/curriculum.js";
+
+// Boss challenges award more XP than a regular section quiz (requirement #5).
+const EXAM_XP_REWARD = 50;
 
 const BOSS_BY_LESSON = {
-    "responsive-web-design": { textureKey: "rwd-layout-gremlin", name: "Layout Gremlin", maxHp: 90, attackPower: 7 },
+    "responsive-web-design": { textureKey: "rwd-layout-gremlin", name: "Layout Gremlin", maxHp: 175, attackPower: 7 },
     javascript: { textureKey: "javascript-null-pointer-ooze", name: "Null Pointer Ooze", maxHp: 105, attackPower: 8 },
     "frontend-libraries": { textureKey: "framework-wyrm", name: "Framework Wyrm", maxHp: 140, attackPower: 11 },
-    python: { textureKey: "python-indentation-imp", name: "Indentation Imp", maxHp: 95, attackPower: 7 },
+    python: { textureKey: "python-indentation-imp", name: "Indentation Imp", maxHp: 175, attackPower: 7 },
     "relational-databases": { textureKey: "foreign-key-fiend", name: "Foreign Key Fiend", maxHp: 110, attackPower: 8 },
     "backend-apis": { textureKey: "api-archon", name: "API Archon", maxHp: 145, attackPower: 11 },
     "fullstack-exam": { textureKey: "full-stack-overlord", name: "The Full-Stack Overlord", maxHp: 200, attackPower: 14 },
@@ -28,6 +33,7 @@ export default class ExamScene extends Phaser.Scene {
         this.characterName = data.characterName;
         this.battleScore = data.battleScore ?? 0;
         this.battleTotal = data.battleTotal ?? 0;
+        this.awardsExperience = data.awardsExperience ?? true;
     }
 
     create() {
@@ -38,10 +44,27 @@ export default class ExamScene extends Phaser.Scene {
         this.createCombatants();
         this.createHealthBars();
         this.createHeader();
+        this.createExitButton();
         this.questionPanel = new QuestionPanel(this, 640, 500, 900);
         this.playMusic();
 
         this.time.delayedCall(200, () => this.nextQuestion());
+    }
+
+    createExitButton() {
+        new Button(
+            this,
+            140,
+            68,
+            "EXIT",
+            () => {
+                this.scene.start("LessonSelectScene", {
+                    character: this.character,
+                    characterName: this.characterName,
+                });
+            },
+            { width: 140, height: 40, fontSize: "16px" }
+        );
     }
 
     drawBackground() {
@@ -49,11 +72,12 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     createCombatants() {
-        this.player = new Player(this, 260, 300, this.character, this.characterName);
+        const stats = this.progressManager.getCharacterStats();
+        this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
         const bossConfig = BOSS_BY_LESSON[this.lesson.id] ?? BOSS_BY_LESSON.javascript;
         this.boss = new Boss(this, 1020, 300, bossConfig);
 
-        this.add.text(260, 200, this.characterName, {
+        this.add.text(260, 200, `${this.characterName}  (Lv. ${this.player.level})`, {
             fontFamily: "Arial",
             fontSize: "18px",
             fontStyle: "bold",
@@ -70,6 +94,16 @@ export default class ExamScene extends Phaser.Scene {
 
     createHealthBars() {
         this.playerHealthBar = new HealthBar(this, 130, 230, 260, 24, this.player.maxHp);
+        const stats = this.progressManager.getCharacterStats();
+        this.playerExperienceBar = new ExperienceBar(
+            this,
+            130,
+            268,
+            260,
+            14,
+            stats.xp,
+            stats.xpToNextLevel
+        );
         this.bossHealthBar = new HealthBar(this, 890, 230, 260, 24, this.boss.maxHp);
     }
 
@@ -149,6 +183,13 @@ export default class ExamScene extends Phaser.Scene {
             passed: true,
         });
 
+        // requirement #5: boss challenges grant more XP than a normal
+        // quiz — but only the first time the lesson is completed.
+        const xpResult = this.awardsExperience
+            ? this.progressManager.addExperience(EXAM_XP_REWARD)
+            : null;
+        const currentStats = xpResult?.stats ?? this.progressManager.getCharacterStats();
+
         this.sound.stopAll();
         this.sound.play("bgm-victory", { volume: 0.5 });
 
@@ -162,6 +203,13 @@ export default class ExamScene extends Phaser.Scene {
             examTotal: results.total,
             accuracy: results.accuracy,
             passed: true,
+            awardsExperience: this.awardsExperience,
+            xpGained: this.awardsExperience ? EXAM_XP_REWARD : 0,
+            leveledUp: !!xpResult?.leveledUp,
+            newLevel: xpResult?.stats?.level ?? null,
+            maxHpGained: xpResult?.maxHpGained ?? 0,
+            damageGained: xpResult?.damageGained ?? 0,
+            currentStats,
         });
     }
 
@@ -189,6 +237,7 @@ export default class ExamScene extends Phaser.Scene {
                 characterName: this.characterName,
                 battleScore: this.battleScore,
                 battleTotal: this.battleTotal,
+                awardsExperience: this.awardsExperience,
             });
         }, { width: 220 });
         retryButton.setDepth(11);
@@ -213,6 +262,7 @@ export default class ExamScene extends Phaser.Scene {
                 characterName: this.characterName,
                 battleScore: this.battleScore,
                 battleTotal: this.battleTotal,
+                awardsExperience: this.awardsExperience,
             });
         }, { width: 220 });
         retryButton.setDepth(11);

@@ -2,21 +2,26 @@ import Phaser from "phaser";
 import Player from "../entities/Player.js";
 import Boss from "../entities/Boss.js";
 import HealthBar from "../ui/HealthBar.js";
+import ExperienceBar from "../ui/ExperienceBar.js";
 import QuestionPanel from "../ui/QuestionPanel.js";
 import Button from "../ui/Button.js";
 import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 
+// XP awarded for defeating a section's quiz enemy (requirement #5).
+// Boss challenges (the exam) award more XP — see ExamScene.
+const BATTLE_XP_REWARD = 15;
+
 const ENEMY_ROSTERS = {
     "responsive-web-design": [
-        { textureKey: "rwd-mobile-first-mite", name: "Mobile-First Mite", maxHp: 42, attackPower: 5 },
-        { textureKey: "rwd-breakpoint-beetle", name: "Breakpoint Beetle", maxHp: 42, attackPower: 6 },
-        { textureKey: "rwd-grid-flex-gnat", name: "Grid-Flex Gnat", maxHp: 42, attackPower: 7 },
+        { textureKey: "rwd-mobile-first-mite", name: "Mobile-First Mite", maxHp: 17, attackPower: 5 },
+        { textureKey: "rwd-breakpoint-beetle", name: "Breakpoint Beetle", maxHp: 23, attackPower: 6 },
+        { textureKey: "rwd-grid-flex-gnat", name: "Grid-Flex Gnat", maxHp: 32, attackPower: 7 },
     ],
     javascript: [
-        { textureKey: "javascript-variable-void", name: "Variable Void", maxHp: 42, attackPower: 5 },
-        { textureKey: "javascript-function-fume", name: "Function Fume", maxHp: 42, attackPower: 6 },
-        { textureKey: "javascript-array-abomination", name: "Array Abomination", maxHp: 42, attackPower: 7 },
+        { textureKey: "javascript-variable-void", name: "Variable Void", maxHp: 48, attackPower: 9 },
+        { textureKey: "javascript-function-fume", name: "Function Fume", maxHp: 42, attackPower: 10 },
+        { textureKey: "javascript-array-abomination", name: "Array Abomination", maxHp: 42, attackPower: 11 },
     ],
     python: [
         { textureKey: "python-variable-ghost", name: "Variable Ghost", maxHp: 42, attackPower: 5 },
@@ -24,19 +29,19 @@ const ENEMY_ROSTERS = {
         { textureKey: "python-function-larva", name: "Function Larva", maxHp: 42, attackPower: 7 },
     ],
     "relational-databases": [
-        { textureKey: "database-warden", name: "Database Warden", maxHp: 42, attackPower: 5 },
-        { textureKey: "predicate-sentry", name: "Predicate Sentry", maxHp: 42, attackPower: 6 },
-        { textureKey: "relational-aggregate-twins", name: "Relational Aggregate Twins", maxHp: 42, attackPower: 8 },
+        { textureKey: "database-warden", name: "Database Warden", maxHp: 42, attackPower: 9 },
+        { textureKey: "predicate-sentry", name: "Predicate Sentry", maxHp: 42, attackPower: 10 },
+        { textureKey: "relational-aggregate-twins", name: "Relational Aggregate Twins", maxHp: 42, attackPower: 11 },
     ],
     "backend-apis": [
-        { textureKey: "request-response-pixie", name: "Request/Response Pixie", maxHp: 42, attackPower: 6 },
-        { textureKey: "rest-resource-mimic", name: "REST Resource Mimic", maxHp: 42, attackPower: 7 },
-        { textureKey: "status-code-golem", name: "Status Code Golem", maxHp: 42, attackPower: 8 },
+        { textureKey: "request-response-pixie", name: "Request/Response Pixie", maxHp: 42, attackPower: 13 },
+        { textureKey: "rest-resource-mimic", name: "REST Resource Mimic", maxHp: 42, attackPower: 14 },
+        { textureKey: "status-code-golem", name: "Status Code Golem", maxHp: 42, attackPower: 16 },
     ],
     "frontend-libraries": [
-        { textureKey: "component-wyrmling", name: "Component Wyrmling", maxHp: 42, attackPower: 6 },
-        { textureKey: "data-flow-wyrmling", name: "Data Flow Wyrmling", maxHp: 42, attackPower: 7 },
-        { textureKey: "hook-fiend-wyrmling", name: "Hook Fiend Wyrmling", maxHp: 42, attackPower: 9 },
+        { textureKey: "component-wyrmling", name: "Component Wyrmling", maxHp: 42, attackPower: 13 },
+        { textureKey: "data-flow-wyrmling", name: "Data Flow Wyrmling", maxHp: 42, attackPower: 14 },
+        { textureKey: "hook-fiend-wyrmling", name: "Hook Fiend Wyrmling", maxHp: 42, attackPower: 16 },
     ],
 };
 
@@ -54,11 +59,11 @@ export default class BattleScene extends Phaser.Scene {
         // Cumulative correct/total carried in from earlier section battles in this lesson.
         this.priorBattleScore = data.battleScore ?? 0;
         this.priorBattleTotal = data.battleTotal ?? 0;
+        this.awardsExperience = data.awardsExperience ?? true;
     }
 
     create() {
         this.progressManager = new ProgressManager();
-
         const section = this.lesson.sections[this.sectionIndex];
         this.isFinalSection = this.sectionIndex === this.lesson.sections.length - 1;
         this.quizManager = new QuizManager(section.quiz);
@@ -67,9 +72,25 @@ export default class BattleScene extends Phaser.Scene {
         this.createCombatants(section);
         this.createHealthBars();
         this.createQuestionPanel();
+        this.createExitButton();
         this.playMusic();
-
         this.nextQuestion();
+    }
+
+    createExitButton() {
+        new Button(
+            this,
+            110,
+            53,
+            "EXIT",
+            () => {
+                this.scene.start("LessonSelectScene", {
+                    character: this.character,
+                    characterName: this.characterName,
+                });
+            },
+            { width: 140, height: 40, fontSize: "16px" }
+        );
     }
 
     drawBackground() {
@@ -77,7 +98,8 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     createCombatants(section) {
-        this.player = new Player(this, 260, 300, this.character, this.characterName);
+        const stats = this.progressManager.getCharacterStats();
+        this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
 
         const lessonRoster = ENEMY_ROSTERS[this.lesson.id] ?? ENEMY_ROSTERS["responsive-web-design"];
         const bossConfig = lessonRoster[this.sectionIndex] ?? lessonRoster[0];
@@ -85,8 +107,8 @@ export default class BattleScene extends Phaser.Scene {
         this.boss = new Boss(this, 1020, 300, bossConfig);
 
         this.add
-            .text(260, 200, this.characterName, {
-                fontFamily: "Arial",
+            .text(260, 150, `${this.characterName}  (Lv. ${this.player.level})`, {
+                fontFamily: "LearnQuest",
                 fontSize: "18px",
                 fontStyle: "bold",
                 color: "#ffffff",
@@ -94,8 +116,8 @@ export default class BattleScene extends Phaser.Scene {
             .setOrigin(0.5);
 
         this.add
-            .text(1020, 200, this.boss.name, {
-                fontFamily: "Arial",
+            .text(1020, 130, this.boss.name, {
+                fontFamily: "LearnQuest",
                 fontSize: "18px",
                 fontStyle: "bold",
                 color: "#ffffff",
@@ -104,8 +126,13 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     createHealthBars() {
-        this.playerHealthBar = new HealthBar(this, 130, 230, 260, 24, this.player.maxHp);
-        this.bossHealthBar = new HealthBar(this, 890, 230, 260, 24, this.boss.maxHp);
+        this.playerHealthBar = new HealthBar(this, 130, 180, 260, 24, this.player.maxHp);
+        this.playerExperienceBar = new ExperienceBar(
+            this, 130, 206, 260, 14,
+            this.progressManager.getCharacterStats().xp,
+            this.progressManager.getCharacterStats().xpToNextLevel
+        );
+        this.bossHealthBar = new HealthBar(this, 890, 160, 260, 24, this.boss.maxHp);
     }
 
     createQuestionPanel() {
@@ -173,6 +200,16 @@ export default class BattleScene extends Phaser.Scene {
         const cumulativeTotal = this.priorBattleTotal + results.total;
 
         this.progressManager.recordBattleResult(this.lesson.id, cumulativeScore);
+
+        // requirement #5: quizzes grant normal XP, but only while the
+        // lesson hasn't already been completed by this character.
+        this.xpResult = this.awardsExperience
+            ? this.progressManager.addExperience(BATTLE_XP_REWARD)
+            : null;
+
+        const currentStats = this.xpResult?.stats ?? this.progressManager.getCharacterStats();
+        this.playerExperienceBar.setExperience(currentStats.xp, currentStats.xpToNextLevel);
+
         this.sound.stopAll();
 
         this.showVictory(() => this.continueAfterVictory(cumulativeScore, cumulativeTotal));
@@ -186,6 +223,7 @@ export default class BattleScene extends Phaser.Scene {
                 characterName: this.characterName,
                 battleScore: cumulativeScore,
                 battleTotal: cumulativeTotal,
+                awardsExperience: this.awardsExperience,
             });
         } else {
             this.scene.start("LessonScene", {
@@ -195,18 +233,19 @@ export default class BattleScene extends Phaser.Scene {
                 sectionIndex: this.sectionIndex + 1,
                 battleScore: cumulativeScore,
                 battleTotal: cumulativeTotal,
+                awardsExperience: this.awardsExperience,
             });
         }
     }
 
     showVictory(onContinue) {
         const overlay = this.add
-            .rectangle(640, 360, 760, 360, 0x07130d, 0.97)
+            .rectangle(640, 350, 760, 430, 0x07130d, 0.97)
             .setStrokeStyle(2, 0x22c55e)
             .setDepth(10);
 
         this.add
-            .text(640, 265, "VICTORY!", {
+            .text(640, 215, "VICTORY!", {
                 fontFamily: "Arial",
                 fontSize: "34px",
                 fontStyle: "bold",
@@ -216,7 +255,7 @@ export default class BattleScene extends Phaser.Scene {
             .setDepth(11);
 
         this.add
-            .text(640, 315, `${this.boss.name} has been defeated!`, {
+            .text(640, 265, `${this.boss.name} has been defeated!`, {
                 fontFamily: "Arial",
                 fontSize: "22px",
                 color: "#ffffff",
@@ -226,10 +265,53 @@ export default class BattleScene extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(11);
 
+        const xpText = this.awardsExperience
+            ? `+${BATTLE_XP_REWARD} XP${this.xpResult?.leveledUp ? `  \u2014  LEVEL UP! Now Lv. ${this.xpResult.stats.level}` : ""}`
+            : "No XP gained \u2014 lesson already completed";
+
+        this.add
+            .text(640, 305, xpText, {
+                fontFamily: "Arial",
+                fontSize: "17px",
+                fontStyle: "bold",
+                color: this.awardsExperience ? "#facc15" : "#94a3b8",
+                align: "center",
+                wordWrap: { width: 650 },
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
+        const stats = this.xpResult?.stats ?? this.progressManager.getCharacterStats();
+        const levelUpText = this.xpResult?.leveledUp
+            ? `\nLevel gains: +${this.xpResult.maxHpGained} Max HP, +${this.xpResult.damageGained} Damage`
+            : "";
+        const experienceBar = new ExperienceBar(
+            this,
+            460,
+            350,
+            360,
+            18,
+            stats.xp,
+            stats.xpToNextLevel
+        );
+        [experienceBar.background, experienceBar.fill, experienceBar.label].forEach((item) =>
+            item.setDepth(11)
+        );
+
+        this.add
+            .text(640, 390, `Max HP: ${stats.maxHp}    Damage: ${stats.attackPower}${levelUpText}`, {
+                fontFamily: "Arial",
+                fontSize: "16px",
+                fontStyle: "bold",
+                color: "#e2e8f0",
+            })
+            .setOrigin(0.5)
+            .setDepth(11);
+
         const continueButton = new Button(
             this,
             640,
-            390,
+            455,
             "CONTINUE",
             onContinue,
             { width: 280 }
@@ -238,7 +320,7 @@ export default class BattleScene extends Phaser.Scene {
         const exitButton = new Button(
             this,
             640,
-            465,
+            520,
             "EXIT TO LESSON SELECT",
             () => {
                 this.scene.start("LessonSelectScene", {
@@ -300,6 +382,7 @@ export default class BattleScene extends Phaser.Scene {
                     sectionIndex: this.sectionIndex,
                     battleScore: this.priorBattleScore,
                     battleTotal: this.priorBattleTotal,
+                    awardsExperience: this.awardsExperience,
                 });
             },
             { width: 220 }
@@ -341,6 +424,7 @@ export default class BattleScene extends Phaser.Scene {
                     sectionIndex: this.sectionIndex,
                     battleScore: this.priorBattleScore,
                     battleTotal: this.priorBattleTotal,
+                    awardsExperience: this.awardsExperience,
                 });
             },
             { width: 220 }
