@@ -15,7 +15,7 @@ const BATTLE_XP_REWARD = 15;
 const ENEMY_ROSTERS = {
     "responsive-web-design": [
         { textureKey: "rwd-mobile-first-mite", name: "Mobile-First Mite", maxHp: 17, attackPower: 5 },
-        { textureKey: "rwd-breakpoint-beetle", name: "Breakpoint Beetle", maxHp: 23, attackPower: 6 },
+        { textureKey: "rwd-breakpoint-beetle", name: "Breakpoint Beetle", maxHp: 18, attackPower: 6 },
         { textureKey: "rwd-grid-flex-gnat", name: "Grid-Flex Gnat", maxHp: 32, attackPower: 7 },
     ],
     javascript: [
@@ -302,7 +302,11 @@ export default class BattleScene extends Phaser.Scene {
 
         const stats = this.xpResult?.stats ?? this.progressManager.getCharacterStats();
         const levelUpText = this.xpResult?.leveledUp
-            ? `\nLevel gains: +${this.xpResult.maxHpGained} Max HP, +${this.xpResult.damageGained} Damage`
+            ? [
+                  "                 (Previous)    Gain    (New)",
+                  `Max HP:          ${String(stats.maxHp - this.xpResult.maxHpGained).padStart(3)}        +${String(this.xpResult.maxHpGained).padStart(2)}      ${String(stats.maxHp).padStart(3)}`,
+                  `Damage:          ${String(stats.attackPower - this.xpResult.damageGained).padStart(3)}        +${String(this.xpResult.damageGained).padStart(2)}      ${String(stats.attackPower).padStart(3)}`,
+              ].join("\n")
             : "";
         const experienceBar = new ExperienceBar(
             this,
@@ -317,15 +321,39 @@ export default class BattleScene extends Phaser.Scene {
             item.setDepth(11)
         );
 
-        this.add
-            .text(640, 390, `Max HP: ${stats.maxHp}    Damage: ${stats.attackPower}${levelUpText}`, {
-                fontFamily: "Arial",
-                fontSize: "16px",
-                fontStyle: "bold",
-                color: "#e2e8f0",
-            })
-            .setOrigin(0.5)
-            .setDepth(11);
+        if (this.xpResult?.leveledUp) {
+            const previousText = `\nMax HP: ${stats.maxHp - this.xpResult.maxHpGained}\nDamage: ${stats.attackPower - this.xpResult.damageGained}`;
+            const gainText = `\n+${this.xpResult.maxHpGained}\n+${this.xpResult.damageGained}`;
+            const newText = `\n${stats.maxHp}\n${stats.attackPower}`;
+
+            [
+                [570, previousText, "#e2e8f0"],
+                [670, gainText, "#4ade80"],
+                [735, newText, "#67e8f9"],
+            ].forEach(([x, text, color]) => {
+                this.add
+                    .text(x, 390, text, {
+                        fontFamily: "monospace",
+                        fontSize: "16px",
+                        fontStyle: "bold",
+                        color,
+                        align: "center",
+                        lineSpacing: 4,
+                    })
+                    .setOrigin(0.5)
+                    .setDepth(11);
+            });
+        } else {
+            this.add
+                .text(640, 390, `Max HP: ${stats.maxHp}    Damage: ${stats.attackPower}`, {
+                    fontFamily: "Arial",
+                    fontSize: "16px",
+                    fontStyle: "bold",
+                    color: "#e2e8f0",
+                })
+                .setOrigin(0.5)
+                .setDepth(11);
+        }
 
         const continueButton = new Button(
             this,
