@@ -22,6 +22,52 @@ const BOSS_BY_LESSON = {
     "fullstack-exam": { textureKey: "full-stack-overlord", name: "The Full-Stack Overlord", difficulty: 1, fullStack: true },
 };
 
+const FULLSTACK_BOSSES = [
+    {
+        textureKey: "rwd-layout-gremlin",
+        name: "Layout Gremlin",
+        phaseTwoTextureKey: "second-phase-layout",
+        phaseTwoName: "Grimrgid, Lord of Broken Layouts",
+    },
+    {
+        textureKey: "python-indentation-imp",
+        name: "Indentation Imp",
+        phaseTwoTextureKey: "second-phase-indentation",
+        phaseTwoName: "Indentrix, the Misaligned",
+    },
+    {
+        textureKey: "javascript-null-pointer-ooze",
+        name: "Null-Pointer Ooze",
+        phaseTwoTextureKey: "second-phase-pointer",
+        phaseTwoName: "Nullmire, the Pointer Eater",
+    },
+    {
+        textureKey: "foreign-key-fiend",
+        name: "Foreign Key Fiend",
+        phaseTwoTextureKey: "second-phase-relations",
+        phaseTwoName: "Keybane, Devourer of Broken Relations",
+    },
+    {
+        textureKey: "framework-wyrm",
+        name: "Framework Wyrm",
+        phaseTwoTextureKey: "second-phase-library",
+        phaseTwoName: "Wyrmframe, the Library Devourer",
+    },
+    {
+        textureKey: "api-archon",
+        name: "The API Archon",
+        phaseTwoTextureKey: "second-phase-backend",
+        phaseTwoName: "Apocalypt, Lord of the Backend",
+    },
+    {
+        textureKey: "full-stack-overlord",
+        name: "Cyberpunk Dragon Overlord",
+        phaseTwoTextureKey: "second-phase-final",
+        phaseTwoName: "Draconis Prime, Cyberpunk Full-Stack Dragon Overlord",
+        finalBoss: true,
+    },
+];
+
 export default class ExamScene extends Phaser.Scene {
     constructor() {
         super("ExamScene");
@@ -34,7 +80,10 @@ export default class ExamScene extends Phaser.Scene {
         this.battleScore = data.battleScore ?? 0;
         this.battleTotal = data.battleTotal ?? 0;
         this.awardsExperience = data.awardsExperience ?? true;
-        this.bossPhase = 1;
+        this.bossPhase = data.bossPhase ?? 1;
+        this.examSectionIndex = data.examSectionIndex ?? 0;
+        this.examCorrect = data.examCorrect ?? 0;
+        this.examTotal = data.examTotal ?? 0;
     }
 
     create() {
@@ -46,10 +95,14 @@ export default class ExamScene extends Phaser.Scene {
                 sectionIndex: this.lesson.sections.length,
                 battleScore: this.battleScore,
                 battleTotal: this.battleTotal,
+                examSectionIndex: this.examSectionIndex,
+                bossPhase: this.bossPhase,
+                examCorrect: this.examCorrect,
+                examTotal: this.examTotal,
             });
         }
 
-        this.quizManager = new QuizManager(this.lesson.exam);
+        this.quizManager = new QuizManager(this.getExamQuestions());
 
         this.drawBackground();
         this.createCombatants();
@@ -85,11 +138,13 @@ export default class ExamScene extends Phaser.Scene {
     createCombatants() {
         const stats = this.progressManager.getCharacterStats();
         this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
-        const baseBossConfig = BOSS_BY_LESSON[this.lesson.id] ?? BOSS_BY_LESSON.javascript;
-        const bossConfig = this.progressManager.scaleEnemyStats(baseBossConfig, {
-            isBoss: true,
-            isFinalBoss: this.lesson.id === CAPSTONE_LESSON,
-        });
+        const baseBossConfig = this.getBaseBossConfig();
+        const bossConfig = this.isFullStackExam()
+            ? this.progressManager.scaleFullStackBossStats(baseBossConfig, this.getPhaseHitTarget())
+            : this.progressManager.scaleEnemyStats(baseBossConfig, {
+                isBoss: true,
+                isFinalBoss: false,
+            });
         this.boss = new Boss(this, 1020, 300, bossConfig);
 
         this.add.text(260, 200, `${this.characterName}  (Lv. ${this.player.level})`, {
@@ -99,12 +154,51 @@ export default class ExamScene extends Phaser.Scene {
             color: "#ffffff",
         }).setOrigin(0.5);
 
-        this.add.text(1020, 200, this.boss.name, {
+        this.bossNameLabel = this.add.text(1020, 200, this.boss.name, {
             fontFamily: "Arial",
             fontSize: "18px",
             fontStyle: "bold",
             color: "#ffffff",
         }).setOrigin(0.5);
+    }
+
+    isFullStackExam() {
+        return this.lesson.id === CAPSTONE_LESSON;
+    }
+
+    getExamQuestions() {
+        const questions = this.isFullStackExam()
+            ? this.lesson.sections[this.examSectionIndex]?.exam ?? this.lesson.exam
+            : this.lesson.exam;
+
+        if (this.isFullStackExam()) {
+            const copies = Math.ceil(this.getPhaseHitTarget() / questions.length);
+            return Array.from({ length: copies }, () => questions).flat();
+        }
+
+        return questions;
+    }
+
+    getBaseBossConfig() {
+        if (this.isFullStackExam()) {
+            const boss = FULLSTACK_BOSSES[this.examSectionIndex];
+            return this.bossPhase === 2
+                ? {
+                      ...boss,
+                      textureKey: boss.phaseTwoTextureKey,
+                      name: boss.phaseTwoName,
+                  }
+                : boss;
+        }
+
+        return BOSS_BY_LESSON[this.lesson.id] ?? BOSS_BY_LESSON.javascript;
+    }
+
+    getPhaseHitTarget() {
+        const boss = FULLSTACK_BOSSES[this.examSectionIndex];
+        return boss?.finalBoss
+            ? this.bossPhase === 1 ? 15 : 30
+            : this.bossPhase === 1 ? 5 : 12;
     }
 
     createHealthBars() {
@@ -174,12 +268,11 @@ export default class ExamScene extends Phaser.Scene {
                 this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
 
                 if (!this.boss.isAlive()) {
-                    
-                    if (this.lesson.id === CAPSTONE_LESSON && this.bossPhase === 1) {
-                        this.boss.playDefeatAnimation(() => this.startBossPhaseTwo());
+                    if (this.isFullStackExam()) {
+                        this.boss.playDefeatAnimation(() => this.handleFullStackBossDefeat());
                         return;
                     }
-                    
+
                     this.boss.playDefeatAnimation(() => this.finishExam());
                     return;
                 }
@@ -196,20 +289,107 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     startBossPhaseTwo() {
-        // The question that just defeated phase 1 was correct — advance
-        // past it (without re-queueing it) before continuing.
-        this.quizManager.next({ repeatCurrent: false });
-
+        // Each phase starts a fresh question pool so the hit target is reachable.
         this.bossPhase = 2;
-        this.boss.hp = this.boss.maxHp;
-        this.boss.attackPower += 3;
-        this.boss.sprite.setAlpha(1).setScale(this.boss.scale);
+        this.saveFullStackCheckpoint();
+        this.quizManager = new QuizManager(this.getExamQuestions());
+        const phaseTwoConfig = this.progressManager.scaleFullStackBossStats(
+            this.getBaseBossConfig(),
+            this.getPhaseHitTarget()
+        );
+        this.boss.transform(phaseTwoConfig);
+        this.bossNameLabel.setText(this.boss.name);
         this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
 
-        this.showPhaseTransition(() => this.nextQuestion());
+        this.showPhaseTransition(
+            `PHASE 2: ${this.boss.name.toUpperCase()}`,
+            "The boss has transformed and returned stronger.",
+            () => this.nextQuestion()
+        );
     }
 
-    showPhaseTransition(onContinue) {
+    handleFullStackBossDefeat() {
+        this.recordCurrentExamResults();
+
+        if (this.bossPhase === 1) {
+            this.startBossPhaseTwo();
+            return;
+        }
+
+        if (this.examSectionIndex < FULLSTACK_BOSSES.length - 1) {
+            this.startNextFullStackLesson();
+            return;
+        }
+
+        this.finishExam();
+    }
+
+    recordCurrentExamResults() {
+        const results = this.quizManager.getResults();
+        this.examCorrect += results.correct;
+        this.examTotal += results.total;
+    }
+
+    saveFullStackCheckpoint() {
+        if (!this.awardsExperience || !this.isFullStackExam()) return;
+
+        this.progressManager.saveLessonCheckpoint(this.lesson.id, {
+            stage: "exam",
+            sectionIndex: this.lesson.sections.length,
+            battleScore: this.battleScore,
+            battleTotal: this.battleTotal,
+            examSectionIndex: this.examSectionIndex,
+            bossPhase: this.bossPhase,
+            examCorrect: this.examCorrect,
+            examTotal: this.examTotal,
+        });
+    }
+
+    startNextFullStackLesson() {
+        this.progressManager.saveLessonCheckpoint(this.lesson.id, {
+            stage: "lesson",
+            sectionIndex: this.examSectionIndex + 1,
+            battleScore: this.battleScore,
+            battleTotal: this.battleTotal,
+            examCorrect: this.examCorrect,
+            examTotal: this.examTotal,
+        });
+
+        this.scene.start("LessonScene", {
+            lesson: this.lesson,
+            character: this.character,
+            characterName: this.characterName,
+            sectionIndex: this.examSectionIndex + 1,
+            battleScore: this.battleScore,
+            battleTotal: this.battleTotal,
+            awardsExperience: this.awardsExperience,
+            examCorrect: this.examCorrect,
+            examTotal: this.examTotal,
+        });
+    }
+
+    startNextFullStackBoss() {
+        this.examSectionIndex += 1;
+        this.bossPhase = 1;
+        this.saveFullStackCheckpoint();
+        this.quizManager = new QuizManager(this.getExamQuestions());
+
+        const bossConfig = this.progressManager.scaleFullStackBossStats(
+            this.getBaseBossConfig(),
+            this.getPhaseHitTarget()
+        );
+        this.boss.transform(bossConfig);
+        this.bossNameLabel.setText(this.boss.name);
+        this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
+
+        this.showPhaseTransition(
+            `NEXT BOSS: ${this.boss.name.toUpperCase()}`,
+            "A new full-stack challenge approaches.",
+            () => this.nextQuestion()
+        );
+    }
+
+    showPhaseTransition(titleText, subtitleText, onContinue) {
         this.sound.stopAll();
         this.sound.play("bgm-battle", { loop: true, volume: 0.35 });
 
@@ -219,7 +399,7 @@ export default class ExamScene extends Phaser.Scene {
             .setDepth(10);
 
         const title = this.add
-            .text(640, 300, "THE FULL-STACK OVERLORD RISES AGAIN!", {
+            .text(640, 300, titleText, {
                 fontFamily: "Arial",
                 fontSize: "26px",
                 fontStyle: "bold",
@@ -231,7 +411,7 @@ export default class ExamScene extends Phaser.Scene {
             .setDepth(11);
 
         const subtitle = this.add
-            .text(640, 345, "Phase 2 \u2014 the boss has fully healed and hits harder!", {
+            .text(640, 345, subtitleText, {
                 fontFamily: "Arial",
                 fontSize: "17px",
                 color: "#e2e8f0",
@@ -260,7 +440,15 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     finishExam() {
-        const results = this.quizManager.getResults();
+        const results = this.isFullStackExam()
+            ? {
+                  correct: this.examCorrect,
+                  total: this.examTotal,
+                  accuracy: this.examTotal === 0
+                      ? 0
+                      : Math.round((this.examCorrect / this.examTotal) * 100),
+              }
+            : this.quizManager.getResults();
 
         this.progressManager.markLessonComplete(this.lesson.id, {
             examScore: results.correct,

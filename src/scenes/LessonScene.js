@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
 import ProgressManager from "../systems/ProgressManager.js";
+import { CAPSTONE_LESSON } from "../systems/curriculum.js";
 
 export default class LessonScene extends Phaser.Scene {
     constructor() {
@@ -18,6 +19,8 @@ export default class LessonScene extends Phaser.Scene {
         // fought so far in this lesson attempt.
         this.battleScore = data.battleScore ?? 0;
         this.battleTotal = data.battleTotal ?? 0;
+        this.examCorrect = data.examCorrect ?? 0;
+        this.examTotal = data.examTotal ?? 0;
     }
 
     create() {
@@ -41,6 +44,8 @@ export default class LessonScene extends Phaser.Scene {
             sectionIndex: this.sectionIndex,
             battleScore: this.battleScore,
             battleTotal: this.battleTotal,
+            examCorrect: this.examCorrect,
+            examTotal: this.examTotal,
         });
     }
 
@@ -172,18 +177,28 @@ export default class LessonScene extends Phaser.Scene {
         this.exampleText.setVisible(examples.length > 0);
 
         this.continueButton.setText(
-            "START SECTION QUIZ"
+            this.lesson.id === CAPSTONE_LESSON
+                ? "START SECTION EXAM"
+                : "START SECTION QUIZ"
         );
     }
 
     startSectionBattle() {
-        this.scene.start("BattleScene", {
+        const sceneKey = this.lesson.id === CAPSTONE_LESSON
+            ? "ExamScene"
+            : "BattleScene";
+
+        this.scene.start(sceneKey, {
             lesson: this.lesson,
             character: this.character,
             characterName: this.characterName,
             sectionIndex: this.sectionIndex,
             battleScore: this.battleScore,
             battleTotal: this.battleTotal,
+            awardsExperience: this.awardsExperience,
+            examSectionIndex: this.sectionIndex,
+            examCorrect: this.examCorrect,
+            examTotal: this.examTotal,
         });
     }
 

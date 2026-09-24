@@ -16,11 +16,21 @@ export default class Boss {
         this.maxHp = maxHp;
         this.hp = maxHp;
         this.attackPower = attackPower;
+        this.scale = scale;
 
         this.sprite = scene.add.sprite(x, y, textureKey).setOrigin(0.5).setScale(scale);
 
         this.baseX = x;
         this.baseY = y;
+    }
+
+    transform({ textureKey, name, maxHp, attackPower, scale = this.scale }) {
+        this.name = name;
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+        this.attackPower = attackPower;
+        this.scale = scale;
+        this.sprite.setTexture(textureKey).setAlpha(1).setScale(scale);
     }
 
     attack(target) {

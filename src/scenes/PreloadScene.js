@@ -66,7 +66,16 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("framework-wyrm", "assets/images/characters/enemies/03-frontend-libraries/boss-framework-wyrm.png");
 
         // Full-Stack boss; regular enemies will be added with the full-stack roster.
-        this.load.image("full-stack-overlord", "assets/images/characters/enemies/04-full-stack/04-the-full-stack-overload.png");
+        this.load.image("full-stack-overlord", "assets/images/characters/enemies/04-full-stack/04-cyberpunk-dragon-overlord.png");
+
+        // Full-Stack second-phase bosses
+        this.load.image("second-phase-layout", "assets/images/characters/enemies/05-second-phase/01%20Grimgrid,%20Lord%20of%20Broken%20Layouts.png");
+        this.load.image("second-phase-indentation", "assets/images/characters/enemies/05-second-phase/01%20Indentrix,%20the%20Misaligned.png");
+        this.load.image("second-phase-relations", "assets/images/characters/enemies/05-second-phase/02%20Keybane,%20Devourer%20of%20Broken%20Relations.png");
+        this.load.image("second-phase-pointer", "assets/images/characters/enemies/05-second-phase/02%20Nullmire,%20the%20Pointer%20Eater.png");
+        this.load.image("second-phase-backend", "assets/images/characters/enemies/05-second-phase/03%20Apoocalypt,%20Lord%20of%20the%20Backends.png");
+        this.load.image("second-phase-library", "assets/images/characters/enemies/05-second-phase/03%20Wyrmframe,%20the%20Library%20Devourer.png");
+        this.load.image("second-phase-final", "assets/images/characters/enemies/05-second-phase/04%20Draconis%20Prime,%20Cyberpunk%20Full-Stack%20Dragon%20Overlord.png");
 
         // Music
         this.load.audio("bgm-menu", encodeURI("assets/audio/Music/Main Menu - Rising Sun - DivKid.mp3"));

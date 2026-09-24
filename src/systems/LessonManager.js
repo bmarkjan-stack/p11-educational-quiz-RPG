@@ -40,16 +40,20 @@ export default class LessonManager {
         }
 
         lesson.sections.forEach((section, sectionIndex) => {
-            if (!Array.isArray(section.quiz) || section.quiz.length === 0) {
+            const sectionQuestions = lesson.id === "fullstack-exam"
+                ? section.exam
+                : section.quiz;
+
+            if (!Array.isArray(sectionQuestions) || sectionQuestions.length === 0) {
                 throw new Error(
-                    `Section ${sectionIndex} ("${section.id}") in "${lesson.id}" must have its own quiz.`
+                    `Section ${sectionIndex} ("${section.id}") in "${lesson.id}" must have its own quiz or exam.`
                 );
             }
 
-            section.quiz.forEach((question, questionIndex) =>
+            sectionQuestions.forEach((question, questionIndex) =>
                 this.validateQuestion(
                     question,
-                    `${lesson.id} / section "${section.id}" / quiz question ${questionIndex}`
+                    `${lesson.id} / section "${section.id}" / exam question ${questionIndex}`
                 )
             );
         });
@@ -90,7 +94,8 @@ export default class LessonManager {
     }
 
     getSectionQuiz(sectionIndex) {
-        return this.activeLesson?.sections?.[sectionIndex]?.quiz ?? [];
+        const section = this.activeLesson?.sections?.[sectionIndex];
+        return section?.quiz ?? section?.exam ?? [];
     }
 
     getExam() {

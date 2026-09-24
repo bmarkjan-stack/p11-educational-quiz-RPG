@@ -8,7 +8,7 @@ const CENTER_X = 640;
 const CENTER_Y = 360;
 
 const DEPTH_NODE = 1;
-const DEPTH_CLOUD = 100; // clouds always render above everything else
+const DEPTH_CLOUD = 10; // clouds always render above everything else
 
 /*
  * Every PNG is authored for a 1280x720 canvas, so each one is simply
@@ -493,6 +493,10 @@ export default class LessonSelectScene extends Phaser.Scene {
                     ...basePayload,
                     battleScore: checkpoint.battleScore ?? 0,
                     battleTotal: checkpoint.battleTotal ?? 0,
+                    examSectionIndex: checkpoint.examSectionIndex ?? 0,
+                    bossPhase: checkpoint.bossPhase ?? 1,
+                    examCorrect: checkpoint.examCorrect ?? 0,
+                    examTotal: checkpoint.examTotal ?? 0,
                 });
                 return;
             }

@@ -184,6 +184,19 @@ export default class ProgressManager {
         };
     }
 
+    scaleFullStackBossStats(enemyConfig, hitsToDefeat) {
+        const stats = this.getCharacterStats();
+
+        return {
+            ...enemyConfig,
+            maxHp: stats.attackPower * Math.max(1, hitsToDefeat - 1) + 1,
+            attackPower: Math.max(
+                1,
+                Math.ceil(stats.maxHp * BOSS_DAMAGE_MULTIPLIER)
+            ),
+        };
+    }
+
     // Adds XP to the saved character and levels up (possibly multiple
     // times) whenever enough XP has been earned. Returns whether a level
     // up happened and the resulting stats, so scenes can show feedback.

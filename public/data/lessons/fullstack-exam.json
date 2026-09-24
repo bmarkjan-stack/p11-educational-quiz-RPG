@@ -13,34 +13,418 @@
                 "display: flex;",
                 "grid-template-columns: repeat(2, 1fr);"
             ],
-            "quiz": [
+            "exam": [
                 {
-                    "question": "What is the main goal of responsive web design?",
+                    "question": "What does responsive design allow a webpage to do?",
                     "choices": [
-                        "To make a website adapt to different screen sizes",
-                        "To make every website use the same font",
-                        "To prevent websites from working on mobile devices",
-                        "To remove CSS from a website"
+                        "Load faster",
+                        "Adapt to different screen sizes",
+                        "Use more colors",
+                        "Skip CSS"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does mobile-first design mean?",
+                    "choices": [
+                        "Only creating websites for mobile devices",
+                        "Designing for small screens first and then enhancing for larger screens",
+                        "Designing for desktop first",
+                        "Testing mobile layouts only after deployment"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Why is responsive design important?",
+                    "choices": [
+                        "It allows layouts to work across different screen sizes",
+                        "It eliminates the need for HTML",
+                        "It makes JavaScript unnecessary",
+                        "It prevents users from resizing their browser"
                     ],
                     "answer": 0
                 },
                 {
-                    "question": "What does the viewport meta tag help control?",
+                    "question": "What is the purpose of the viewport meta tag?",
                     "choices": [
-                        "How a page is scaled and displayed on mobile devices",
-                        "Which database the website uses",
-                        "Which JavaScript function runs first",
-                        "How API requests are authenticated"
+                        "To define CSS animations",
+                        "To control how the webpage is scaled and displayed on devices",
+                        "To load external stylesheets",
+                        "To create breakpoints automatically"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does `width=device-width` mean in the viewport meta tag?",
+                    "choices": [
+                        "Use a fixed width of 768 pixels",
+                        "Match the viewport width to the device's CSS width",
+                        "Use the physical width of the device in inches",
+                        "Set the page width to 1000 pixels"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What is a media query?",
+                    "choices": [
+                        "A JavaScript event",
+                        "A CSS mechanism for applying styles under specific conditions",
+                        "An HTML attribute",
+                        "A browser extension"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What is a breakpoint?",
+                    "choices": [
+                        "A point where JavaScript stops running",
+                        "A screen condition where responsive styles can change",
+                        "A CSS syntax error",
+                        "A browser rendering failure"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which media query applies styles when the viewport is at least 768 pixels wide?",
+                    "choices": [
+                        "@media (max-width: 768px)",
+                        "@media (min-width: 768px)",
+                        "@media (width: 768px)",
+                        "@media (screen-width: 768px)"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What can media queries change at different breakpoints?",
+                    "choices": [
+                        "Only HTML structure",
+                        "Only JavaScript variables",
+                        "Layout, font size, spacing, and other CSS properties",
+                        "Only image file formats"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Why are media queries useful in responsive web design?",
+                    "choices": [
+                        "They allow different styles for different screen conditions",
+                        "They remove the need for CSS",
+                        "They automatically create databases",
+                        "They prevent webpages from loading on mobile devices"
                     ],
                     "answer": 0
                 },
                 {
-                    "question": "Which CSS feature can apply styles based on screen width?",
+                    "question": "Which CSS feature arranges elements primarily along one direction?",
                     "choices": [
-                        "@media",
-                        "@font-face",
-                        "@import",
-                        "@keyframes"
+                        "CSS Grid",
+                        "Flexbox",
+                        "Table layout",
+                        "Float"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which CSS layout system is best suited for two-dimensional layouts?",
+                    "choices": [
+                        "Flexbox",
+                        "CSS Grid",
+                        "Inline layout",
+                        "Float"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which property enables Flexbox?",
+                    "choices": [
+                        "position: flex;",
+                        "display: flex;",
+                        "layout: flex;",
+                        "flex: display;"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which Flexbox property distributes space along the main axis?",
+                    "choices": [
+                        "align-items",
+                        "justify-content",
+                        "flex-wrap",
+                        "order"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which property defines the columns in a CSS Grid layout?",
+                    "choices": [
+                        "grid-template-columns",
+                        "grid-column-gap",
+                        "grid-flow",
+                        "grid-area"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which unit is relative to the viewport width?",
+                    "choices": [
+                        "px",
+                        "em",
+                        "vw",
+                        "pt"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which unit is relative to the root element's font size?",
+                    "choices": [
+                        "em",
+                        "rem",
+                        "vw",
+                        "px"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Why can relative units be useful in responsive layouts?",
+                    "choices": [
+                        "They can scale more flexibly than fixed pixel values",
+                        "They completely eliminate CSS",
+                        "They make every element the same size",
+                        "They only work on desktop screens"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which declaration creates a three-column CSS Grid using equal fractional widths?",
+                    "choices": [
+                        "grid-template-columns: repeat(3, 1fr);",
+                        "grid-columns: 3px;",
+                        "grid-template: 3 columns;",
+                        "columns: repeat(3, px);"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which approach combines responsive design concepts most effectively?",
+                    "choices": [
+                        "Use only fixed pixel widths",
+                        "Use mobile-first design, media queries, and flexible layout systems",
+                        "Use desktop-only styles",
+                        "Avoid relative units completely"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "id": "python-review",
+            "title": "Python Fundamentals Review",
+            "content": "Python is a dynamically typed programming language. Variables can store values such as integers, floats, strings, and booleans without requiring an explicit type declaration. Control flow uses if, elif, and else for decisions, while for and while loops repeat instructions. Python uses indentation to define code blocks. Functions are created with def, can accept parameters, and can return values using return.",
+            "examples": [
+                "name = \"Ava\"",
+                "score = 95",
+                "if score >= 90:",
+                "for item in items:",
+                "def greet(name): return \"Hello \" + name"
+            ],
+            "exam": [
+                {
+                    "question": "Which data type represents whole numbers in Python?",
+                    "choices": [
+                        "str",
+                        "float",
+                        "int",
+                        "bool"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which data type represents decimal numbers?",
+                    "choices": [
+                        "int",
+                        "float",
+                        "str",
+                        "bool"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which data type represents text?",
+                    "choices": [
+                        "int",
+                        "str",
+                        "float",
+                        "bool"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which data type represents True or False?",
+                    "choices": [
+                        "str",
+                        "int",
+                        "bool",
+                        "float"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which statement correctly creates a variable containing the number 10?",
+                    "choices": [
+                        "int score = 10",
+                        "score = 10",
+                        "var score = 10",
+                        "let score = 10"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which statement correctly creates a string variable?",
+                    "choices": [
+                        "name = \"Ava\"",
+                        "str name = Ava",
+                        "string name = \"Ava\"",
+                        "name := str Ava"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which statement correctly creates a Boolean variable?",
+                    "choices": [
+                        "is_active = true",
+                        "is_active = True",
+                        "bool is_active = true",
+                        "is_active = \"True\""
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which statement is used to make a decision based on a condition?",
+                    "choices": [
+                        "if",
+                        "def",
+                        "return",
+                        "import"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does `else` represent in an if/else statement?",
+                    "choices": [
+                        "Code that runs when the if condition is false",
+                        "A function definition",
+                        "A loop condition",
+                        "A return value"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does `elif` mean?",
+                    "choices": [
+                        "End loop",
+                        "Else if",
+                        "Exit if",
+                        "Else loop"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Why is indentation important in Python?",
+                    "choices": [
+                        "It defines blocks of code",
+                        "It creates variables",
+                        "It converts values to strings",
+                        "It imports modules"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which loop can repeat code while a condition remains true?",
+                    "choices": [
+                        "if",
+                        "while",
+                        "def",
+                        "return"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which loop is commonly used to repeat code for items in a sequence?",
+                    "choices": [
+                        "if",
+                        "for",
+                        "def",
+                        "else"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which keyword defines a function in Python?",
+                    "choices": [
+                        "function",
+                        "func",
+                        "def",
+                        "define"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What is the purpose of a function?",
+                    "choices": [
+                        "To create a reusable block of code",
+                        "To define a data type",
+                        "To replace indentation",
+                        "To create a loop automatically"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What are parameters in a function?",
+                    "choices": [
+                        "Values returned by a function",
+                        "Inputs defined by a function that can receive values",
+                        "Python data types",
+                        "Conditional statements"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does the `return` keyword do?",
+                    "choices": [
+                        "Repeats a function",
+                        "Defines a function",
+                        "Sends a value back from a function",
+                        "Creates a variable"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What does `add(2, 3)` return if the function is defined as `def add(a, b): return a + b`?",
+                    "choices": [
+                        "23",
+                        "5",
+                        "None",
+                        "Error"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which is a valid Python function definition?",
+                    "choices": [
+                        "function add(a, b) { return a + b; }",
+                        "def add(a, b):",
+                        "func add(a, b) {}",
+                        "define add(a, b)"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which statement best summarizes the concepts in this lesson?",
+                    "choices": [
+                        "Variables store values, control flow controls execution, and functions provide reusable blocks of code",
+                        "Variables create loops, control flow stores data, and functions replace variables",
+                        "Variables are only for text, control flow is only for functions, and functions cannot return values",
+                        "Python requires declared variable types and curly braces for all code blocks"
                     ],
                     "answer": 0
                 }
@@ -56,34 +440,417 @@
                 "function add(a, b) { return a + b; }",
                 "const colors = [\"red\", \"blue\", \"green\"];"
             ],
-            "quiz": [
+            "exam": [
                 {
-                    "question": "Which JavaScript keyword declares a variable that can be reassigned?",
+                    "question": "Which keyword should you use when a variable's value needs to be reassigned?",
                     "choices": [
                         "const",
                         "let",
-                        "static",
-                        "define"
+                        "fixed",
+                        "static"
                     ],
                     "answer": 1
                 },
                 {
-                    "question": "What is a parameter in a function?",
+                    "question": "Which keyword declares a variable that cannot be reassigned?",
                     "choices": [
-                        "A value or variable received by the function",
-                        "A CSS property",
-                        "A database table",
-                        "An HTTP status code"
+                        "let",
+                        "const",
+                        "var",
+                        "change"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does `let score = 0;` do?",
+                    "choices": [
+                        "Creates a variable named score with a value of 0",
+                        "Creates a function named score",
+                        "Creates an array named score",
+                        "Deletes score"
                     ],
                     "answer": 0
                 },
                 {
-                    "question": "What index represents the first item in a JavaScript array?",
+                    "question": "Which statement correctly declares a constant?",
+                    "choices": [
+                        "let name = \"Ava\";",
+                        "const name = \"Ava\";",
+                        "constant name = \"Ava\";",
+                        "fixed name = \"Ava\";"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What happens when you try to reassign a variable declared with `const`?",
+                    "choices": [
+                        "The value changes normally",
+                        "The variable is automatically converted to `let`",
+                        "JavaScript reports an error",
+                        "The variable becomes an array"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What is a JavaScript function?",
+                    "choices": [
+                        "A reusable block of code",
+                        "A CSS selector",
+                        "An HTML tag",
+                        "A database table"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which syntax correctly declares a function named `greet` with no parameters?",
+                    "choices": [
+                        "function greet() {}",
+                        "def greet():",
+                        "func greet() {}",
+                        "greet function() {}"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What are the values inside the parentheses of a function declaration called?",
+                    "choices": [
+                        "Arguments",
+                        "Parameters",
+                        "Indexes",
+                        "Properties"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What keyword sends a value back from a function?",
+                    "choices": [
+                        "return",
+                        "send",
+                        "output",
+                        "value"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does `add(2, 3)` return if `add` returns `a + b`?",
+                    "choices": [
+                        "23",
+                        "5",
+                        "undefined",
+                        "Error"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Why are functions useful?",
+                    "choices": [
+                        "They allow code to be reused",
+                        "They prevent variables from existing",
+                        "They replace arrays",
+                        "They are required for every HTML element"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is an array used for?",
+                    "choices": [
+                        "Storing an ordered list of values",
+                        "Creating a CSS stylesheet",
+                        "Declaring a function",
+                        "Changing a variable into a constant"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which of the following is a valid JavaScript array?",
+                    "choices": [
+                        "(1, 2, 3)",
+                        "{1, 2, 3}",
+                        "[1, 2, 3]",
+                        "<1, 2, 3>"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What is the index of the first item in a JavaScript array?",
+                    "choices": [
+                        "1",
+                        "0",
+                        "-1",
+                        "It depends on the array"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does `colors[0]` return for `const colors = [\"red\", \"green\", \"blue\"];`?",
+                    "choices": [
+                        "\"red\"",
+                        "\"green\"",
+                        "\"blue\"",
+                        "undefined"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does `colors[2]` return for `const colors = [\"red\", \"green\", \"blue\"];`?",
+                    "choices": [
+                        "\"red\"",
+                        "\"green\"",
+                        "\"blue\"",
+                        "undefined"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which statement correctly creates an array containing three numbers?",
+                    "choices": [
+                        "const numbers = 1, 2, 3;",
+                        "const numbers = [1, 2, 3];",
+                        "const numbers = {1, 2, 3};",
+                        "const numbers = (1, 2, 3);"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "If an array contains `\"red\"`, `\"green\"`, and `\"blue\"`, what is the index of `\"green\"`?",
                     "choices": [
                         "0",
                         "1",
-                        "-1",
-                        "10"
+                        "2",
+                        "3"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which line correctly combines a function with variables?",
+                    "choices": [
+                        "let result = add(2, 3);",
+                        "function = add(2, 3);",
+                        "const add = 2 + 3;",
+                        "array add(2, 3);"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which statement correctly combines the concepts taught in this lesson?",
+                    "choices": [
+                        "const numbers = [1, 2, 3];",
+                        "const numbers = function [1, 2, 3];",
+                        "let = [1, 2, 3] function;",
+                        "array const numbers = 1, 2, 3;"
+                    ],
+                    "answer": 0
+                }
+            ]
+        },
+        {
+            "id": "relational-databases-review",
+            "title": "Relational Databases Review",
+            "content": "A relational database organizes data into tables containing rows and columns. A primary key uniquely identifies a row in a table, while a foreign key connects a row to a related row in another table. SQL SELECT retrieves data, and WHERE filters which rows are returned. JOIN combines related data from multiple tables. GROUP BY organizes rows into groups, while aggregate functions such as COUNT(), SUM(), and AVG() calculate values from groups or sets of rows.",
+            "examples": [
+                "SELECT * FROM customers;",
+                "SELECT * FROM products WHERE price > 100;",
+                "SELECT customers.name, orders.id FROM customers JOIN orders ON customers.id = orders.customer_id;",
+                "SELECT category_id, COUNT(*) FROM products GROUP BY category_id;"
+            ],
+            "exam": [
+                {
+                    "question": "How does a relational database organize data?",
+                    "choices": [
+                        "Into tables made of rows and columns",
+                        "Only into text files",
+                        "Into images and folders",
+                        "Only into JSON objects"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is a row in a relational database table?",
+                    "choices": [
+                        "A single record containing related values",
+                        "A database connection",
+                        "A table name",
+                        "A SQL command"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is a column in a relational database table?",
+                    "choices": [
+                        "A collection of related tables",
+                        "A field representing a particular type of data",
+                        "A complete database",
+                        "A SQL query"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What is the purpose of a primary key?",
+                    "choices": [
+                        "To encrypt a table",
+                        "To uniquely identify each row",
+                        "To sort rows automatically",
+                        "To combine tables"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which property should a primary key have?",
+                    "choices": [
+                        "It should identify rows uniquely",
+                        "It should always contain duplicate values",
+                        "It must contain text only",
+                        "It must always be named `id`"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does a foreign key represent?",
+                    "choices": [
+                        "A password field",
+                        "A link to a related row in another table",
+                        "A database backup",
+                        "A comment"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Why are foreign keys useful?",
+                    "choices": [
+                        "They establish relationships between tables",
+                        "They automatically sort data",
+                        "They encrypt database records",
+                        "They replace primary keys"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which SQL keyword retrieves data from a table?",
+                    "choices": [
+                        "GET",
+                        "SELECT",
+                        "FETCH",
+                        "PULL"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does `SELECT name, age FROM users;` retrieve?",
+                    "choices": [
+                        "The name and age columns from users",
+                        "All databases named users",
+                        "Only rows where age is known",
+                        "The primary key only"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does the `*` in `SELECT * FROM users;` represent?",
+                    "choices": [
+                        "The primary key",
+                        "All columns",
+                        "All databases",
+                        "Only text columns"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which SQL clause filters rows?",
+                    "choices": [
+                        "WHERE",
+                        "FILTER",
+                        "GROUP",
+                        "IF"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does `SELECT * FROM users WHERE age > 18;` do?",
+                    "choices": [
+                        "Returns users whose age is greater than 18",
+                        "Changes every user's age to 18",
+                        "Deletes users older than 18",
+                        "Returns only the age column"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is the main purpose of a JOIN?",
+                    "choices": [
+                        "To combine related data from multiple tables",
+                        "To delete a table",
+                        "To create a primary key",
+                        "To rename a database"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which column is commonly used to connect an order to its user?",
+                    "choices": [
+                        "orders.total",
+                        "users.name",
+                        "orders.user_id",
+                        "users.email"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What does this condition accomplish: `orders.user_id = users.id`?",
+                    "choices": [
+                        "It connects related rows between orders and users",
+                        "It deletes matching rows",
+                        "It creates a new table",
+                        "It sorts the users table"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does GROUP BY do?",
+                    "choices": [
+                        "Groups rows that share a value",
+                        "Combines two tables",
+                        "Deletes duplicate records",
+                        "Filters individual rows"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which function counts rows?",
+                    "choices": [
+                        "COUNT()",
+                        "SUM()",
+                        "AVG()",
+                        "NUMBER()"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which aggregate function calculates the total of numeric values?",
+                    "choices": [
+                        "COUNT()",
+                        "SUM()",
+                        "AVG()",
+                        "TOTAL_ROWS()"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which aggregate function calculates the average of numeric values?",
+                    "choices": [
+                        "COUNT()",
+                        "SUM()",
+                        "AVG()",
+                        "MEAN()"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which query correctly combines users and orders using their related IDs?",
+                    "choices": [
+                        "SELECT * FROM users JOIN orders ON orders.user_id = users.id;",
+                        "SELECT * FROM users WHERE orders.user_id;",
+                        "JOIN users AND orders;",
+                        "SELECT JOIN users, orders;"
                     ],
                     "answer": 0
                 }
@@ -99,121 +866,204 @@
                 "const [count, setCount] = useState(0);",
                 "setCount(count + 1);"
             ],
-            "quiz": [
+            "exam": [
                 {
-                    "question": "What is the main purpose of components in a component-based UI?",
+                    "question": "What is a component in a frontend library?",
                     "choices": [
-                        "To create reusable pieces of a user interface",
-                        "To store database passwords",
-                        "To replace HTTP requests",
-                        "To define SQL tables"
-                    ],
-                    "answer": 0
-                },
-                {
-                    "question": "What are props used for?",
-                    "choices": [
-                        "Passing read-only data from a parent to a component",
-                        "Changing CSS screen widths",
-                        "Creating database tables",
-                        "Sending HTTP status codes"
-                    ],
-                    "answer": 0
-                },
-                {
-                    "question": "What does useState provide?",
-                    "choices": [
-                        "A state value and an updater function",
-                        "A database connection",
-                        "An HTTP server",
-                        "A CSS media query"
-                    ],
-                    "answer": 0
-                }
-            ]
-        },
-        {
-            "id": "python-review",
-            "title": "Python Fundamentals Review",
-            "content": "Python is a dynamically typed programming language. Variables can store values such as integers, floats, strings, and booleans without requiring an explicit type declaration. Control flow uses if, elif, and else for decisions, while for and while loops repeat instructions. Python uses indentation to define code blocks. Functions are created with def, can accept parameters, and can return values using return.",
-            "examples": [
-                "name = \"Ava\"",
-                "score = 95",
-                "if score >= 90:",
-                "for item in items:",
-                "def greet(name): return \"Hello \" + name"
-            ],
-            "quiz": [
-                {
-                    "question": "Which keyword is used to define a function in Python?",
-                    "choices": [
-                        "func",
-                        "def",
-                        "function",
-                        "define"
+                        "A CSS file",
+                        "A reusable piece of UI",
+                        "A database table",
+                        "A server route"
                     ],
                     "answer": 1
                 },
                 {
-                    "question": "Which statement is used to make a decision in Python?",
+                    "question": "What is a major benefit of component-based UI?",
                     "choices": [
-                        "if",
-                        "repeat",
-                        "switch",
-                        "choose"
+                        "It makes components reusable",
+                        "It eliminates the need for JavaScript",
+                        "It prevents UI updates",
+                        "It removes the need for HTML-like markup"
                     ],
                     "answer": 0
                 },
                 {
-                    "question": "What does Python use to define code blocks?",
+                    "question": "How can multiple components be used to create a page?",
                     "choices": [
-                        "Curly braces",
-                        "Indentation",
-                        "Semicolons",
-                        "Square brackets"
-                    ],
-                    "answer": 1
-                }
-            ]
-        },
-        {
-            "id": "relational-databases-review",
-            "title": "Relational Databases Review",
-            "content": "A relational database organizes data into tables containing rows and columns. A primary key uniquely identifies a row in a table, while a foreign key connects a row to a related row in another table. SQL SELECT retrieves data, and WHERE filters which rows are returned. JOIN combines related data from multiple tables. GROUP BY organizes rows into groups, while aggregate functions such as COUNT(), SUM(), and AVG() calculate values from groups or sets of rows.",
-            "examples": [
-                "SELECT * FROM customers;",
-                "SELECT * FROM products WHERE price > 100;",
-                "SELECT customers.name, orders.id FROM customers JOIN orders ON customers.id = orders.customer_id;",
-                "SELECT category_id, COUNT(*) FROM products GROUP BY category_id;"
-            ],
-            "quiz": [
-                {
-                    "question": "What uniquely identifies a row in a relational table?",
-                    "choices": [
-                        "A foreign key",
-                        "A primary key",
-                        "A column name",
-                        "A query"
-                    ],
-                    "answer": 1
-                },
-                {
-                    "question": "What does the WHERE clause do in a SELECT query?",
-                    "choices": [
-                        "Filters rows based on a condition",
-                        "Creates a new table",
-                        "Deletes the database",
-                        "Combines two programming languages"
+                        "They can be combined to build a larger interface",
+                        "Only one component can exist on a page",
+                        "Components can only be used for styling",
+                        "Components must always be separate applications"
                     ],
                     "answer": 0
                 },
                 {
-                    "question": "What does COUNT() do in SQL?",
+                    "question": "What does a function component generally return?",
                     "choices": [
-                        "Counts rows or values",
-                        "Adds two strings",
-                        "Creates a primary key",
-                        "Updates a foreign key"
+                        "A piece of UI",
+                        "A database",
+                        "A CSS file",
+                        "A server response"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Why is component reuse useful?",
+                    "choices": [
+                        "The same UI logic can be used in multiple places",
+                        "It prevents components from rendering",
+                        "It removes the need for application logic",
+                        "It makes all components identical"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What are props?",
+                    "choices": [
+                        "Data passed into a component from its parent",
+                        "Data stored permanently in the browser",
+                        "CSS rules",
+                        "Functions that always update state"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Are props normally modified directly by the component receiving them?",
+                    "choices": [
+                        "Yes, they should always be modified",
+                        "No, props are read-only",
+                        "Only when using function components",
+                        "Only when using state"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "In `Welcome(props)`, what does `props` represent?",
+                    "choices": [
+                        "The data passed into the component",
+                        "The component's CSS",
+                        "The component's return value",
+                        "The browser window"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which component would correctly display a name passed through props?",
+                    "choices": [
+                        "return <p>Hi, {props.name}</p>;",
+                        "return props.name();",
+                        "return CSS(props.name);",
+                        "return database.name;"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is state?",
+                    "choices": [
+                        "Data that a component manages and can change over time",
+                        "Read-only data passed from a parent",
+                        "A CSS property",
+                        "A server endpoint"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is one important difference between props and state?",
+                    "choices": [
+                        "Props are passed into a component, while state is managed by the component",
+                        "Props are CSS while state is HTML",
+                        "Props are functions while state is always a string",
+                        "There is no difference"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What can happen when a component's state changes?",
+                    "choices": [
+                        "The component can re-render with the updated state",
+                        "The component is permanently deleted",
+                        "The browser must restart",
+                        "All props are automatically removed"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What are React Hooks?",
+                    "choices": [
+                        "Features that allow function components to use React capabilities",
+                        "CSS selectors",
+                        "HTML elements",
+                        "Database queries"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which Hook is used to add state to a function component?",
+                    "choices": [
+                        "useState",
+                        "useProps",
+                        "useComponent",
+                        "useData"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does `useState(0)` initially provide as the state value?",
+                    "choices": [
+                        "0",
+                        "1",
+                        "null",
+                        "undefined"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "In `const [count, setCount] = useState(0)`, what is `count`?",
+                    "choices": [
+                        "The current state value",
+                        "The state updater function",
+                        "A component",
+                        "A prop"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "In `const [count, setCount] = useState(0)`, what is `setCount`?",
+                    "choices": [
+                        "The current state value",
+                        "A function used to update the state",
+                        "A component prop",
+                        "A CSS class"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does `setCount(count + 1)` do?",
+                    "choices": [
+                        "Updates the count state to its current value plus one",
+                        "Creates a new component",
+                        "Changes a prop directly",
+                        "Deletes the count state"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Why does updating state matter to the UI?",
+                    "choices": [
+                        "Updating state can cause the component to re-render",
+                        "Updating state permanently reloads the browser",
+                        "Updating state removes all components",
+                        "Updating state changes CSS files on the server"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which statement best summarizes the three concepts in this lesson?",
+                    "choices": [
+                        "Components build reusable UI, props pass data into components, and state manages changing data",
+                        "Components are CSS files, props are database tables, and state is HTML",
+                        "Components replace JavaScript, props replace CSS, and state replaces HTML",
+                        "Components can only display text, props create layouts, and state stores files"
                     ],
                     "answer": 0
                 }
@@ -231,7 +1081,27 @@
                 "200 OK",
                 "404 Not Found"
             ],
-            "quiz": [
+            "exam": [
+                {
+                    "question": "In the client-server model, who typically initiates an HTTP request?",
+                    "choices": [
+                        "The server",
+                        "The client",
+                        "The database",
+                        "The DNS"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does a server do after receiving an HTTP request?",
+                    "choices": [
+                        "Processes the request and sends a response",
+                        "Automatically shuts down",
+                        "Deletes the client",
+                        "Changes the client's browser"
+                    ],
+                    "answer": 0
+                },
                 {
                     "question": "Which HTTP method is typically used to retrieve data?",
                     "choices": [
@@ -239,6 +1109,76 @@
                         "POST",
                         "PUT",
                         "DELETE"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which HTTP method is typically used to create a new resource?",
+                    "choices": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which HTTP method is typically used to update an existing resource?",
+                    "choices": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which HTTP method is typically used to remove a resource?",
+                    "choices": [
+                        "GET",
+                        "POST",
+                        "DELETE",
+                        "PATCH"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What is the purpose of an HTTP response?",
+                    "choices": [
+                        "To provide the server's result back to the client",
+                        "To create a database",
+                        "To replace the original request",
+                        "To define CSS styles"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does REST emphasize when designing API URLs?",
+                    "choices": [
+                        "Random URLs",
+                        "Predictable, resource-based URLs",
+                        "Only URLs containing numbers",
+                        "URLs that do not identify resources"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What is a resource in a REST API?",
+                    "choices": [
+                        "An entity or piece of data exposed by the API",
+                        "A CSS property",
+                        "A browser extension",
+                        "A database password"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What is an endpoint?",
+                    "choices": [
+                        "A URL through which an API exposes a resource or operation",
+                        "A database backup",
+                        "A CSS selector",
+                        "A programming language"
                     ],
                     "answer": 0
                 },
@@ -253,14 +1193,94 @@
                     "answer": 0
                 },
                 {
-                    "question": "What does HTTP status code 404 indicate?",
+                    "question": "What does `GET /api/orders/7` represent?",
+                    "choices": [
+                        "A request to retrieve order 7",
+                        "A request to delete order 7",
+                        "A request to create a CSS file",
+                        "A request to restart the server"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does HTTP status code 200 usually indicate?",
+                    "choices": [
+                        "Not found",
+                        "OK or successful request",
+                        "Unauthorized",
+                        "Server error"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does HTTP status code 201 typically indicate?",
+                    "choices": [
+                        "A resource was created",
+                        "A resource was not found",
+                        "The request was unauthorized",
+                        "The server encountered an error"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does HTTP status code 400 indicate?",
+                    "choices": [
+                        "The request was invalid or badly formed",
+                        "The request succeeded",
+                        "A resource was created",
+                        "The resource was not found"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "What does HTTP status code 401 indicate?",
                     "choices": [
                         "Success",
                         "Created",
-                        "Not found",
+                        "Unauthorized",
                         "Server error"
                     ],
                     "answer": 2
+                },
+                {
+                    "question": "What does HTTP status code 404 indicate?",
+                    "choices": [
+                        "Success",
+                        "Not found",
+                        "Created",
+                        "Unauthorized"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What does HTTP status code 500 indicate?",
+                    "choices": [
+                        "A successful request",
+                        "A newly created resource",
+                        "A server error",
+                        "An unauthorized request"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What is authentication used for in an API?",
+                    "choices": [
+                        "To confirm who is making a request",
+                        "To format JSON",
+                        "To create URLs",
+                        "To change an HTTP method"
+                    ],
+                    "answer": 0
+                },
+                {
+                    "question": "Which is an example of a method that can be used for authentication?",
+                    "choices": [
+                        "An authentication token",
+                        "A CSS class",
+                        "A viewport tag",
+                        "A media query"
+                    ],
+                    "answer": 0
                 }
             ]
         }
