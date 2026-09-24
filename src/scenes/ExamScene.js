@@ -13,13 +13,13 @@ import { CAPSTONE_LESSON } from "../systems/curriculum.js";
 const EXAM_XP_REWARD = 50;
 
 const BOSS_BY_LESSON = {
-    "responsive-web-design": { textureKey: "rwd-layout-gremlin", name: "Layout Gremlin", maxHp: 175, attackPower: 7 },
-    javascript: { textureKey: "javascript-null-pointer-ooze", name: "Null Pointer Ooze", maxHp: 105, attackPower: 8 },
-    "frontend-libraries": { textureKey: "framework-wyrm", name: "Framework Wyrm", maxHp: 140, attackPower: 11 },
-    python: { textureKey: "python-indentation-imp", name: "Indentation Imp", maxHp: 175, attackPower: 7 },
-    "relational-databases": { textureKey: "foreign-key-fiend", name: "Foreign Key Fiend", maxHp: 110, attackPower: 8 },
-    "backend-apis": { textureKey: "api-archon", name: "API Archon", maxHp: 145, attackPower: 11 },
-    "fullstack-exam": { textureKey: "full-stack-overlord", name: "The Full-Stack Overlord", maxHp: 200, attackPower: 14 },
+    "responsive-web-design": { textureKey: "rwd-layout-gremlin", name: "Layout Gremlin", difficulty: 1 },
+    javascript: { textureKey: "javascript-null-pointer-ooze", name: "Null Pointer Ooze", difficulty: 1.05 },
+    "frontend-libraries": { textureKey: "framework-wyrm", name: "Framework Wyrm", difficulty: 1.1 },
+    python: { textureKey: "python-indentation-imp", name: "Indentation Imp", difficulty: 1 },
+    "relational-databases": { textureKey: "foreign-key-fiend", name: "Foreign Key Fiend", difficulty: 1.05 },
+    "backend-apis": { textureKey: "api-archon", name: "API Archon", difficulty: 1.1 },
+    "fullstack-exam": { textureKey: "full-stack-overlord", name: "The Full-Stack Overlord", difficulty: 1, fullStack: true },
 };
 
 export default class ExamScene extends Phaser.Scene {
@@ -85,7 +85,11 @@ export default class ExamScene extends Phaser.Scene {
     createCombatants() {
         const stats = this.progressManager.getCharacterStats();
         this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
-        const bossConfig = BOSS_BY_LESSON[this.lesson.id] ?? BOSS_BY_LESSON.javascript;
+        const baseBossConfig = BOSS_BY_LESSON[this.lesson.id] ?? BOSS_BY_LESSON.javascript;
+        const bossConfig = this.progressManager.scaleEnemyStats(baseBossConfig, {
+            isBoss: true,
+            isFinalBoss: this.lesson.id === CAPSTONE_LESSON,
+        });
         this.boss = new Boss(this, 1020, 300, bossConfig);
 
         this.add.text(260, 200, `${this.characterName}  (Lv. ${this.player.level})`, {

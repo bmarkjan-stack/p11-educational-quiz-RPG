@@ -40,9 +40,17 @@ const BASE_STATS = {
 };
 
 // Flat stat growth applied on every level up.
-const HP_PER_LEVEL = 3;
-const ATTACK_PER_LEVEL = 1;
-const XP_PER_LEVEL_BASE = 10;
+const HP_PER_LEVEL = 2;
+const ATTACK_PER_LEVEL = 1.5;
+const XP_PER_LEVEL_BASE = 30;
+const XP_GROWTH = 1.25;
+const NORMAL_MOB_HP_MULTIPLIER = 2.7;
+const NORMAL_MOB_DAMAGE_MULTIPLIER = 0.6;
+const BOSS_HP_MULTIPLIER = 15.5;
+const BOSS_DAMAGE_MULTIPLIER = 0.13;
+const FULLSTACK_BOSS_HP_MULTIPLIER = 17;
+const FULLSTACK_BOSS_DAMAGE_MULTIPLIER = 0.14;
+const FINAL_BOSS_HP_MULTIPLIER = 19.5;
 
 export default class ProgressManager {
     constructor() {
@@ -119,7 +127,7 @@ export default class ProgressManager {
             type: character,
             level: 1,
             xp: 0,
-            xpToNextLevel: XP_PER_LEVEL_BASE,
+            xpToNextLevel: this.getXpRequired(1),
             maxHp: base.maxHp,
             attackPower: base.attackPower,
         };
@@ -132,7 +140,48 @@ export default class ProgressManager {
             );
         }
 
-        return this.progress.characterStats;
+        const stats = this.progress.characterStats;
+        const expectedXp = this.getXpRequired(stats.level);
+
+        // Repair saves made with the previous curve, including the old level-1
+        // threshold of zero, without resetting the player's progress.
+        if (stats.xpToNextLevel !== expectedXp || stats.xpToNextLevel <= 0) {
+            stats.xpToNextLevel = expectedXp;
+            this.save();
+        }
+
+        return stats;
+    }
+
+    getXpRequired(level) {
+        return Math.floor(XP_PER_LEVEL_BASE * Math.pow(XP_GROWTH, Math.max(0, level - 1)));
+    }
+
+    scaleEnemyStats(enemyConfig, { isBoss = false, isFinalBoss = false } = {}) {
+        const stats = this.getCharacterStats();
+        const hpMultiplier = isFinalBoss
+            ? FINAL_BOSS_HP_MULTIPLIER
+            : isBoss
+                ? enemyConfig.fullStack
+                    ? FULLSTACK_BOSS_HP_MULTIPLIER
+                    : BOSS_HP_MULTIPLIER
+                : NORMAL_MOB_HP_MULTIPLIER;
+        const damageMultiplier = isBoss
+            ? enemyConfig.fullStack
+                ? FULLSTACK_BOSS_DAMAGE_MULTIPLIER
+                : BOSS_DAMAGE_MULTIPLIER
+            : NORMAL_MOB_DAMAGE_MULTIPLIER;
+        const difficulty = enemyConfig.difficulty ?? 1;
+        const attackMultiplier = enemyConfig.attackMultiplier ?? 1;
+
+        return {
+            ...enemyConfig,
+            maxHp: Math.ceil(stats.attackPower * hpMultiplier * difficulty),
+            attackPower: Math.max(
+                1,
+                Math.ceil(stats.maxHp * damageMultiplier * attackMultiplier)
+            ),
+        };
     }
 
     // Adds XP to the saved character and levels up (possibly multiple
@@ -160,13 +209,13 @@ export default class ProgressManager {
         while (stats.xp >= stats.xpToNextLevel) {
             stats.xp -= stats.xpToNextLevel;
             stats.level += 1;
-            const levelHpGained = HP_PER_LEVEL * (stats.level * 0.35);
-            const levelDamageGained = ATTACK_PER_LEVEL * (stats.level * 0.25);
+            const levelHpGained = Math.floor(HP_PER_LEVEL * (stats.level * 0.35)) + 1;
+            const levelDamageGained = Math.floor(ATTACK_PER_LEVEL * (stats.level * 0.25)) + 1;
             stats.maxHp += levelHpGained;
             stats.attackPower += levelDamageGained;
             maxHpGained += levelHpGained;
             damageGained += levelDamageGained;
-            stats.xpToNextLevel = XP_PER_LEVEL_BASE * (stats.level * 0.75);
+            stats.xpToNextLevel = this.getXpRequired(stats.level);
             levelsGained += 1;
         }
 

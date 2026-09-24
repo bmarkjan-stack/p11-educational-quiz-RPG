@@ -10,38 +10,38 @@ import ProgressManager from "../systems/ProgressManager.js";
 
 // XP awarded for defeating a section's quiz enemy (requirement #5).
 // Boss challenges (the exam) award more XP — see ExamScene.
-const BATTLE_XP_REWARD = 15;
+const BATTLE_XP_REWARD = 12;
 
 const ENEMY_ROSTERS = {
     "responsive-web-design": [
-        { textureKey: "rwd-mobile-first-mite", name: "Mobile-First Mite", maxHp: 17, attackPower: 5 },
-        { textureKey: "rwd-breakpoint-beetle", name: "Breakpoint Beetle", maxHp: 18, attackPower: 6 },
-        { textureKey: "rwd-grid-flex-gnat", name: "Grid-Flex Gnat", maxHp: 32, attackPower: 7 },
+        { textureKey: "rwd-mobile-first-mite", name: "Mobile-First Mite", difficulty: 0.9, attackMultiplier: 0.85 },
+        { textureKey: "rwd-breakpoint-beetle", name: "Breakpoint Beetle", difficulty: 1, attackMultiplier: 0.95 },
+        { textureKey: "rwd-grid-flex-gnat", name: "Grid-Flex Gnat", difficulty: 1.1, attackMultiplier: 1 },
     ],
     javascript: [
-        { textureKey: "javascript-variable-void", name: "Variable Void", maxHp: 48, attackPower: 9 },
-        { textureKey: "javascript-function-fume", name: "Function Fume", maxHp: 42, attackPower: 10 },
-        { textureKey: "javascript-array-abomination", name: "Array Abomination", maxHp: 42, attackPower: 11 },
+        { textureKey: "javascript-variable-void", name: "Variable Void", difficulty: 0.9, attackMultiplier: 0.85 },
+        { textureKey: "javascript-function-fume", name: "Function Fume", difficulty: 1, attackMultiplier: 0.95 },
+        { textureKey: "javascript-array-abomination", name: "Array Abomination", difficulty: 1.1, attackMultiplier: 1 },
     ],
     python: [
-        { textureKey: "python-variable-ghost", name: "Variable Ghost", maxHp: 42, attackPower: 5 },
-        { textureKey: "python-control-flow-jester", name: "Control Flow Jester", maxHp: 42, attackPower: 6 },
-        { textureKey: "python-function-larva", name: "Function Larva", maxHp: 42, attackPower: 7 },
+        { textureKey: "python-variable-ghost", name: "Variable Ghost", difficulty: 0.9, attackMultiplier: 0.85 },
+        { textureKey: "python-control-flow-jester", name: "Control Flow Jester", difficulty: 1, attackMultiplier: 0.95 },
+        { textureKey: "python-function-larva", name: "Function Larva", difficulty: 1.1, attackMultiplier: 1 },
     ],
     "relational-databases": [
-        { textureKey: "database-warden", name: "Database Warden", maxHp: 42, attackPower: 9 },
-        { textureKey: "predicate-sentry", name: "Predicate Sentry", maxHp: 42, attackPower: 10 },
-        { textureKey: "relational-aggregate-twins", name: "Relational Aggregate Twins", maxHp: 42, attackPower: 11 },
+        { textureKey: "database-warden", name: "Database Warden", difficulty: 0.9, attackMultiplier: 0.85 },
+        { textureKey: "predicate-sentry", name: "Predicate Sentry", difficulty: 1, attackMultiplier: 0.95 },
+        { textureKey: "relational-aggregate-twins", name: "Relational Aggregate Twins", difficulty: 1.1, attackMultiplier: 1 },
     ],
     "backend-apis": [
-        { textureKey: "request-response-pixie", name: "Request/Response Pixie", maxHp: 42, attackPower: 13 },
-        { textureKey: "rest-resource-mimic", name: "REST Resource Mimic", maxHp: 42, attackPower: 14 },
-        { textureKey: "status-code-golem", name: "Status Code Golem", maxHp: 42, attackPower: 16 },
+        { textureKey: "request-response-pixie", name: "Request/Response Pixie", difficulty: 0.9, attackMultiplier: 0.85 },
+        { textureKey: "rest-resource-mimic", name: "REST Resource Mimic", difficulty: 1, attackMultiplier: 0.95 },
+        { textureKey: "status-code-golem", name: "Status Code Golem", difficulty: 1.1, attackMultiplier: 1 },
     ],
     "frontend-libraries": [
-        { textureKey: "component-wyrmling", name: "Component Wyrmling", maxHp: 42, attackPower: 13 },
-        { textureKey: "data-flow-wyrmling", name: "Data Flow Wyrmling", maxHp: 42, attackPower: 14 },
-        { textureKey: "hook-fiend-wyrmling", name: "Hook Fiend Wyrmling", maxHp: 42, attackPower: 16 },
+        { textureKey: "component-wyrmling", name: "Component Wyrmling", difficulty: 0.9, attackMultiplier: 0.85 },
+        { textureKey: "data-flow-wyrmling", name: "Data Flow Wyrmling", difficulty: 1, attackMultiplier: 0.95 },
+        { textureKey: "hook-fiend-wyrmling", name: "Hook Fiend Wyrmling", difficulty: 1.1, attackMultiplier: 1 },
     ],
 };
 
@@ -112,7 +112,8 @@ export default class BattleScene extends Phaser.Scene {
         this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
 
         const lessonRoster = ENEMY_ROSTERS[this.lesson.id] ?? ENEMY_ROSTERS["responsive-web-design"];
-        const bossConfig = lessonRoster[this.sectionIndex] ?? lessonRoster[0];
+        const baseBossConfig = lessonRoster[this.sectionIndex] ?? lessonRoster[0];
+        const bossConfig = this.progressManager.scaleEnemyStats(baseBossConfig);
 
         this.boss = new Boss(this, 1020, 300, bossConfig);
 
