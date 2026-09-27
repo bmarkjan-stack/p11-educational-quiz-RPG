@@ -497,6 +497,8 @@ export default class LessonSelectScene extends Phaser.Scene {
                     bossPhase: checkpoint.bossPhase ?? 1,
                     examCorrect: checkpoint.examCorrect ?? 0,
                     examTotal: checkpoint.examTotal ?? 0,
+                    fullStackSectionCorrect: checkpoint.fullStackSectionCorrect ?? 0,
+                    fullStackSectionTotal: checkpoint.fullStackSectionTotal ?? 0,
                 });
                 return;
             }
@@ -506,6 +508,8 @@ export default class LessonSelectScene extends Phaser.Scene {
                 sectionIndex: checkpoint?.sectionIndex ?? 0,
                 battleScore: checkpoint?.battleScore ?? 0,
                 battleTotal: checkpoint?.battleTotal ?? 0,
+                examCorrect: checkpoint?.examCorrect ?? 0,
+                examTotal: checkpoint?.examTotal ?? 0,
             });
         } catch (error) {
             console.error(error);

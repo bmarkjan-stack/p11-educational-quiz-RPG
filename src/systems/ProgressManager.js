@@ -39,6 +39,29 @@ const BASE_STATS = {
     female: { maxHp: 15, attackPower: 8 },
 };
 
+function inferCharacterType(stats) {
+    let closestCharacter = "male";
+    let smallestDifference = Infinity;
+
+    Object.entries(BASE_STATS).forEach(([character, baseStats]) => {
+        let maxHp = baseStats.maxHp;
+        let attackPower = baseStats.attackPower;
+
+        for (let level = 2; level <= stats.level; level += 1) {
+            maxHp += Math.floor(HP_PER_LEVEL * (level * 0.35)) + 1;
+            attackPower += Math.floor(ATTACK_PER_LEVEL * (level * 0.25)) + 1;
+        }
+
+        const difference = Math.abs(maxHp - stats.maxHp) + Math.abs(attackPower - stats.attackPower);
+        if (difference < smallestDifference) {
+            closestCharacter = character;
+            smallestDifference = difference;
+        }
+    });
+
+    return closestCharacter;
+}
+
 // Flat stat growth applied on every level up.
 const HP_PER_LEVEL = 2;
 const ATTACK_PER_LEVEL = 1.5;
@@ -106,7 +129,11 @@ export default class ProgressManager {
         // Only (re)initialize stats when there are none yet, or the
         // player picked a different class than the one already saved.
         // Continuing with the same class must never reset level/xp.
-        if (!this.progress.characterStats || this.progress.characterStats.type !== character) {
+        if (!this.progress.characterStats) {
+            this.progress.characterStats = this.createBaseStats(character);
+        } else if (!this.progress.characterStats.type) {
+            this.progress.characterStats.type = character;
+        } else if (this.progress.characterStats.type !== character) {
             this.progress.characterStats = this.createBaseStats(character);
         }
 
@@ -114,8 +141,9 @@ export default class ProgressManager {
     }
 
     getCharacter() {
+        const stats = this.progress.characterStats;
         return {
-            character: this.progress.character,
+            character: this.progress.character ?? stats?.type ?? (stats ? inferCharacterType(stats) : null),
             characterName: this.progress.characterName,
         };
     }

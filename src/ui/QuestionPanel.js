@@ -10,6 +10,8 @@ export default class QuestionPanel {
         this.width = width;
         this.buttons = [];
         this.locked = false;
+        this.timerEvent = null;
+        this.remainingSeconds = 20;
 
         this.questionText = scene.add
             .text(x, y, "", {
@@ -30,9 +32,19 @@ export default class QuestionPanel {
                 color: "#ffffff",
             })
             .setOrigin(0.5);
+
+        this.timerText = scene.add
+            .text(x, y - 55, "", {
+                fontFamily: "Arial",
+                fontSize: "18px",
+                fontStyle: "bold",
+                color: "#ffffff",
+            })
+            .setOrigin(0.5);
     }
 
     showQuestion(questionData, onAnswer) {
+        this.stopTimer();
         this.clearButtons();
         this.feedbackText.setText("");
 
@@ -64,11 +76,26 @@ export default class QuestionPanel {
 
             this.buttons.push(button);
         });
+
+        this.remainingSeconds = 20;
+        this.timerText.setText(`Time: ${this.remainingSeconds}s`).setColor("#ffffff");
+        this.timerEvent = this.scene.time.addEvent({
+            delay: 1000,
+            repeat: this.remainingSeconds - 1,
+            callback: () => {
+                this.remainingSeconds -= 1;
+                this.timerText.setText(`Time: ${this.remainingSeconds}s`);
+                if (this.remainingSeconds <= 5) this.timerText.setColor("#f87171");
+                if (this.remainingSeconds === 0) this.handleTimeout();
+            },
+        });
+        if (this.scene.exitConfirmation) this.timerEvent.paused = true;
     }
 
     handleAnswer(selectedIndex) {
         if (this.locked) return;
         this.locked = true;
+        this.stopTimer();
 
         const isCorrect = selectedIndex === this.correctIndex;
 
@@ -86,12 +113,39 @@ export default class QuestionPanel {
         this.feedbackText.setColor(isCorrect ? "#4ade80" : "#f87171");
 
         if (this.onAnswer) {
-            this.onAnswer(isCorrect, selectedIndex);
+            this.onAnswer(isCorrect, selectedIndex, false);
         }
+    }
+
+    handleTimeout() {
+        if (this.locked) return;
+        this.locked = true;
+        this.stopTimer();
+        this.buttons.forEach((button) => button.setEnabled(false));
+        this.feedbackText.setText("Time's up!").setColor("#f87171");
+        if (this.onAnswer) this.onAnswer(false, -1, true);
+    }
+
+    stopTimer() {
+        if (!this.timerEvent) return;
+        this.scene.time.removeEvent(this.timerEvent);
+        this.timerEvent = null;
+    }
+
+    pauseTimer() {
+        if (this.timerEvent) this.timerEvent.paused = true;
+    }
+
+    resumeTimer() {
+        if (this.timerEvent) this.timerEvent.paused = false;
     }
 
     disable() {
         this.buttons.forEach((button) => button.setEnabled(false));
+    }
+
+    enable() {
+        this.buttons.forEach((button) => button.setEnabled(true));
     }
 
     clearButtons() {
@@ -101,8 +155,10 @@ export default class QuestionPanel {
     }
 
     destroy() {
+        this.stopTimer();
         this.clearButtons();
         this.questionText.destroy();
         this.feedbackText.destroy();
+        this.timerText.destroy();
     }
 }

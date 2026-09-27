@@ -27,9 +27,7 @@ export default class MenuScene extends Phaser.Scene {
     createButtons() {
         const progressManager = new ProgressManager();
         const savedCharacter = progressManager.getCharacter();
-        const hasCharacter = Boolean(
-            savedCharacter.character && savedCharacter.characterName?.trim()
-        );
+        const hasCharacter = Boolean(savedCharacter.character);
 
         // New Game
         this.newGameButton = new Button(this, 640, 410, "NEW GAME", () => {

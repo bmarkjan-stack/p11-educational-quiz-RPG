@@ -88,19 +88,56 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     createExitButton() {
-        new Button(
+        this.exitButton = new Button(
             this,
             110,
             53,
             "EXIT",
-            () => {
-                this.scene.start("LessonSelectScene", {
-                    character: this.character,
-                    characterName: this.characterName,
-                });
-            },
+            () => this.showExitConfirmation(),
             { width: 140, height: 40, fontSize: "16px" }
         );
+    }
+
+    showExitConfirmation({ resumeQuestion = true } = {}) {
+        if (this.exitConfirmation) return;
+        this.questionPanel.pauseTimer();
+        this.questionPanel.disable();
+
+        const dimmer = this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.75)
+            .setInteractive()
+            .setDepth(20);
+        const panel = this.add.rectangle(640, 360, 700, 260, 0x07130d, 0.98)
+            .setStrokeStyle(2, 0xfacc15)
+            .setDepth(21);
+        const message = this.add.text(640, 315, "Are you sure you want to leave? Progress will not be saved.", {
+            fontFamily: "Arial",
+            fontSize: "20px",
+            color: "#ffffff",
+            align: "center",
+            wordWrap: { width: 620 },
+        }).setOrigin(0.5).setDepth(22);
+
+        const exitButton = new Button(this, 500, 410, "EXIT", () => {
+            this.scene.start("LessonSelectScene", {
+                character: this.character,
+                characterName: this.characterName,
+            });
+        }, { width: 220 });
+        const continueButton = new Button(this, 780, 410, "CONTINUE", () => {
+            dimmer.destroy();
+            panel.destroy();
+            message.destroy();
+            exitButton.destroy();
+            continueButton.destroy();
+            this.exitConfirmation = null;
+            if (resumeQuestion) {
+                this.questionPanel.enable();
+                this.questionPanel.resumeTimer();
+            }
+        }, { width: 220 });
+        exitButton.setDepth(22);
+        continueButton.setDepth(22);
+        this.exitConfirmation = { dimmer, panel, message, exitButton, continueButton };
     }
 
     drawBackground() {
@@ -164,12 +201,12 @@ export default class BattleScene extends Phaser.Scene {
         }
 
         const question = this.quizManager.getCurrentQuestion();
-        this.questionPanel.showQuestion(question, (isCorrect, selectedIndex) =>
-            this.resolveTurn(isCorrect, selectedIndex)
+        this.questionPanel.showQuestion(question, (isCorrect, selectedIndex, timedOut) =>
+            this.resolveTurn(isCorrect, selectedIndex, timedOut)
         );
     }
 
-    resolveTurn(isCorrect, selectedIndex) {
+    resolveTurn(isCorrect, selectedIndex, timedOut = false) {
         this.quizManager.checkAnswer(selectedIndex);
         this.sound.play(isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
 
@@ -195,7 +232,7 @@ export default class BattleScene extends Phaser.Scene {
                 return;
             }
 
-            this.quizManager.next({ repeatCurrent: !isCorrect });
+            this.quizManager.next({ repeatCurrent: !isCorrect && !timedOut });
             this.time.delayedCall(300, () => this.nextQuestion());
         });
     }
@@ -370,12 +407,7 @@ export default class BattleScene extends Phaser.Scene {
             640,
             520,
             "EXIT TO LESSON SELECT",
-            () => {
-                this.scene.start("LessonSelectScene", {
-                    character: this.character,
-                    characterName: this.characterName,
-                });
-            },
+            () => this.showExitConfirmation({ resumeQuestion: false }),
             { width: 300 }
         );
 

@@ -84,6 +84,8 @@ export default class ExamScene extends Phaser.Scene {
         this.examSectionIndex = data.examSectionIndex ?? 0;
         this.examCorrect = data.examCorrect ?? 0;
         this.examTotal = data.examTotal ?? 0;
+        this.fullStackSectionCorrect = data.fullStackSectionCorrect ?? 0;
+        this.fullStackSectionTotal = data.fullStackSectionTotal ?? 0;
     }
 
     create() {
@@ -99,6 +101,8 @@ export default class ExamScene extends Phaser.Scene {
                 bossPhase: this.bossPhase,
                 examCorrect: this.examCorrect,
                 examTotal: this.examTotal,
+                fullStackSectionCorrect: this.fullStackSectionCorrect,
+                fullStackSectionTotal: this.fullStackSectionTotal,
             });
         }
 
@@ -116,19 +120,56 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     createExitButton() {
-        new Button(
+        this.exitButton = new Button(
             this,
             140,
             68,
             "EXIT",
-            () => {
-                this.scene.start("LessonSelectScene", {
-                    character: this.character,
-                    characterName: this.characterName,
-                });
-            },
+            () => this.showExitConfirmation(),
             { width: 140, height: 40, fontSize: "16px" }
         );
+    }
+
+    showExitConfirmation({ resumeQuestion = true } = {}) {
+        if (this.exitConfirmation) return;
+        this.questionPanel.pauseTimer();
+        this.questionPanel.disable();
+
+        const dimmer = this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.75)
+            .setInteractive()
+            .setDepth(20);
+        const panel = this.add.rectangle(640, 360, 700, 260, 0x07130d, 0.98)
+            .setStrokeStyle(2, 0xfacc15)
+            .setDepth(21);
+        const message = this.add.text(640, 315, "Are you sure you want to leave? Progress will not be saved.", {
+            fontFamily: "Arial",
+            fontSize: "20px",
+            color: "#ffffff",
+            align: "center",
+            wordWrap: { width: 620 },
+        }).setOrigin(0.5).setDepth(22);
+
+        const exitButton = new Button(this, 500, 410, "EXIT", () => {
+            this.scene.start("LessonSelectScene", {
+                character: this.character,
+                characterName: this.characterName,
+            });
+        }, { width: 220 });
+        const continueButton = new Button(this, 780, 410, "CONTINUE", () => {
+            dimmer.destroy();
+            panel.destroy();
+            message.destroy();
+            exitButton.destroy();
+            continueButton.destroy();
+            this.exitConfirmation = null;
+            if (resumeQuestion) {
+                this.questionPanel.enable();
+                this.questionPanel.resumeTimer();
+            }
+        }, { width: 220 });
+        exitButton.setDepth(22);
+        continueButton.setDepth(22);
+        this.exitConfirmation = { dimmer, panel, message, exitButton, continueButton };
     }
 
     drawBackground() {
@@ -251,40 +292,44 @@ export default class ExamScene extends Phaser.Scene {
 
         const question = this.quizManager.getCurrentQuestion();
 
-        this.questionPanel.showQuestion(question, (isCorrect, selectedIndex) => {
-            this.quizManager.checkAnswer(selectedIndex);
-            this.sound.play(isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
+        this.questionPanel.showQuestion(question, (isCorrect, selectedIndex, timedOut) =>
+            this.resolveTurn(isCorrect, selectedIndex, timedOut)
+        );
+    }
 
-            if (isCorrect) {
-                this.player.attack(this.boss);
-                this.sound.play("sfx-player-attack", { volume: 0.4 });
-            } else {
-                this.boss.attack(this.player);
-                this.sound.play("sfx-boss-attack", { volume: 0.4 });
+    resolveTurn(isCorrect, selectedIndex, timedOut = false) {
+        this.quizManager.checkAnswer(selectedIndex);
+        this.sound.play(isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
+
+        if (isCorrect) {
+            this.player.attack(this.boss);
+            this.sound.play("sfx-player-attack", { volume: 0.4 });
+        } else {
+            this.boss.attack(this.player);
+            this.sound.play("sfx-boss-attack", { volume: 0.4 });
+        }
+
+        this.time.delayedCall(400, () => {
+            this.playerHealthBar.setHealth(this.player.hp, this.player.maxHp);
+            this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
+
+            if (!this.boss.isAlive()) {
+                if (this.isFullStackExam()) {
+                    this.boss.playDefeatAnimation(() => this.handleFullStackBossDefeat());
+                    return;
+                }
+
+                this.boss.playDefeatAnimation(() => this.finishExam());
+                return;
             }
 
-            this.time.delayedCall(400, () => {
-                this.playerHealthBar.setHealth(this.player.hp, this.player.maxHp);
-                this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
+            if (!this.player.isAlive()) {
+                this.showDefeat();
+                return;
+            }
 
-                if (!this.boss.isAlive()) {
-                    if (this.isFullStackExam()) {
-                        this.boss.playDefeatAnimation(() => this.handleFullStackBossDefeat());
-                        return;
-                    }
-
-                    this.boss.playDefeatAnimation(() => this.finishExam());
-                    return;
-                }
-
-                if (!this.player.isAlive()) {
-                    this.showDefeat();
-                    return;
-                }
-
-                this.quizManager.next({ repeatCurrent: !isCorrect });
-                this.nextQuestion();
-            });
+            this.quizManager.next({ repeatCurrent: !isCorrect && !timedOut });
+            this.nextQuestion();
         });
     }
 
@@ -316,18 +361,110 @@ export default class ExamScene extends Phaser.Scene {
             return;
         }
 
+        if (this.examSectionIndex < this.lesson.sections.length) {
+            this.showFullStackSectionResults();
+            return;
+        }
+
         if (this.examSectionIndex < FULLSTACK_BOSSES.length - 1) {
-            this.startNextFullStackLesson();
+            this.startNextFullStackBoss();
             return;
         }
 
         this.finishExam();
     }
 
+    showFullStackSectionResults() {
+        const nextExamSectionIndex = this.examSectionIndex + 1;
+        const startsFinalBoss = nextExamSectionIndex >= this.lesson.sections.length;
+        const nextScene = startsFinalBoss ? "ExamScene" : "LessonScene";
+        const nextSceneData = startsFinalBoss
+            ? {
+                  lesson: this.lesson,
+                  character: this.character,
+                  characterName: this.characterName,
+                  awardsExperience: this.awardsExperience,
+                  examSectionIndex: nextExamSectionIndex,
+                  bossPhase: 1,
+                  examCorrect: this.examCorrect,
+                  examTotal: this.examTotal,
+              }
+            : {
+                  lesson: this.lesson,
+                  character: this.character,
+                  characterName: this.characterName,
+                  sectionIndex: nextExamSectionIndex,
+                  battleScore: this.battleScore,
+                  battleTotal: this.battleTotal,
+                  awardsExperience: this.awardsExperience,
+                  examCorrect: this.examCorrect,
+                  examTotal: this.examTotal,
+              };
+
+        if (this.awardsExperience) {
+            this.progressManager.saveLessonCheckpoint(this.lesson.id, startsFinalBoss
+                ? {
+                      stage: "exam",
+                      sectionIndex: this.lesson.sections.length,
+                      battleScore: this.battleScore,
+                      battleTotal: this.battleTotal,
+                      examSectionIndex: nextExamSectionIndex,
+                      bossPhase: 1,
+                      examCorrect: this.examCorrect,
+                      examTotal: this.examTotal,
+                      fullStackSectionCorrect: 0,
+                      fullStackSectionTotal: 0,
+                  }
+                : {
+                      stage: "lesson",
+                      sectionIndex: nextExamSectionIndex,
+                      battleScore: this.battleScore,
+                      battleTotal: this.battleTotal,
+                      examCorrect: this.examCorrect,
+                      examTotal: this.examTotal,
+                  });
+        }
+
+        const xpResult = this.awardsExperience
+            ? this.progressManager.addExperience(EXAM_XP_REWARD)
+            : null;
+        const currentStats = xpResult?.stats ?? this.progressManager.getCharacterStats();
+        const accuracy = this.fullStackSectionTotal === 0
+            ? 0
+            : Math.round((this.fullStackSectionCorrect / this.fullStackSectionTotal) * 100);
+
+        this.sound.stopAll();
+        this.sound.play("bgm-victory", { volume: 0.5 });
+        this.scene.start("ResultsScene", {
+            lesson: this.lesson,
+            character: this.character,
+            characterName: this.characterName,
+            battleScore: this.battleScore,
+            battleTotal: this.battleTotal,
+            examScore: this.fullStackSectionCorrect,
+            examTotal: this.fullStackSectionTotal,
+            accuracy,
+            passed: true,
+            awardsExperience: this.awardsExperience,
+            xpGained: this.awardsExperience ? EXAM_XP_REWARD : 0,
+            leveledUp: !!xpResult?.leveledUp,
+            newLevel: xpResult?.stats?.level ?? null,
+            maxHpGained: xpResult?.maxHpGained ?? 0,
+            damageGained: xpResult?.damageGained ?? 0,
+            currentStats,
+            isCapstoneSectionResult: true,
+            sectionTitle: this.lesson.sections[this.examSectionIndex].title,
+            nextScene,
+            nextSceneData,
+        });
+    }
+
     recordCurrentExamResults() {
         const results = this.quizManager.getResults();
         this.examCorrect += results.correct;
         this.examTotal += results.total;
+        this.fullStackSectionCorrect += results.correct;
+        this.fullStackSectionTotal += results.total;
     }
 
     saveFullStackCheckpoint() {
@@ -342,6 +479,8 @@ export default class ExamScene extends Phaser.Scene {
             bossPhase: this.bossPhase,
             examCorrect: this.examCorrect,
             examTotal: this.examTotal,
+            fullStackSectionCorrect: this.fullStackSectionCorrect,
+            fullStackSectionTotal: this.fullStackSectionTotal,
         });
     }
 

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
+import ProgressManager from "../systems/ProgressManager.js";
 
 export default class CharacterSelectScene extends Phaser.Scene {
     constructor() {
@@ -369,9 +370,12 @@ export default class CharacterSelectScene extends Phaser.Scene {
             return;
         }
 
+        const characterName = this.characterName.trim();
+        new ProgressManager().setCharacter(this.selectedCharacter, characterName);
+
         this.scene.start("LessonSelectScene", {
             character: this.selectedCharacter,
-            characterName: this.characterName.trim(),
+            characterName,
         });
     }
 
