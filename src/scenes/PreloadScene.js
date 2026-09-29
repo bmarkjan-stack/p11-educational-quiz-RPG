@@ -25,6 +25,15 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("bg-classroom", "assets/images/background/bg-classroom.png");
         this.load.image("bg-dungeon", "assets/images/background/bg-dungeon.png");
 
+        // Lesson-specific battle and exam backgrounds
+        this.load.image("bg-quiz-responsive-web-design", "assets/images/background/quiz/bg-responsive-web-design.png");
+        this.load.image("bg-quiz-javascript", "assets/images/background/quiz/bg-javascript.png");
+        this.load.image("bg-quiz-frontend-libraries", "assets/images/background/quiz/bg-front-end-libraries.png");
+        this.load.image("bg-quiz-python", "assets/images/background/quiz/bg-python.png");
+        this.load.image("bg-quiz-relational-databases", "assets/images/background/quiz/bg-relational-database.png");
+        this.load.image("bg-quiz-backend-apis", "assets/images/background/quiz/bg-backend-development.png");
+        this.load.image("bg-quiz-fullstack-exam", "assets/images/background/quiz/bg-full-stack.png");
+
         // Characters
         this.load.image("player-male", "assets/images/characters/male/player-male.png");
         this.load.image("player-female", "assets/images/characters/female/player-female.png");
@@ -95,8 +104,20 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("button-hover", "assets/images/ui/button-hover.png");
         this.load.image("button-active", "assets/images/ui/button-active.png");
 
+        // Quiz panel and answer button states
+        this.load.image("quiz-question-panel", "assets/images/quiz/question-panel.png");
+        ["a", "b", "c", "d"].forEach((option) => {
+            ["normal", "hover", "active", "correct", "incorrect"].forEach((state) => {
+                this.load.image(
+                    `quiz-option-${option}-${state}`,
+                    `assets/images/quiz/option-${option}-${state}.png`
+                );
+            });
+        });
+
         // Character Creation UI
         this.load.image("create-char-panel", "assets/images/ui/create-char-panel.png");
+        this.load.image("result-panel", "assets/images/ui/result-panel.png");
         this.load.image("enter-name", "assets/images/ui/enter-name.png");
 
         // Character Selection States
@@ -112,34 +133,40 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("frontend-normal", "assets/images/ui/frontend-normal.png");
         this.load.image("frontend-hover", "assets/images/ui/frontend-hover.png");
         this.load.image("frontend-active", "assets/images/ui/frontend-active.png");
+        this.load.image("frontend-done", "assets/images/ui/frontend-done.png");
         this.load.image("frontend-cloud", "assets/images/ui/frontend-cloud.png");
 
         // Backend
         this.load.image("backend-normal", "assets/images/ui/backend-normal.png");
         this.load.image("backend-hover", "assets/images/ui/backend-hover.png");
         this.load.image("backend-active", "assets/images/ui/backend-active.png");
+        this.load.image("backend-done", "assets/images/ui/backend-done.png");
         this.load.image("backend-cloud", "assets/images/ui/backend-cloud.png");
 
         // Responsive Web Design
         this.load.image("responsive-normal", "assets/images/ui/responsive-normal.png");
         this.load.image("responsive-hover", "assets/images/ui/responsive-hover.png");
         this.load.image("responsive-active", "assets/images/ui/responsive-active.png");
+        this.load.image("responsive-done", "assets/images/ui/responsive-done.png");
 
         // JavaScript
         this.load.image("javascript-normal", "assets/images/ui/javascript-normal.png");
         this.load.image("javascript-hover", "assets/images/ui/javascript-hover.png");
         this.load.image("javascript-active", "assets/images/ui/javascript-active.png");
+        this.load.image("javascript-done", "assets/images/ui/javascript-done.png");
         this.load.image("javascript-cloud", "assets/images/ui/javascript-cloud.png");
 
         // Python
         this.load.image("python-normal", "assets/images/ui/python-normal.png");
         this.load.image("python-hover", "assets/images/ui/python-hover.png");
         this.load.image("python-active", "assets/images/ui/python-active.png");
+        this.load.image("python-done", "assets/images/ui/python-done.png");
 
         // Relational Databases
         this.load.image("relational-database-normal", "assets/images/ui/relational-database-normal.png");
         this.load.image("relational-database-hover", "assets/images/ui/relational-database-hover.png");
         this.load.image("relational-database-active", "assets/images/ui/relational-database-active.png");
+        this.load.image("relational-database-done", "assets/images/ui/relational-database-done.png");
         this.load.image("relational-databases-cloud", "assets/images/ui/relational-databases-cloud.png");
 
         // Full-Stack Exam
@@ -147,13 +174,14 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("full-stack-normal-locked", "assets/images/ui/full-stack-normal-locked.png");
         this.load.image("full-stack-hover", "assets/images/ui/full-stack-hover.png");
         this.load.image("full-stack-active", "assets/images/ui/full-stack-active.png");
+        this.load.image("full-stack-done", "assets/images/ui/full-stack-done.png");
         this.load.image("full-stack-cloud", "assets/images/ui/full-stack-cloud.png");
 
-        // Daily Coding Challenges
-        this.load.image("daily-normal", "assets/images/ui/daily-normal.png");
-        this.load.image("daily-hover", "assets/images/ui/daily-hover.png");
-        this.load.image("daily-active", "assets/images/ui/daily-active.png");
-        this.load.image("daily-coding-cloud", "assets/images/ui/daily-coding-cloud.png");
+        // Phase 2 lesson-select button
+        this.load.image("phase-2-normal", "assets/images/ui/phase-2-normal.png");
+        this.load.image("phase-2-hover", "assets/images/ui/phase-2-hover.png");
+        this.load.image("phase-2-active", "assets/images/ui/phase-2-active.png");
+        this.load.image("phase-2-cloud", "assets/images/ui/phase-2-cloud.png");
 
         // Lesson UIs
         this.load.image("lesson-panel-body", "assets/images/ui/lesson-panel-body.png");

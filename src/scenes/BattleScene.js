@@ -106,8 +106,8 @@ export default class BattleScene extends Phaser.Scene {
         const dimmer = this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.75)
             .setInteractive()
             .setDepth(20);
-        const panel = this.add.rectangle(640, 360, 700, 260, 0x07130d, 0.98)
-            .setStrokeStyle(2, 0xfacc15)
+        const panel = this.add.image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(21);
         const message = this.add.text(640, 315, "Are you sure you want to leave? Progress will not be saved.", {
             fontFamily: "Arial",
@@ -141,7 +141,11 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     drawBackground() {
-        this.add.image(640, 360, "bg-dungeon").setDisplaySize(1280, 720);
+        const backgroundKey = `bg-quiz-${this.lesson.id}`;
+        const textureKey = this.textures.exists(backgroundKey)
+            ? backgroundKey
+            : "bg-dungeon";
+        this.add.image(640, 360, textureKey).setDisplaySize(1280, 720);
     }
 
     createCombatants(section) {
@@ -184,7 +188,7 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     createQuestionPanel() {
-        this.questionPanel = new QuestionPanel(this, 640, 460, 900);
+        this.questionPanel = new QuestionPanel(this);
     }
 
     playMusic() {
@@ -297,8 +301,8 @@ export default class BattleScene extends Phaser.Scene {
 
     showVictory(onContinue) {
         const overlay = this.add
-            .rectangle(640, 350, 760, 430, 0x07130d, 0.97)
-            .setStrokeStyle(2, 0x22c55e)
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(10);
 
         this.add
@@ -425,8 +429,8 @@ export default class BattleScene extends Phaser.Scene {
         this.sound.play("bgm-defeat", { volume: 0.5 });
 
         this.add
-            .rectangle(640, 360, 700, 260, 0x070b18, 0.97)
-            .setStrokeStyle(2, 0xdc2626)
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(10);
 
         this.add
@@ -476,8 +480,8 @@ export default class BattleScene extends Phaser.Scene {
         this.sound.play("bgm-defeat", { volume: 0.5 });
 
         const overlay = this.add
-            .rectangle(640, 360, 700, 260, 0x070b18, 0.97)
-            .setStrokeStyle(2, 0xdc2626)
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(10);
 
         this.add

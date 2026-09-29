@@ -36,8 +36,7 @@ export default class ResultsScene extends Phaser.Scene {
 
         this.playContextualMusic(passed);
         this.add.image(640, 360, "bg-classroom").setDisplaySize(1280, 720);
-        this.add.rectangle(640, 360, 760, 520, 0x0b0f1a, 0.9)
-            .setStrokeStyle(2, isCapstoneVictory ? 0xfacc15 : passed ? 0x22c55e : 0xdc2626);
+        this.add.image(640, 360, "result-panel").setOrigin(0.5);
 
         this.add.text(640, 160, isCapstoneSectionResult
             ? "SECTION COMPLETE!"

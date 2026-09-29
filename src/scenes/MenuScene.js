@@ -58,9 +58,9 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     showSettings() { 
-        const overlay = this.add 
-            .rectangle(640, 360, 700, 320, 0x070b18, 0.97) 
-            .setStrokeStyle(2, 0x5f74bd) 
+        const overlay = this.add
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(10); 
             
         const title = this.add 
@@ -115,8 +115,8 @@ export default class MenuScene extends Phaser.Scene {
 
     showAbout() {
         const overlay = this.add
-            .rectangle(640, 360, 700, 260, 0x070b18, 0.97)
-            .setStrokeStyle(2, 0x5f74bd)
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(10);
 
         const text = this.add
@@ -145,8 +145,8 @@ export default class MenuScene extends Phaser.Scene {
 
     showQuit() {
         const overlay = this.add
-            .rectangle(640, 360, 700, 260, 0x070b18, 0.97)
-            .setStrokeStyle(2, 0x5f74bd)
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(10);
 
         const text = this.add

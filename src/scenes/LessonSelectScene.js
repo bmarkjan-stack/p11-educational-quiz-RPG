@@ -23,6 +23,7 @@ const NODES = {
         normal: "responsive-normal",
         hover: "responsive-hover",
         active: "responsive-active",
+        done: "responsive-done",
         cloud: null,
         hitbox: { x: 60, y: 310, width: 160, height: 90 },
     },
@@ -30,6 +31,7 @@ const NODES = {
         normal: "javascript-normal",
         hover: "javascript-hover",
         active: "javascript-active",
+        done: "javascript-done",
         cloud: "javascript-cloud",
         hitbox: { x: 240, y: 310, width: 160, height: 90 },
     },
@@ -37,6 +39,7 @@ const NODES = {
         normal: "frontend-normal",
         hover: "frontend-hover",
         active: "frontend-active",
+        done: "frontend-done",
         cloud: "frontend-cloud",
         hitbox: { x: 420, y: 300, width: 140, height: 90 },
     },
@@ -46,6 +49,7 @@ const NODES = {
         normal: "python-normal",
         hover: "python-hover",
         active: "python-active",
+        done: "python-done",
         cloud: null,
         hitbox: { x: 1080, y: 310, width: 150, height: 90 },
     },
@@ -53,6 +57,7 @@ const NODES = {
         normal: "relational-database-normal",
         hover: "relational-database-hover",
         active: "relational-database-active",
+        done: "relational-database-done",
         cloud: "relational-databases-cloud",
         hitbox: { x: 910, y: 310, width: 150, height: 90 },
     },
@@ -60,6 +65,7 @@ const NODES = {
         normal: "backend-normal",
         hover: "backend-hover",
         active: "backend-active",
+        done: "backend-done",
         cloud: "backend-cloud",
         hitbox: { x: 720, y: 300, width: 160, height: 90 },
     },
@@ -70,15 +76,16 @@ const CAPSTONE = {
     locked: "full-stack-normal-locked",
     hover: "full-stack-hover",
     active: "full-stack-active",
+    done: "full-stack-done",
     cloud: "full-stack-cloud",
     hitbox: { x: 560, y: 410, width: 160, height: 130 },
 };
 
-const DAILY = {
-    normal: "daily-normal",
-    hover: "daily-hover",
-    active: "daily-active",
-    cloud: "daily-coding-cloud",
+const PHASE_TWO = {
+    normal: "phase-2-normal",
+    hover: "phase-2-hover",
+    active: "phase-2-active",
+    cloud: "phase-2-cloud",
     hitbox: { x: 540, y: 90, width: 200, height: 110 },
 };
 
@@ -104,7 +111,7 @@ export default class LessonSelectScene extends Phaser.Scene {
         this.drawBackground();
         this.createLessonNodes();
         this.createCapstoneNode();
-        this.createDailyChallengeNode();
+        this.createPhaseTwoButton();
         this.createLastPlayedIndicator();
         this.playMusic();
         this.createBackButton();
@@ -198,7 +205,7 @@ export default class LessonSelectScene extends Phaser.Scene {
             !!this.progressManager.getLessonStatus(lessonId)?.completed;
 
         const node = this.addCentered(
-            completed ? config.active : config.normal,
+            completed ? config.done : config.normal,
             DEPTH_NODE
         );
 
@@ -216,6 +223,7 @@ export default class LessonSelectScene extends Phaser.Scene {
                 normal: config.normal,
                 hover: config.hover,
                 active: config.active,
+                done: config.done,
                 completed,
             },
             () => this.selectLesson(lessonId)
@@ -249,7 +257,7 @@ export default class LessonSelectScene extends Phaser.Scene {
         );
 
         const restingTexture = textures.completed
-            ? textures.active
+            ? textures.done
             : textures.normal;
 
         const hoverTexture = textures.completed
@@ -310,7 +318,7 @@ export default class LessonSelectScene extends Phaser.Scene {
                 if (!node.active) return;
 
                 // Return to hover state if the mouse is still over it.
-                if (node.getBounds().contains(pointer.x, pointer.y)) {
+                    if (hitArea.contains(pointer.x - topLeft.x, pointer.y - topLeft.y)) {
                     node.setTexture(hoverTexture);
                 } else {
                     node.setTexture(restingTexture);
@@ -344,7 +352,7 @@ export default class LessonSelectScene extends Phaser.Scene {
 
         const node = this.addCentered(
             completed
-                ? CAPSTONE.active
+                ? CAPSTONE.done
                 : unlocked
                 ? CAPSTONE.normal
                 : CAPSTONE.locked,
@@ -363,6 +371,7 @@ export default class LessonSelectScene extends Phaser.Scene {
                 normal: CAPSTONE.normal,
                 hover: CAPSTONE.hover,
                 active: CAPSTONE.active,
+                done: CAPSTONE.done,
                 completed,
             },
             () => this.selectLesson(CAPSTONE_LESSON)
@@ -370,38 +379,39 @@ export default class LessonSelectScene extends Phaser.Scene {
     }
 
     // --------------------------------------------------
-    // Daily Coding Challenges
+    // Phase 2 placeholder
     // --------------------------------------------------
 
-    createDailyChallengeNode() {
-        const unlocked =
-            this.progressManager.isDailyChallengeUnlocked();
-
-        this.dailyChallengeStats =
-            this.progressManager.getDailyChallengeStats();
-
-        const node = this.addCentered(DAILY.normal, DEPTH_NODE);
-
-        if (!unlocked) {
-            this.addCloud(DAILY.cloud);
-            return;
-        }
+    createPhaseTwoButton() {
+        const node = this.addCentered(PHASE_TWO.normal, DEPTH_NODE);
 
         this.enableCustomHitbox(
             node,
-            DAILY.hitbox,
+            PHASE_TWO.hitbox,
             {
-                normal: DAILY.normal,
-                hover: DAILY.hover,
-                active: DAILY.normal,
+                normal: PHASE_TWO.normal,
+                hover: PHASE_TWO.hover,
+                active: PHASE_TWO.active,
                 completed: false,
             },
-            () =>
-                this.scene.start("DailyChallengesScene", {
-                    character: this.character,
-                    characterName: this.characterName,
-                })
+            () => {
+                this.phaseTwoNotice?.destroy();
+                this.phaseTwoNotice = this.add
+                    .text(CENTER_X, 215, "Phase 2 is coming soon.", {
+                        fontFamily: "Arial",
+                        fontSize: "18px",
+                        fontStyle: "bold",
+                        color: "#facc15",
+                        stroke: "#1a0f05",
+                        strokeThickness: 3,
+                    })
+                    .setOrigin(0.5)
+                    .setDepth(DEPTH_CLOUD + 2);
+                this.time.delayedCall(1800, () => this.phaseTwoNotice?.destroy());
+            }
         );
+
+        this.addCloud(PHASE_TWO.cloud);
     }
 
     // --------------------------------------------------
@@ -526,8 +536,8 @@ export default class LessonSelectScene extends Phaser.Scene {
 
     showReplayConfirm(lessonId) {
         const overlay = this.add
-            .rectangle(640, 360, 760, 300, 0x070b18, 0.97)
-            .setStrokeStyle(2, 0xfacc15)
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(20);
 
         const title = this.add

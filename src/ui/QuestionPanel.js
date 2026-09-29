@@ -1,46 +1,64 @@
 import Button from "./Button.js";
 
 const CHOICE_LABELS = ["A", "B", "C", "D"];
+const OPTION_KEYS = ["a", "b", "c", "d"];
+const QUESTION_AREA = { x: 30, y: 470, width: 610, height: 230 };
+const OPTION_AREAS = [
+    { x: 650, y: 470, width: 295, height: 110 },
+    { x: 960, y: 470, width: 295, height: 110 },
+    { x: 650, y: 590, width: 295, height: 110 },
+    { x: 960, y: 590, width: 295, height: 110 },
+];
 
 export default class QuestionPanel {
-    constructor(scene, x, y, width = 900) {
+    constructor(scene) {
         this.scene = scene;
-        this.x = x;
-        this.y = y;
-        this.width = width;
         this.buttons = [];
         this.locked = false;
         this.timerEvent = null;
         this.remainingSeconds = 20;
 
+        this.panelImage = scene.add
+            .image(640, 360, "quiz-question-panel")
+            .setDepth(1);
+
         this.questionText = scene.add
-            .text(x, y, "", {
-                fontFamily: "Arial",
+            .text(
+                QUESTION_AREA.x + QUESTION_AREA.width / 2,
+                QUESTION_AREA.y + 115,
+                "",
+                {
+                fontFamily: "LearnQuest",
                 fontSize: "24px",
                 fontStyle: "bold",
                 color: "#ffffff",
                 align: "center",
-                wordWrap: { width },
-            })
-            .setOrigin(0.5);
+                padding: { left: 5, right: 5, top: 5, bottom: 5 },
+                wordWrap: { width: QUESTION_AREA.width - 10 },
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(4);
 
         this.feedbackText = scene.add
-            .text(x, y + 190, "", {
-                fontFamily: "Arial",
+            .text(QUESTION_AREA.x + QUESTION_AREA.width / 2, 682, "", {
+                fontFamily: "LearnQuest",
                 fontSize: "20px",
                 fontStyle: "bold",
                 color: "#ffffff",
             })
-            .setOrigin(0.5);
+            .setOrigin(0.5)
+            .setDepth(4);
 
         this.timerText = scene.add
-            .text(x, y - 55, "", {
-                fontFamily: "Arial",
+            .text(QUESTION_AREA.x + QUESTION_AREA.width / 2, 485, "", {
+                fontFamily: "LearnQuest",
                 fontSize: "18px",
                 fontStyle: "bold",
                 color: "#ffffff",
             })
-            .setOrigin(0.5);
+            .setOrigin(0.5)
+            .setDepth(4);
     }
 
     showQuestion(questionData, onAnswer) {
@@ -52,18 +70,11 @@ export default class QuestionPanel {
         this.onAnswer = onAnswer;
         this.correctIndex = questionData.answer;
 
-        const columns = 2;
-        const gapX = 320;
-        const gapY = 70;
-        const startX = this.x - gapX / 2;
-        const startY = this.y + 70;
-
         questionData.choices.forEach((choiceText, index) => {
-            const col = index % columns;
-            const row = Math.floor(index / columns);
-
-            const buttonX = startX + col * gapX;
-            const buttonY = startY + row * gapY;
+            const area = OPTION_AREAS[index];
+            const buttonX = area.x + area.width / 2;
+            const buttonY = area.y + area.height / 2;
+            const optionKey = OPTION_KEYS[index];
 
             const button = new Button(
                 this.scene,
@@ -71,8 +82,20 @@ export default class QuestionPanel {
                 buttonY,
                 `${CHOICE_LABELS[index]}. ${choiceText}`,
                 () => this.handleAnswer(index),
-                { width: 300, height: 56, fontSize: "16px" }
+                {
+                    width: area.width,
+                    height: area.height,
+                    fontSize: "16px",
+                    normalTexture: `quiz-option-${optionKey}-normal`,
+                    hoverTexture: `quiz-option-${optionKey}-hover`,
+                    activeTexture: `quiz-option-${optionKey}-active`,
+                    fullCanvasImages: true,
+                }
             );
+            button.label
+                .setWordWrapWidth(area.width - 10)
+                .setPadding(5, 5, 5, 5);
+            button.setDepth(1);
 
             this.buttons.push(button);
         });
@@ -103,9 +126,13 @@ export default class QuestionPanel {
             button.setEnabled(false);
 
             if (index === this.correctIndex) {
-                button.background.setFillStyle(0x16a34a, 1);
+                button.normalImage
+                    .setTexture(`quiz-option-${OPTION_KEYS[index]}-correct`)
+                    .setAlpha(1);
             } else if (index === selectedIndex) {
-                button.background.setFillStyle(0xdc2626, 1);
+                button.normalImage
+                    .setTexture(`quiz-option-${OPTION_KEYS[index]}-incorrect`)
+                    .setAlpha(1);
             }
         });
 
@@ -158,6 +185,7 @@ export default class QuestionPanel {
         this.stopTimer();
         this.clearButtons();
         this.questionText.destroy();
+        this.panelImage.destroy();
         this.feedbackText.destroy();
         this.timerText.destroy();
     }

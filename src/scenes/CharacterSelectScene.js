@@ -382,8 +382,8 @@ export default class CharacterSelectScene extends Phaser.Scene {
     // Message
     showMessage(title, message) {
         const overlay = this.add
-            .rectangle(640, 360, 700, 300, 0x070b18, 0.97)
-            .setStrokeStyle(2, 0x5f74bd)
+            .image(640, 360, "result-panel")
+            .setOrigin(0.5)
             .setDepth(10);
 
         const titleText = this.add

@@ -11,6 +11,7 @@ export default class Button {
             fontFamily = "LearnQuest",
             fontSize = "20px",
             textColor = "#ffffff",
+            fullCanvasImages = false,
 
             disabledAlpha = 0.5,
         } = options;
@@ -19,6 +20,7 @@ export default class Button {
         this.callback = callback;
         this.disabled = false;
         this.disabledAlpha = disabledAlpha;
+        this.fullCanvasImages = fullCanvasImages;
 
         /*
          * --------------------------------------------------
@@ -26,19 +28,24 @@ export default class Button {
          * --------------------------------------------------
          */
 
-        this.normalImage = scene.add
-            .image(x, y, normalTexture)
-            .setDisplaySize(width, height);
+        const imageX = fullCanvasImages ? 640 : x;
+        const imageY = fullCanvasImages ? 360 : y;
+        const setImageSize = (image) => {
+            if (!fullCanvasImages) image.setDisplaySize(width, height);
+            return image;
+        };
 
-        this.hoverImage = scene.add
-            .image(x, y, hoverTexture)
-            .setDisplaySize(width, height)
-            .setVisible(false);
+        this.normalImage = setImageSize(
+            scene.add.image(imageX, imageY, normalTexture)
+        );
 
-        this.activeImage = scene.add
-            .image(x, y, activeTexture)
-            .setDisplaySize(width, height)
-            .setVisible(false);
+        this.hoverImage = setImageSize(
+            scene.add.image(imageX, imageY, hoverTexture)
+        ).setVisible(false);
+
+        this.activeImage = setImageSize(
+            scene.add.image(imageX, imageY, activeTexture)
+        ).setVisible(false);
 
         /*
          * --------------------------------------------------
@@ -210,9 +217,11 @@ export default class Button {
      */
 
     setPosition(x, y) {
-        this.normalImage.setPosition(x, y);
-        this.hoverImage.setPosition(x, y);
-        this.activeImage.setPosition(x, y);
+        if (!this.fullCanvasImages) {
+            this.normalImage.setPosition(x, y);
+            this.hoverImage.setPosition(x, y);
+            this.activeImage.setPosition(x, y);
+        }
 
         this.background.setPosition(x, y);
         this.label.setPosition(x, y);
