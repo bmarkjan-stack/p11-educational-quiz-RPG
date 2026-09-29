@@ -7,6 +7,7 @@ import QuestionPanel from "../ui/QuestionPanel.js";
 import Button from "../ui/Button.js";
 import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
+import { applyFloatyText } from "../ui/sceneEffects.js";
 
 // XP awarded for defeating a section's quiz enemy (requirement #5).
 // Boss challenges (the exam) award more XP — see ExamScene.
@@ -51,6 +52,7 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     init(data) {
+        this.exitConfirmation = null;
         this.lesson = data.lesson;
         this.character = data.character;
         this.characterName = data.characterName;
@@ -63,6 +65,7 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     create() {
+        applyFloatyText(this);
         this.progressManager = new ProgressManager();
 
         if (this.awardsExperience) {
@@ -411,7 +414,10 @@ export default class BattleScene extends Phaser.Scene {
             640,
             520,
             "EXIT TO LESSON SELECT",
-            () => this.showExitConfirmation({ resumeQuestion: false }),
+            () => this.scene.start("LessonSelectScene", {
+                character: this.character,
+                characterName: this.characterName,
+            }),
             { width: 300 }
         );
 

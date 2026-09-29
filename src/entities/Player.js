@@ -1,3 +1,5 @@
+import { createSpriteShadow } from "../ui/sceneEffects.js";
+
 export default class Player {
     constructor(scene, x, y, character = "male", name = "Adventurer", stats = {}) {
         this.scene = scene;
@@ -15,7 +17,9 @@ export default class Player {
 
         const textureKey = character === "female" ? "player-female" : "player-male";
 
+        this.shadow = createSpriteShadow(scene, x, y, textureKey, 0.6);
         this.sprite = scene.add.sprite(x, y, textureKey).setOrigin(0.5).setScale(0.6);
+        this.sprite.postFX?.addGlow(0x60a5fa, 0.8, 1, false, 0.2, 4);
 
         this.baseX = x;
         this.baseY = y;
@@ -44,7 +48,7 @@ export default class Player {
 
     playAttackAnimation(onComplete) {
         this.scene.tweens.add({
-            targets: this.sprite,
+            targets: [this.sprite, this.shadow],
             x: this.baseX + 40,
             duration: 150,
             yoyo: true,
@@ -56,7 +60,7 @@ export default class Player {
         this.sprite.setTintFill(0xff6b6b);
 
         this.scene.tweens.add({
-            targets: this.sprite,
+            targets: [this.sprite, this.shadow],
             x: this.baseX - 10,
             duration: 60,
             yoyo: true,
@@ -67,5 +71,6 @@ export default class Player {
 
     destroy() {
         this.sprite.destroy();
+        this.shadow.destroy();
     }
 }

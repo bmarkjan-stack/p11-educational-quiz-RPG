@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import "./styles.css";
 
 import BootScene from "./scenes/BootScene.js";
 import PreloadScene from "./scenes/PreloadScene.js";
@@ -39,5 +40,11 @@ const config = {
         ResultsScene,
     ]
 };
+
+await Promise.all(
+    ["Cinzel Decorative", "IM Fell English", "MedievalSharp", "Pixelify Sans"].map(
+        (fontFamily) => document.fonts.load(`16px "${fontFamily}"`)
+    )
+);
 
 new Phaser.Game(config);

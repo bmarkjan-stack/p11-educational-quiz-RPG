@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Button from "../ui/Button.js";
 import ProgressManager from "../systems/ProgressManager.js";
 import { CAPSTONE_LESSON } from "../systems/curriculum.js";
+import { applyFloatyText } from "../ui/sceneEffects.js";
 
 export default class LessonScene extends Phaser.Scene {
     constructor() {
@@ -24,6 +25,7 @@ export default class LessonScene extends Phaser.Scene {
     }
 
     create() {
+        applyFloatyText(this);
         this.progressManager = new ProgressManager();
         this.saveCheckpoint();
 

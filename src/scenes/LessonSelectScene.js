@@ -3,6 +3,7 @@ import Button from "../ui/Button.js";
 import LessonManager from "../systems/LessonManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 import { TRACKS, CAPSTONE_LESSON } from "../systems/curriculum.js";
+import { applyFloatyText } from "../ui/sceneEffects.js";
 
 const CENTER_X = 640;
 const CENTER_Y = 360;
@@ -100,6 +101,7 @@ export default class LessonSelectScene extends Phaser.Scene {
     }
 
     create() {
+        applyFloatyText(this);
         this.lessonManager = new LessonManager();
         this.progressManager = new ProgressManager();
 

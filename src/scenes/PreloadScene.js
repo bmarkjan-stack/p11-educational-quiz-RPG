@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
+import { applyFloatyText } from "../ui/sceneEffects.js";
 
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
@@ -16,6 +17,7 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
+        applyFloatyText(this);
         this.createLoadingBar();
 
         // Backgrounds

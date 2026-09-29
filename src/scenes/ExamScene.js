@@ -8,6 +8,7 @@ import Button from "../ui/Button.js";
 import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 import { CAPSTONE_LESSON } from "../systems/curriculum.js";
+import { applyFloatyText } from "../ui/sceneEffects.js";
 
 // Boss challenges award more XP than a regular section quiz (requirement #5).
 const EXAM_XP_REWARD = 50;
@@ -74,6 +75,7 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     init(data) {
+        this.exitConfirmation = null;
         this.lesson = data.lesson;
         this.character = data.character;
         this.characterName = data.characterName;
@@ -89,6 +91,7 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     create() {
+        applyFloatyText(this);
         this.progressManager = new ProgressManager();
 
         if (this.awardsExperience) {
@@ -192,15 +195,15 @@ export default class ExamScene extends Phaser.Scene {
             });
         this.boss = new Boss(this, 1020, 300, bossConfig);
 
-        this.add.text(260, 200, `${this.characterName}  (Lv. ${this.player.level})`, {
-            fontFamily: "Arial",
+        this.add.text(260, 150, `${this.characterName}  (Lv. ${this.player.level})`, {
+            fontFamily: "LearnQuest",
             fontSize: "18px",
             fontStyle: "bold",
             color: "#ffffff",
         }).setOrigin(0.5);
 
-        this.bossNameLabel = this.add.text(1020, 200, this.boss.name, {
-            fontFamily: "Arial",
+        this.bossNameLabel = this.add.text(1020, 130, this.boss.name, {
+            fontFamily: "LearnQuest",
             fontSize: "18px",
             fontStyle: "bold",
             color: "#ffffff",
@@ -247,18 +250,18 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     createHealthBars() {
-        this.playerHealthBar = new HealthBar(this, 130, 230, 260, 24, this.player.maxHp);
+        this.playerHealthBar = new HealthBar(this, 130, 180, 260, 24, this.player.maxHp);
         const stats = this.progressManager.getCharacterStats();
         this.playerExperienceBar = new ExperienceBar(
             this,
             130,
-            268,
+            206,
             260,
             14,
             stats.xp,
             stats.xpToNextLevel
         );
-        this.bossHealthBar = new HealthBar(this, 890, 230, 260, 24, this.boss.maxHp);
+        this.bossHealthBar = new HealthBar(this, 890, 160, 260, 24, this.boss.maxHp);
     }
 
     playMusic() {

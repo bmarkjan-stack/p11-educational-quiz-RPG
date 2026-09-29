@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Button from "../ui/Button.js";
 import ExperienceBar from "../ui/ExperienceBar.js";
 import { CAPSTONE_LESSON } from "../systems/curriculum.js";
+import { applyFloatyText } from "../ui/sceneEffects.js";
 
 export default class ResultsScene extends Phaser.Scene {
     constructor() {
@@ -13,6 +14,7 @@ export default class ResultsScene extends Phaser.Scene {
     }
 
     create() {
+        applyFloatyText(this);
         const {
             lesson,
             characterName,
@@ -182,23 +184,6 @@ export default class ResultsScene extends Phaser.Scene {
 
             return;
         }
-
-        new Button(
-            this,
-            640,
-            520,
-            "RETRY EXAM",
-            () => {
-                this.scene.start("ExamScene", {
-                    lesson: this.data.lesson,
-                    character: this.data.character,
-                    characterName: this.data.characterName,
-                    battleScore: this.data.battleScore,
-                    battleTotal: this.data.battleTotal,
-                });
-            },
-            { width: 260 }
-        );
 
         new Button(
             this,

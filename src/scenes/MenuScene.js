@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
 import ProgressManager from "../systems/ProgressManager.js";
+import { applyFloatyText } from "../ui/sceneEffects.js";
 
 export default class MenuScene extends Phaser.Scene {
     constructor() {
@@ -8,6 +9,7 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     create() {
+        applyFloatyText(this);
         this.drawBackground();
         this.createTitle();
         this.createButtons();
