@@ -112,6 +112,7 @@ export default class ExamScene extends Phaser.Scene {
         this.quizManager = new QuizManager(this.getExamQuestions());
 
         this.drawBackground();
+        this.createTitle();
         this.createCombatants();
         this.createHealthBars();
         this.createHeader();
@@ -120,6 +121,12 @@ export default class ExamScene extends Phaser.Scene {
         this.playMusic();
 
         this.time.delayedCall(200, () => this.nextQuestion());
+    }
+
+    createTitle() {
+        this.add
+            .image(640, 360, "exam-panel-title")
+            .setOrigin(0.5);
     }
 
     createExitButton() {
@@ -185,7 +192,7 @@ export default class ExamScene extends Phaser.Scene {
 
     createCombatants() {
         const stats = this.progressManager.getCharacterStats();
-        this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
+        this.player = new Player(this, 325, 350, this.character, this.characterName, stats);
         const baseBossConfig = this.getBaseBossConfig();
         const bossConfig = this.isFullStackExam()
             ? this.progressManager.scaleFullStackBossStats(
@@ -197,18 +204,19 @@ export default class ExamScene extends Phaser.Scene {
                 isBoss: true,
                 isFinalBoss: false,
             });
-        this.boss = new Boss(this, 1020, 300, bossConfig);
+        this.boss = new Boss(this, 940, 315, bossConfig);
+        this.boss.sprite.setScale(.95);
 
-        this.add.text(260, 150, `${this.characterName}  (Lv. ${this.player.level})`, {
+        this.add.text(325, 200, `${this.characterName}  (Lv. ${this.player.level})`, {
             fontFamily: "LearnQuest",
             fontSize: "18px",
             fontStyle: "bold",
             color: "#ffffff",
         }).setOrigin(0.5);
 
-        this.bossNameLabel = this.add.text(1020, 130, this.boss.name, {
+        this.bossNameLabel = this.add.text(940, 140, this.boss.name, {
             fontFamily: "LearnQuest",
-            fontSize: "18px",
+            fontSize: "24px",
             fontStyle: "bold",
             color: "#ffffff",
         }).setOrigin(0.5);
@@ -259,18 +267,14 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     createHealthBars() {
-        this.playerHealthBar = new HealthBar(this, 130, 180, 260, 24, this.player.maxHp);
+        this.playerHealthBar = new HealthBar(this, 195, 230, 260, 24, this.player.maxHp);
         const stats = this.progressManager.getCharacterStats();
         this.playerExperienceBar = new ExperienceBar(
-            this,
-            130,
-            206,
-            260,
-            14,
+            this, 195, 256, 260, 14,
             stats.xp,
             stats.xpToNextLevel
         );
-        this.bossHealthBar = new HealthBar(this, 890, 160, 260, 24, this.boss.maxHp);
+        this.bossHealthBar = new HealthBar(this, 785, 170, 310, 32, this.boss.maxHp);
     }
 
     playMusic() {
@@ -280,18 +284,18 @@ export default class ExamScene extends Phaser.Scene {
 
     createHeader() {
         this.add
-            .text(640, 90, `${this.lesson.title} \u2014 FINAL BOSS EXAM`, {
+            .text(640, 50, `${this.lesson.title} \u2014 FINAL BOSS EXAM`, {
                 fontFamily: "Arial",
-                fontSize: "30px",
+                fontSize: "16px",
                 fontStyle: "bold",
                 color: "#ffffff",
             })
             .setOrigin(0.5);
 
         this.progressLabel = this.add
-            .text(640, 130, "", {
+            .text(640, 85, "", {
                 fontFamily: "Arial",
-                fontSize: "16px",
+                fontSize: "12px",
                 color: "#c7d2fe",
             })
             .setOrigin(0.5);

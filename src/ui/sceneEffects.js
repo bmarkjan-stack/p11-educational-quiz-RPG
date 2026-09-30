@@ -36,10 +36,10 @@ export function createSpriteShadow(scene, x, y, textureKey, scale) {
 
     return scene.add.ellipse(
         x,
-        y + displayHeight * 0.43,
+        y + displayHeight * 0.48,
         displayWidth * 0.56,
         Math.max(14, displayHeight * 0.075),
         0x060a13,
-        0.38
+        0.78
     );
 }

@@ -153,7 +153,7 @@ export default class BattleScene extends Phaser.Scene {
 
     createCombatants(section) {
         const stats = this.progressManager.getCharacterStats();
-        this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
+        this.player = new Player(this, 325, 350, this.character, this.characterName, stats);
 
         const lessonRoster = ENEMY_ROSTERS[this.lesson.id] ?? ENEMY_ROSTERS["responsive-web-design"];
         const baseBossConfig = lessonRoster[this.sectionIndex] ?? lessonRoster[0];
@@ -163,10 +163,10 @@ export default class BattleScene extends Phaser.Scene {
             oneHitKill: this.progressManager.isPythonOverpowered(this.lesson.id),
         });
 
-        this.boss = new Boss(this, 1020, 300, bossConfig);
+        this.boss = new Boss(this, 940, 315, bossConfig);
 
         this.add
-            .text(260, 150, `${this.characterName}  (Lv. ${this.player.level})`, {
+            .text(325, 200, `${this.characterName}  (Lv. ${this.player.level})`, {
                 fontFamily: "LearnQuest",
                 fontSize: "18px",
                 fontStyle: "bold",
@@ -175,7 +175,7 @@ export default class BattleScene extends Phaser.Scene {
             .setOrigin(0.5);
 
         this.add
-            .text(1020, 130, this.boss.name, {
+            .text(940, 145, this.boss.name, {
                 fontFamily: "LearnQuest",
                 fontSize: "18px",
                 fontStyle: "bold",
@@ -185,13 +185,13 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     createHealthBars() {
-        this.playerHealthBar = new HealthBar(this, 130, 180, 260, 24, this.player.maxHp);
+        this.playerHealthBar = new HealthBar(this, 195, 230, 260, 24, this.player.maxHp);
         this.playerExperienceBar = new ExperienceBar(
-            this, 130, 206, 260, 14,
+            this, 195, 256, 260, 14,
             this.progressManager.getCharacterStats().xp,
             this.progressManager.getCharacterStats().xpToNextLevel
         );
-        this.bossHealthBar = new HealthBar(this, 890, 160, 260, 24, this.boss.maxHp);
+        this.bossHealthBar = new HealthBar(this, 810, 175, 260, 24, this.boss.maxHp);
     }
 
     createQuestionPanel() {
