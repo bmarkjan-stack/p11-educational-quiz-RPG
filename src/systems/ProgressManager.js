@@ -48,8 +48,8 @@ function inferCharacterType(stats) {
         let attackPower = baseStats.attackPower;
 
         for (let level = 2; level <= stats.level; level += 1) {
-            maxHp += Math.floor(HP_PER_LEVEL * (level * 0.35)) + 1;
-            attackPower += Math.floor(ATTACK_PER_LEVEL * (level * 0.25)) + 1;
+            maxHp += HP_PER_LEVEL;
+            attackPower += ATTACK_PER_LEVEL;
         }
 
         const difference = Math.abs(maxHp - stats.maxHp) + Math.abs(attackPower - stats.attackPower);
@@ -64,16 +64,78 @@ function inferCharacterType(stats) {
 
 // Flat stat growth applied on every level up.
 const HP_PER_LEVEL = 2;
-const ATTACK_PER_LEVEL = 1.5;
+const ATTACK_PER_LEVEL = 1;
 const XP_PER_LEVEL_BASE = 30;
-const XP_GROWTH = 1.25;
-const NORMAL_MOB_HP_MULTIPLIER = 2.7;
-const NORMAL_MOB_DAMAGE_MULTIPLIER = 0.6;
-const BOSS_HP_MULTIPLIER = 15.5;
-const BOSS_DAMAGE_MULTIPLIER = 0.13;
-const FULLSTACK_BOSS_HP_MULTIPLIER = 17;
-const FULLSTACK_BOSS_DAMAGE_MULTIPLIER = 0.14;
-const FINAL_BOSS_HP_MULTIPLIER = 19.5;
+
+const NORMAL_MOB_HITS_TO_DEFEAT = 3;
+const NORMAL_MOB_PLAYER_HITS_TO_DEFEAT = 2;
+const STANDARD_BOSS_HITS_TO_DEFEAT = 16;
+const STANDARD_BOSS_PLAYER_HITS_TO_DEFEAT = 8;
+const FULLSTACK_PHASE_1_HITS_TO_DEFEAT = 5;
+const FULLSTACK_PHASE_2_HITS_TO_DEFEAT = 10;
+const FULLSTACK_BOSS_PLAYER_HITS_TO_DEFEAT = 8;
+const FINAL_BOSS_PHASE_1_HITS_TO_DEFEAT = 15;
+const FINAL_BOSS_PHASE_2_HITS_TO_DEFEAT = 30;
+const FINAL_BOSS_PLAYER_HITS_TO_DEFEAT = 16;
+
+// Exact damage so the target dies on precisely the Nth hit
+// (e.g. 20 HP / 8 hits = 2.5 damage per hit; the 8th hit lands at 0 HP).
+function getEnemyDamageForDesiredHits(targetHp, desiredHits) {
+    if (desiredHits <= 1) {
+        return Math.max(1, targetHp);
+    }
+
+    return targetHp / desiredHits;
+}
+
+function getEncounterHitTarget({
+    isBoss = false,
+    isFinalBoss = false,
+    fullStack = false,
+    phase = 1,
+    hitsToDefeat,
+} = {}) {
+    if (Number.isInteger(hitsToDefeat) && hitsToDefeat > 0) {
+        return hitsToDefeat;
+    }
+
+    if (isFinalBoss) {
+        return phase === 1
+            ? FINAL_BOSS_PHASE_1_HITS_TO_DEFEAT
+            : FINAL_BOSS_PHASE_2_HITS_TO_DEFEAT;
+    }
+
+    if (isBoss) {
+        return fullStack
+            ? (phase === 1 ? FULLSTACK_PHASE_1_HITS_TO_DEFEAT : FULLSTACK_PHASE_2_HITS_TO_DEFEAT)
+            : STANDARD_BOSS_HITS_TO_DEFEAT;
+    }
+
+    return NORMAL_MOB_HITS_TO_DEFEAT;
+}
+
+function getPlayerHitTarget({
+    isBoss = false,
+    isFinalBoss = false,
+    fullStack = false,
+    hitsToDefeatPlayer,
+} = {}) {
+    if (Number.isInteger(hitsToDefeatPlayer) && hitsToDefeatPlayer > 0) {
+        return hitsToDefeatPlayer;
+    }
+
+    if (isFinalBoss) {
+        return FINAL_BOSS_PLAYER_HITS_TO_DEFEAT;
+    }
+
+    if (isBoss) {
+        return fullStack
+            ? FULLSTACK_BOSS_PLAYER_HITS_TO_DEFEAT
+            : STANDARD_BOSS_PLAYER_HITS_TO_DEFEAT;
+    }
+
+    return NORMAL_MOB_PLAYER_HITS_TO_DEFEAT;
+}
 
 export default class ProgressManager {
     constructor() {
@@ -182,46 +244,60 @@ export default class ProgressManager {
     }
 
     getXpRequired(level) {
-        return Math.floor(XP_PER_LEVEL_BASE * Math.pow(XP_GROWTH, Math.max(0, level - 1)));
+        return XP_PER_LEVEL_BASE * Math.max(1, level);
     }
 
-    scaleEnemyStats(enemyConfig, { isBoss = false, isFinalBoss = false } = {}) {
+    scaleEnemyStats(
+        enemyConfig,
+        {
+            isBoss = false,
+            isFinalBoss = false,
+            fullStack = false,
+            phase = 1,
+            hitsToDefeat = null,
+            hitsToDefeatPlayer = null,
+            oneHitKill = false,
+        } = {}
+    ) {
         const stats = this.getCharacterStats();
-        const hpMultiplier = isFinalBoss
-            ? FINAL_BOSS_HP_MULTIPLIER
-            : isBoss
-                ? enemyConfig.fullStack
-                    ? FULLSTACK_BOSS_HP_MULTIPLIER
-                    : BOSS_HP_MULTIPLIER
-                : NORMAL_MOB_HP_MULTIPLIER;
-        const damageMultiplier = isBoss
-            ? enemyConfig.fullStack
-                ? FULLSTACK_BOSS_DAMAGE_MULTIPLIER
-                : BOSS_DAMAGE_MULTIPLIER
-            : NORMAL_MOB_DAMAGE_MULTIPLIER;
-        const difficulty = enemyConfig.difficulty ?? 1;
-        const attackMultiplier = enemyConfig.attackMultiplier ?? 1;
+        const targetHits = oneHitKill ? 1 : getEncounterHitTarget({
+            isBoss,
+            isFinalBoss,
+            fullStack,
+            phase,
+            hitsToDefeat,
+        });
+        const playerHits = getPlayerHitTarget({
+            isBoss,
+            isFinalBoss,
+            fullStack,
+            hitsToDefeatPlayer,
+        });
 
         return {
             ...enemyConfig,
-            maxHp: Math.ceil(stats.attackPower * hpMultiplier * difficulty),
-            attackPower: Math.max(
-                1,
-                Math.ceil(stats.maxHp * damageMultiplier * attackMultiplier)
-            ),
+            maxHp: Math.max(1, stats.attackPower * targetHits),
+            attackPower: getEnemyDamageForDesiredHits(stats.maxHp, playerHits),
         };
     }
 
-    scaleFullStackBossStats(enemyConfig, hitsToDefeat) {
+    // Frontend finished but backend not: the player has out-levelled the
+    // backend intro and one-shots the Python mobs.
+    isPythonOverpowered(lessonId) {
+        return (
+            lessonId === "python" &&
+            this.isTrackComplete(["responsive-web-design", "javascript", "frontend-libraries"]) &&
+            !this.isTrackComplete(["python", "relational-databases", "backend-apis"])
+        );
+    }
+
+    scaleFullStackBossStats(enemyConfig, hitsToDefeat, hitsToDefeatPlayer = FULLSTACK_BOSS_PLAYER_HITS_TO_DEFEAT) {
         const stats = this.getCharacterStats();
 
         return {
             ...enemyConfig,
-            maxHp: stats.attackPower * Math.max(1, hitsToDefeat - 1) + 1,
-            attackPower: Math.max(
-                1,
-                Math.ceil(stats.maxHp * BOSS_DAMAGE_MULTIPLIER)
-            ),
+            maxHp: Math.max(1, stats.attackPower * Math.max(1, hitsToDefeat)),
+            attackPower: getEnemyDamageForDesiredHits(stats.maxHp, hitsToDefeatPlayer),
         };
     }
 
@@ -250,8 +326,8 @@ export default class ProgressManager {
         while (stats.xp >= stats.xpToNextLevel) {
             stats.xp -= stats.xpToNextLevel;
             stats.level += 1;
-            const levelHpGained = Math.floor(HP_PER_LEVEL * (stats.level * 0.35)) + 1;
-            const levelDamageGained = Math.floor(ATTACK_PER_LEVEL * (stats.level * 0.25)) + 1;
+            const levelHpGained = HP_PER_LEVEL;
+            const levelDamageGained = ATTACK_PER_LEVEL;
             stats.maxHp += levelHpGained;
             stats.attackPower += levelDamageGained;
             maxHpGained += levelHpGained;

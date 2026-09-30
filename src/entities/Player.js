@@ -26,13 +26,20 @@ export default class Player {
     }
 
     attack(target) {
+        // The attack tween has two targets (sprite + shadow) and Phaser fires
+        // onYoyo once per target, so guard to apply the damage exactly once.
+        let damageApplied = false;
         this.playAttackAnimation(() => {
+            if (damageApplied) return;
+            damageApplied = true;
             target.takeDamage(this.attackPower);
         });
     }
 
     takeDamage(amount) {
-        this.hp = Math.max(0, this.hp - amount);
+        const remaining = this.hp - amount;
+        // Snap tiny floating-point remainders to 0 so N exact hits always kill.
+        this.hp = remaining < 0.0001 ? 0 : Math.round(remaining * 10000) / 10000;
         this.playHurtAnimation();
         return this.hp;
     }

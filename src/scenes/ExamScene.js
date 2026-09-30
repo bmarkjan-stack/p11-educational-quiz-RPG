@@ -188,7 +188,11 @@ export default class ExamScene extends Phaser.Scene {
         this.player = new Player(this, 260, 300, this.character, this.characterName, stats);
         const baseBossConfig = this.getBaseBossConfig();
         const bossConfig = this.isFullStackExam()
-            ? this.progressManager.scaleFullStackBossStats(baseBossConfig, this.getPhaseHitTarget())
+            ? this.progressManager.scaleFullStackBossStats(
+                baseBossConfig,
+                this.getPhaseHitTarget(),
+                this.getPlayerHitsToDefeat()
+            )
             : this.progressManager.scaleEnemyStats(baseBossConfig, {
                 isBoss: true,
                 isFinalBoss: false,
@@ -246,7 +250,12 @@ export default class ExamScene extends Phaser.Scene {
         const boss = FULLSTACK_BOSSES[this.examSectionIndex];
         return boss?.finalBoss
             ? this.bossPhase === 1 ? 15 : 30
-            : this.bossPhase === 1 ? 5 : 12;
+            : this.bossPhase === 1 ? 5 : 10;
+    }
+
+    // Full-stack bosses kill the player in 8 hits; the final boss in 16.
+    getPlayerHitsToDefeat() {
+        return FULLSTACK_BOSSES[this.examSectionIndex]?.finalBoss ? 16 : 8;
     }
 
     createHealthBars() {
@@ -347,8 +356,12 @@ export default class ExamScene extends Phaser.Scene {
         this.quizManager = new QuizManager(this.getExamQuestions());
         const phaseTwoConfig = this.progressManager.scaleFullStackBossStats(
             this.getBaseBossConfig(),
-            this.getPhaseHitTarget()
+            this.getPhaseHitTarget(),
+            this.getPlayerHitsToDefeat()
         );
+        // Phase 2: the player regains full health.
+        this.player.hp = this.player.maxHp;
+        this.playerHealthBar.setHealth(this.player.hp, this.player.maxHp);
         this.boss.transform(phaseTwoConfig);
         this.bossNameLabel.setText(this.boss.name);
         this.bossHealthBar.setHealth(this.boss.hp, this.boss.maxHp);
@@ -522,7 +535,8 @@ export default class ExamScene extends Phaser.Scene {
 
         const bossConfig = this.progressManager.scaleFullStackBossStats(
             this.getBaseBossConfig(),
-            this.getPhaseHitTarget()
+            this.getPhaseHitTarget(),
+            this.getPlayerHitsToDefeat()
         );
         this.boss.transform(bossConfig);
         this.bossNameLabel.setText(this.boss.name);

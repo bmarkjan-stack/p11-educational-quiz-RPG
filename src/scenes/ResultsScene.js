@@ -40,7 +40,7 @@ export default class ResultsScene extends Phaser.Scene {
         this.add.image(640, 360, "bg-classroom").setDisplaySize(1280, 720);
         this.add.image(640, 360, "result-panel").setOrigin(0.5);
 
-        this.add.text(640, 160, isCapstoneSectionResult
+        this.add.text(640, 170, isCapstoneSectionResult
             ? "SECTION COMPLETE!"
             : isCapstoneVictory ? "FULL-STACK DEVELOPER!" : "LESSON COMPLETE!", {
             fontFamily: "Arial",
@@ -50,7 +50,7 @@ export default class ResultsScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         const resultTitle = isCapstoneSectionResult ? this.data.sectionTitle : lesson.title;
-        this.add.text(640, 205, `${resultTitle} \u2014 ${characterName}`, {
+        this.add.text(640, 215, `${resultTitle} \u2014 ${characterName}`, {
             fontFamily: "Arial",
             fontSize: "20px",
             color: "#c7d2fe",
@@ -58,8 +58,8 @@ export default class ResultsScene extends Phaser.Scene {
 
         const scoreText = isCapstoneSectionResult
             ? `Section Score: ${examScore} / ${examTotal}\n\nAccuracy: ${accuracy}%`
-            : `Battle Score: ${battleScore} / ${battleTotal}\nExam Score:   ${examScore} / ${examTotal}\n\nAccuracy: ${accuracy}%`;
-        this.add.text(640, 300, scoreText, {
+            : `Battle Score: ${battleScore} / ${battleTotal}\nExam Score:   ${examScore} / ${examTotal}\nAccuracy: ${accuracy}%`;
+        this.add.text(640, 295, scoreText, {
                 fontFamily: "monospace",
                 fontSize: "22px",
                 color: "#e2e8f0",
@@ -71,7 +71,7 @@ export default class ResultsScene extends Phaser.Scene {
             const xpLine = awardsExperience
                 ? `+${xpGained} XP${leveledUp ? `  \u2014  LEVEL UP! Now Lv. ${newLevel}` : ""}`
                 : "No XP gained \u2014 lesson already completed";
-            this.add.text(640, 370, xpLine, {
+            this.add.text(640, 375, xpLine, {
                 fontFamily: "Arial",
                 fontSize: "16px",
                 fontStyle: "bold",
@@ -81,16 +81,16 @@ export default class ResultsScene extends Phaser.Scene {
             }).setOrigin(0.5);
 
             const stats = currentStats ?? {};
-            new ExperienceBar(this, 460, 395, 360, 18, stats.xp ?? 0, stats.xpToNextLevel ?? 10);
+            new ExperienceBar(this, 460, 412, 360, 18, stats.xp ?? 0, stats.xpToNextLevel ?? 10);
 
             if (leveledUp) {
                 const columns = [
-                    [430, ` (Previous)\nMax HP: ${(stats.maxHp ?? 0) - (maxHpGained ?? 0)}\nDamage: ${(stats.attackPower ?? 0) - (damageGained ?? 0)}`, "#e2e8f0"],
-                    [630, `Gain\n+${maxHpGained ?? 0}\n+${damageGained ?? 0}`, "#4ade80"],
-                    [790, `(New)\n${stats.maxHp ?? "-"}\n${stats.attackPower ?? "-"}`, "#67e8f9"],
+                    [515, ` (Previous)\nMax HP: ${(stats.maxHp ?? 0) - (maxHpGained ?? 0)}\nDamage: ${(stats.attackPower ?? 0) - (damageGained ?? 0)}`, "#e2e8f0"],
+                    [635, `Gain\n+${maxHpGained ?? 0}\n+${damageGained ?? 0}`, "#4ade80"],
+                    [735, `(New)\n${stats.maxHp ?? "-"}\n${stats.attackPower ?? "-"}`, "#67e8f9"],
                 ];
                 columns.forEach(([x, text, color]) => {
-                    this.add.text(x, 425, text, {
+                    this.add.text(x, 465, text, {
                         fontFamily: "monospace",
                         fontSize: "16px",
                         fontStyle: "bold",
@@ -109,7 +109,7 @@ export default class ResultsScene extends Phaser.Scene {
             }
         }
 
-        this.add.text(640, 460,
+        this.add.text(640, 530,
             isCapstoneSectionResult
                 ? "\u2605 BOSS DEFEATED \u2605"
                 : isCapstoneVictory ? "\u2605 You mastered the full stack! \u2605" : passed ? "\u2605 PASSED \u2605" : "TRY AGAIN", {
@@ -187,8 +187,8 @@ export default class ResultsScene extends Phaser.Scene {
 
         new Button(
             this,
-            640,
-            580,
+            480,
+            620,
             "CHOOSE ANOTHER LESSON",
             () => {
                 this.scene.start("LessonSelectScene", {
@@ -201,8 +201,8 @@ export default class ResultsScene extends Phaser.Scene {
 
         new Button(
             this,
-            640,
-            640,
+            800,
+            620,
             "RETURN TO MENU",
             () => {
                 this.scene.start("MenuScene");

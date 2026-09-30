@@ -11,7 +11,7 @@ import { applyFloatyText } from "../ui/sceneEffects.js";
 
 // XP awarded for defeating a section's quiz enemy (requirement #5).
 // Boss challenges (the exam) award more XP — see ExamScene.
-const BATTLE_XP_REWARD = 12;
+const BATTLE_XP_REWARD = 15;
 
 const ENEMY_ROSTERS = {
     "responsive-web-design": [
@@ -157,7 +157,11 @@ export default class BattleScene extends Phaser.Scene {
 
         const lessonRoster = ENEMY_ROSTERS[this.lesson.id] ?? ENEMY_ROSTERS["responsive-web-design"];
         const baseBossConfig = lessonRoster[this.sectionIndex] ?? lessonRoster[0];
-        const bossConfig = this.progressManager.scaleEnemyStats(baseBossConfig);
+        // Normal mob: dies in 3 hits, kills the player in 2 (scaled to level).
+        // Overpowered frontend-only player one-shots the Python mobs.
+        const bossConfig = this.progressManager.scaleEnemyStats(baseBossConfig, {
+            oneHitKill: this.progressManager.isPythonOverpowered(this.lesson.id),
+        });
 
         this.boss = new Boss(this, 1020, 300, bossConfig);
 

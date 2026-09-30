@@ -46,7 +46,7 @@ export default class HealthBar {
             this.fill.setFillStyle(0x22c55e, 1);
         }
 
-        this.label.setText(`${this.currentHealth} / ${this.maxHealth}`);
+        this.label.setText(`${Math.ceil(this.currentHealth)} / ${this.maxHealth}`);
     }
 
     destroy() {

@@ -124,11 +124,11 @@ export default class MenuScene extends Phaser.Scene {
         const text = this.add
             .text(
                 640,
-                340,
-                "LearnQuest is an educational quiz RPG.\nAnswer questions correctly to defeat bosses\nand master JavaScript, Python, and SQL!",
+                310,
+                "LearnQuest is an educational quiz RPG.\n\nAnswer questions correctly to defeat bosses\n\nand master JavaScript, Python, and SQL!",
                 {
                     fontFamily: "LearnQuest",
-                    fontSize: "18px",
+                    fontSize: "22px",
                     color: "#e2e8f0",
                     align: "center",
                 }
@@ -154,11 +154,11 @@ export default class MenuScene extends Phaser.Scene {
         const text = this.add
             .text(
                 640,
-                340,
-                "This is a browser game!\nJust close the browser tab to quit\n\nHope you enjoyed!",
+                310,
+                "This is a browser game!\n\nJust close the browser tab to quit\n\n\nHope you enjoyed!",
                 {
                     fontFamily: "LearnQuest",
-                    fontSize: "18px",
+                    fontSize: "22px",
                     color: "#e2e8f0",
                     align: "center",
                 }
