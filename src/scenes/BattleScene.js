@@ -95,7 +95,7 @@ export default class BattleScene extends Phaser.Scene {
             this,
             110,
             53,
-            "EXIT",
+            "Forfeit Battle",
             () => this.showExitConfirmation(),
             { width: 140, height: 40, fontSize: "16px" }
         );

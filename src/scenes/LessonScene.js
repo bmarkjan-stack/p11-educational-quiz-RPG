@@ -14,6 +14,7 @@ export default class LessonScene extends Phaser.Scene {
         this.character = data.character;
         this.characterName = data.characterName;
         this.sectionIndex = data.sectionIndex ?? 0;
+        this.pageIndex = 0;
         this.awardsExperience = data.awardsExperience ?? true;
 
         // Cumulative correct/total across every section battle
@@ -135,18 +136,35 @@ export default class LessonScene extends Phaser.Scene {
             },
             lineSpacing: 5,
         });
+
+        this.pageLabel = this.add.text(640, 570, "", {
+            fontFamily: "MedievalSharp",
+            fontSize: "16px",
+            color: "#f5e6c8",
+            stroke: "#1a0f05",
+            strokeThickness: 2,
+        }).setOrigin(0.5);
     }
 
     createContinueButton() {
         this.continueButton = new Button(
             this,
-            840,
+            810,
             650,
             "",
-            () => this.startSectionBattle(),
+            () => this.advanceLessonPage(),
             {
-                width: 320,
+                width: 300,
             }
+        );
+
+        this.previousPageButton = new Button(
+            this,
+            470,
+            650,
+            "PREVIOUS",
+            () => this.showLessonPage(this.pageIndex - 1),
+            { width: 300 }
         );
     }
 
@@ -166,9 +184,18 @@ export default class LessonScene extends Phaser.Scene {
         );
 
         this.sectionTitle.setText(section.title);
-        this.sectionContent.setText(section.content);
+        this.pages = Array.isArray(section.pages) && section.pages.length > 0
+            ? section.pages
+            : [section];
+        this.pageIndex = 0;
+        this.renderLessonPage();
+    }
 
-        const examples = section.examples ?? [];
+    renderLessonPage() {
+        const page = this.pages[this.pageIndex];
+        this.sectionContent.setText(page.content ?? "");
+
+        const examples = page.examples ?? [];
 
         this.exampleText.setText(
             examples.length
@@ -177,12 +204,32 @@ export default class LessonScene extends Phaser.Scene {
         );
 
         this.exampleText.setVisible(examples.length > 0);
+        this.pageLabel.setText(`Page ${this.pageIndex + 1} / ${this.pages.length}`);
+        this.previousPageButton.setEnabled(this.pageIndex > 0);
 
         this.continueButton.setText(
-            this.lesson.id === CAPSTONE_LESSON
-                ? "START SECTION EXAM"
-                : "START SECTION QUIZ"
+            this.pageIndex < this.pages.length - 1
+                ? "NEXT PAGE"
+                : this.lesson.id === CAPSTONE_LESSON
+                    ? "START SECTION EXAM"
+                    : "START SECTION QUIZ"
         );
+    }
+
+    showLessonPage(pageIndex) {
+        if (pageIndex < 0 || pageIndex >= this.pages.length) return;
+
+        this.pageIndex = pageIndex;
+        this.renderLessonPage();
+    }
+
+    advanceLessonPage() {
+        if (this.pageIndex < this.pages.length - 1) {
+            this.showLessonPage(this.pageIndex + 1);
+            return;
+        }
+
+        this.startSectionBattle();
     }
 
     startSectionBattle() {
@@ -207,13 +254,13 @@ export default class LessonScene extends Phaser.Scene {
     createBackButton() {
         new Button(
             this,
-            440,
-            650,
-            "BACK",
+            110,
+            35,
+            "Return to World Map",
             () => {
                 this.scene.start("LessonSelectScene");
             },
-            { width: 320 }
+            { width: 180, height: 40, fontSize: "14px" }
         );
     }
 }

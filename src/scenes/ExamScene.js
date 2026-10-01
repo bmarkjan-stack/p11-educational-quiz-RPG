@@ -136,7 +136,7 @@ export default class ExamScene extends Phaser.Scene {
             this,
             140,
             68,
-            "EXIT",
+            "Forfeit Battle",
             () => this.showExitConfirmation(),
             { width: 140, height: 40, fontSize: "16px" }
         );

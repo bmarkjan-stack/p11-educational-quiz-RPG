@@ -580,19 +580,19 @@ export default class LessonSelectScene extends Phaser.Scene {
         const yesButton = new Button(
             this,
             500,
-            410,
+            480,
             "YES, CONTINUE",
             () => {
                 cleanup();
                 this.beginLesson(lessonId, { awardsExperience: false });
             },
-            { width: 260 }
+            { width: 220 }
         );
 
         const noButton = new Button(
             this,
             780,
-            410,
+            480,
             "CANCEL",
             () => {
                 cleanup();
@@ -629,13 +629,13 @@ export default class LessonSelectScene extends Phaser.Scene {
     createBackButton() {
         new Button(
             this,
-            1200,
+            1180,
             695,
-            "BACK",
+            "Return to Main Menu",
             () => {
                 this.scene.start("MenuScene");
             },
-            { width: 130, height: 40, fontSize: "16px" }
+            { width: 180, height: 40, fontSize: "14px" }
         );
     }
 }

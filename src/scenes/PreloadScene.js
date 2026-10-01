@@ -297,7 +297,7 @@ export default class PreloadScene extends Phaser.Scene {
             this,
             width / 2,
             height - 80,
-            "PRESS TO CONTINUE",
+            "Press to Continue",
             () => {
                 const music = this.sound.get("bgm-main"); 
                 
