@@ -6,33 +6,53 @@
         {
             "id": "variables-and-types",
             "title": "Variables & Data Types",
-            "content": "Python variables don't need a declared type. Common types include int for whole numbers, float for decimal numbers, str for text, and bool for True or False values.",
-            "examples": [
-                "score = 0",
-                "price = 19.99",
-                "name = \"Ava\"",
-                "is_active = True"
+            "pages": [
+                {
+                    "content": "Python variables don't need a declared type. Create one with a name, an equals sign, and a value. Python works out the type automatically, so there is no int, var, or let in front.",
+                    "examples": [
+                        "score = 10",
+                        "name = \"Ava\"",
+                        "price = 19.99"
+                    ]
+                },
+                {
+                    "content": "Common types are <code>int</code> for whole numbers, <code>float</code> for decimal numbers, <code>str</code> for text, and <code>bool</code> for True or False values.",
+                    "examples": [
+                        "score = 0         # int",
+                        "price = 19.99    # float",
+                        "name = \"Ava\"     # str",
+                        "is_active = True # bool"
+                    ]
+                },
+                {
+                    "content": "Text goes inside quotes to make a string. Booleans are written True and False with a capital first letter; lowercase true is not valid Python. A quoted \"True\" is text, not a Boolean.",
+                    "examples": [
+                        "is_active = True",
+                        "is_admin = False",
+                        "text = \"True\"  # str"
+                    ]
+                }
             ],
             "quiz": [
                 {
                     "question": "Which data type represents whole numbers in Python?",
                     "choices": [
+                        "int",
                         "str",
                         "float",
-                        "int",
                         "bool"
                     ],
-                    "answer": 2
+                    "answer": 0
                 },
                 {
                     "question": "Which data type represents text in Python?",
                     "choices": [
-                        "str",
                         "int",
+                        "str",
                         "bool",
                         "float"
                     ],
-                    "answer": 0
+                    "answer": 1
                 },
                 {
                     "question": "Which data type represents True or False values?",
@@ -49,33 +69,66 @@
         {
             "id": "control-flow",
             "title": "Control Flow",
-            "content": "Use if/elif/else to branch based on conditions, and for/while loops to repeat code. Indentation defines code blocks in Python and is required for statements inside conditions and loops.",
-            "examples": [
-                "if score > 10:",
-                "    print(\"High score!\")",
-                "else:",
-                "    print(\"Keep trying\")"
+            "pages": [
+                {
+                    "content": "Control flow decides which code runs. The <code>if</code> statement runs code only when a condition is true. Use <code>else</code> for code that runs when the condition is false.",
+                    "examples": [
+                        "if score > 10:",
+                        "    print(\"High score!\")",
+                        "else:",
+                        "    print(\"Keep trying\")"
+                    ]
+                },
+                {
+                    "content": "<code>elif</code> means else if. It checks another condition when the previous condition was false. You can place several elif branches between if and else.",
+                    "examples": [
+                        "if score >= 90:",
+                        "    print(\"A\")",
+                        "elif score >= 80:",
+                        "    print(\"B\")",
+                        "else:",
+                        "    print(\"Try again\")"
+                    ]
+                },
+                {
+                    "content": "Python uses indentation, not curly braces, to define blocks of code. Statements inside conditions and loops must be indented, usually by four spaces. Incorrect indentation causes an error.",
+                    "examples": [
+                        "if True:",
+                        "    print(\"Inside\")",
+                        "print(\"Outside\")"
+                    ]
+                },
+                {
+                    "content": "Loops repeat code. A <code>while</code> loop repeats while a condition remains true. A <code>for</code> loop repeats code for each item in a sequence.",
+                    "examples": [
+                        "count = 0",
+                        "while count < 3:",
+                        "    count += 1",
+                        "for item in items:",
+                        "    print(item)"
+                    ]
+                }
             ],
             "quiz": [
                 {
                     "question": "Which statement is used to execute code only when a condition is true?",
                     "choices": [
-                        "if",
                         "for",
                         "def",
-                        "return"
+                        "return",
+                        "if"
                     ],
-                    "answer": 0
+                    "answer": 3
                 },
                 {
                     "question": "What does `elif` allow you to do?",
                     "choices": [
-                        "Define a function",
                         "Check another condition if the previous condition was false",
+                        "Define a function",
                         "Repeat code forever",
                         "Return a value"
                     ],
-                    "answer": 1
+                    "answer": 0
                 },
                 {
                     "question": "What does Python use to define blocks of code?",
@@ -92,41 +145,71 @@
         {
             "id": "functions",
             "title": "Functions",
-            "content": "Functions are defined with 'def'. They can take parameters as input and use return to send a value back to the code that called the function.",
-            "examples": [
-                "def add(a, b):",
-                "    return a + b"
+            "pages": [
+                {
+                    "content": "A function is a reusable block of code. Define one with the <code>def</code> keyword, a name, parentheses, and a colon. The indented lines below are the function's body.",
+                    "examples": [
+                        "def greet():",
+                        "    print(\"Hello!\")",
+                        "greet()"
+                    ]
+                },
+                {
+                    "content": "Parameters are inputs defined by the function; they receive values when the function is called. The <code>return</code> keyword sends a value back to the code that called the function.",
+                    "examples": [
+                        "def add(a, b):",
+                        "    return a + b"
+                    ]
+                },
+                {
+                    "content": "Calling <code>add(2, 3)</code> returns 5. Python functions start with <code>def</code> and end the first line with a colon. Words like function, func, and define, or curly braces, are not Python.",
+                    "examples": [
+                        "def add(a, b):",
+                        "    return a + b",
+                        "total = add(2, 3)",
+                        "print(total)  # 5"
+                    ]
+                },
+                {
+                    "content": "In short: variables store values, control flow controls execution, and functions provide reusable blocks of code. Together they let programs make decisions and avoid repeating work.",
+                    "examples": [
+                        "def grade(score):",
+                        "    if score >= 90:",
+                        "        return \"A\"",
+                        "    return \"B\""
+                    ]
+                }
             ],
             "quiz": [
                 {
                     "question": "Which keyword is used to define a function in Python?",
                     "choices": [
                         "func",
-                        "def",
                         "function",
+                        "def",
                         "define"
                     ],
-                    "answer": 1
+                    "answer": 2
                 },
                 {
                     "question": "What are `a` and `b` in `def add(a, b):`?",
                     "choices": [
                         "Arguments",
-                        "Parameters",
                         "Data types",
-                        "Return values"
+                        "Return values",
+                        "Parameters"
                     ],
-                    "answer": 1
+                    "answer": 3
                 },
                 {
                     "question": "What keyword sends a value back from a Python function?",
                     "choices": [
+                        "return",
                         "send",
                         "output",
-                        "return",
                         "value"
                     ],
-                    "answer": 2
+                    "answer": 0
                 }
             ]
         }
@@ -136,41 +219,41 @@
             "question": "Which data type represents whole numbers in Python?",
             "choices": [
                 "str",
-                "float",
                 "int",
+                "float",
                 "bool"
             ],
-            "answer": 2
+            "answer": 1
         },
         {
             "question": "Which data type represents decimal numbers?",
             "choices": [
                 "int",
-                "float",
                 "str",
+                "float",
                 "bool"
             ],
-            "answer": 1
+            "answer": 2
         },
         {
             "question": "Which data type represents text?",
             "choices": [
                 "int",
-                "str",
                 "float",
-                "bool"
+                "bool",
+                "str"
             ],
-            "answer": 1
+            "answer": 3
         },
         {
             "question": "Which data type represents True or False?",
             "choices": [
+                "bool",
                 "str",
                 "int",
-                "bool",
                 "float"
             ],
-            "answer": 2
+            "answer": 0
         },
         {
             "question": "Which statement correctly creates a variable containing the number 10?",
@@ -185,22 +268,22 @@
         {
             "question": "Which statement correctly creates a string variable?",
             "choices": [
-                "name = \"Ava\"",
                 "str name = Ava",
                 "string name = \"Ava\"",
+                "name = \"Ava\"",
                 "name := str Ava"
             ],
-            "answer": 0
+            "answer": 2
         },
         {
             "question": "Which statement correctly creates a Boolean variable?",
             "choices": [
                 "is_active = true",
-                "is_active = True",
                 "bool is_active = true",
-                "is_active = \"True\""
+                "is_active = \"True\"",
+                "is_active = True"
             ],
-            "answer": 1
+            "answer": 3
         },
         {
             "question": "Which statement is used to make a decision based on a condition?",
@@ -215,42 +298,42 @@
         {
             "question": "What does `else` represent in an if/else statement?",
             "choices": [
-                "Code that runs when the if condition is false",
                 "A function definition",
+                "Code that runs when the if condition is false",
                 "A loop condition",
                 "A return value"
             ],
-            "answer": 0
+            "answer": 1
         },
         {
             "question": "What does `elif` mean?",
             "choices": [
                 "End loop",
-                "Else if",
                 "Exit if",
+                "Else if",
                 "Else loop"
             ],
-            "answer": 1
+            "answer": 2
         },
         {
             "question": "Why is indentation important in Python?",
             "choices": [
-                "It defines blocks of code",
                 "It creates variables",
                 "It converts values to strings",
-                "It imports modules"
+                "It imports modules",
+                "It defines blocks of code"
             ],
-            "answer": 0
+            "answer": 3
         },
         {
             "question": "Which loop can repeat code while a condition remains true?",
             "choices": [
-                "if",
                 "while",
+                "if",
                 "def",
                 "return"
             ],
-            "answer": 1
+            "answer": 0
         },
         {
             "question": "Which loop is commonly used to repeat code for items in a sequence?",
@@ -275,52 +358,52 @@
         {
             "question": "What is the purpose of a function?",
             "choices": [
-                "To create a reusable block of code",
                 "To define a data type",
                 "To replace indentation",
-                "To create a loop automatically"
+                "To create a loop automatically",
+                "To create a reusable block of code"
             ],
-            "answer": 0
+            "answer": 3
         },
         {
             "question": "What are parameters in a function?",
             "choices": [
-                "Values returned by a function",
                 "Inputs defined by a function that can receive values",
+                "Values returned by a function",
                 "Python data types",
                 "Conditional statements"
             ],
-            "answer": 1
+            "answer": 0
         },
         {
             "question": "What does the `return` keyword do?",
             "choices": [
                 "Repeats a function",
-                "Defines a function",
                 "Sends a value back from a function",
+                "Defines a function",
                 "Creates a variable"
             ],
-            "answer": 2
+            "answer": 1
         },
         {
             "question": "What does `add(2, 3)` return if the function is defined as `def add(a, b): return a + b`?",
             "choices": [
                 "23",
-                "5",
                 "None",
+                "5",
                 "Error"
             ],
-            "answer": 1
+            "answer": 2
         },
         {
             "question": "Which is a valid Python function definition?",
             "choices": [
                 "function add(a, b) { return a + b; }",
-                "def add(a, b):",
                 "func add(a, b) {}",
-                "define add(a, b)"
+                "define add(a, b)",
+                "def add(a, b):"
             ],
-            "answer": 1
+            "answer": 3
         },
         {
             "question": "Which statement best summarizes the concepts in this lesson?",
