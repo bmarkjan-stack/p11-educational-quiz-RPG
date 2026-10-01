@@ -88,6 +88,8 @@ export default class ExamScene extends Phaser.Scene {
         this.examTotal = data.examTotal ?? 0;
         this.fullStackSectionCorrect = data.fullStackSectionCorrect ?? 0;
         this.fullStackSectionTotal = data.fullStackSectionTotal ?? 0;
+        this.recordedQuizCorrect = 0;
+        this.recordedQuizTotal = 0;
     }
 
     create() {
@@ -204,8 +206,7 @@ export default class ExamScene extends Phaser.Scene {
                 isBoss: true,
                 isFinalBoss: false,
             });
-        this.boss = new Boss(this, 940, 315, bossConfig);
-        this.boss.sprite.setScale(.95);
+        this.boss = new Boss(this, 940, 305, { ...bossConfig, scale: 0.90 });
 
         this.add.text(325, 200, `${this.characterName}  (Lv. ${this.player.level})`, {
             fontFamily: "LearnQuest",
@@ -214,9 +215,9 @@ export default class ExamScene extends Phaser.Scene {
             color: "#ffffff",
         }).setOrigin(0.5);
 
-        this.bossNameLabel = this.add.text(940, 140, this.boss.name, {
+        this.bossNameLabel = this.add.text(940, 120, this.boss.name, {
             fontFamily: "LearnQuest",
-            fontSize: "24px",
+            fontSize: "26px",
             fontStyle: "bold",
             color: "#ffffff",
         }).setOrigin(0.5);
@@ -232,7 +233,8 @@ export default class ExamScene extends Phaser.Scene {
             : this.lesson.exam;
 
         if (this.isFullStackExam()) {
-            const copies = Math.ceil(this.getPhaseHitTarget() / questions.length);
+            const totalHitTarget = FULLSTACK_BOSSES[this.examSectionIndex]?.finalBoss ? 45 : 15;
+            const copies = Math.ceil(totalHitTarget / questions.length);
             return Array.from({ length: copies }, () => questions).flat();
         }
 
@@ -274,7 +276,7 @@ export default class ExamScene extends Phaser.Scene {
             stats.xp,
             stats.xpToNextLevel
         );
-        this.bossHealthBar = new HealthBar(this, 785, 170, 310, 32, this.boss.maxHp);
+        this.bossHealthBar = new HealthBar(this, 785, 160, 310, 32, this.boss.maxHp);
     }
 
     playMusic() {
@@ -354,10 +356,8 @@ export default class ExamScene extends Phaser.Scene {
     }
 
     startBossPhaseTwo() {
-        // Each phase starts a fresh question pool so the hit target is reachable.
         this.bossPhase = 2;
         this.saveFullStackCheckpoint();
-        this.quizManager = new QuizManager(this.getExamQuestions());
         const phaseTwoConfig = this.progressManager.scaleFullStackBossStats(
             this.getBaseBossConfig(),
             this.getPhaseHitTarget(),
@@ -485,10 +485,14 @@ export default class ExamScene extends Phaser.Scene {
 
     recordCurrentExamResults() {
         const results = this.quizManager.getResults();
-        this.examCorrect += results.correct;
-        this.examTotal += results.total;
-        this.fullStackSectionCorrect += results.correct;
-        this.fullStackSectionTotal += results.total;
+        const correctSinceLastRecord = results.correct - this.recordedQuizCorrect;
+        const totalSinceLastRecord = results.total - this.recordedQuizTotal;
+        this.examCorrect += correctSinceLastRecord;
+        this.examTotal += totalSinceLastRecord;
+        this.fullStackSectionCorrect += correctSinceLastRecord;
+        this.fullStackSectionTotal += totalSinceLastRecord;
+        this.recordedQuizCorrect = results.correct;
+        this.recordedQuizTotal = results.total;
     }
 
     saveFullStackCheckpoint() {

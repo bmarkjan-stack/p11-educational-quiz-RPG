@@ -100,7 +100,7 @@ export default class ResultsScene extends Phaser.Scene {
                     }).setOrigin(0.5);
                 });
             } else {
-                this.add.text(640, 425, `Max HP: ${stats.maxHp ?? "-"}    Damage: ${stats.attackPower ?? "-"}`, {
+                this.add.text(640, 465, `Max HP: ${stats.maxHp ?? "-"}    Damage: ${stats.attackPower ?? "-"}`, {
                     fontFamily: "Arial",
                     fontSize: "16px",
                     fontStyle: "bold",
@@ -147,7 +147,7 @@ export default class ResultsScene extends Phaser.Scene {
             new Button(
                 this,
                 640,
-                560,
+                620,
                 "CONTINUE",
                 () => this.scene.start(this.data.nextScene, this.data.nextSceneData),
                 { width: 260 }
@@ -159,8 +159,8 @@ export default class ResultsScene extends Phaser.Scene {
         if (isCapstoneVictory) {
             new Button(
                 this,
-                640,
-                560,
+                800,
+                620,
                 "BACK TO ROADMAP",
                 () => {
                     this.scene.start("LessonSelectScene", {
@@ -173,8 +173,8 @@ export default class ResultsScene extends Phaser.Scene {
 
             new Button(
                 this,
-                640,
-                630,
+                480,
+                620,
                 "RETURN TO MENU",
                 () => {
                     this.scene.start("MenuScene");
@@ -187,7 +187,7 @@ export default class ResultsScene extends Phaser.Scene {
 
         new Button(
             this,
-            480,
+            800,
             620,
             "CHOOSE ANOTHER LESSON",
             () => {
@@ -201,7 +201,7 @@ export default class ResultsScene extends Phaser.Scene {
 
         new Button(
             this,
-            800,
+            480,
             620,
             "RETURN TO MENU",
             () => {

@@ -36,7 +36,7 @@ export default class Boss {
         this.scale = scale;
         this.sprite.setTexture(textureKey).setAlpha(1).setScale(scale);
         this.shadow
-            .setPosition(this.sprite.x, this.baseY + this.sprite.displayHeight * 0.43)
+            .setPosition(this.sprite.x, this.baseY + this.sprite.displayHeight * 0.28)
             .setDisplaySize(
                 this.sprite.displayWidth * 0.56,
                 Math.max(14, this.sprite.displayHeight * 0.075)
