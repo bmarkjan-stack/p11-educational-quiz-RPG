@@ -385,6 +385,7 @@ export default class LessonSelectScene extends Phaser.Scene {
     // --------------------------------------------------
 
     createPhaseTwoButton() {
+        const completed = this.progressManager.isCompleted(CAPSTONE_LESSON);
         const node = this.addCentered(PHASE_TWO.normal, DEPTH_NODE);
 
         this.enableCustomHitbox(
@@ -394,10 +395,12 @@ export default class LessonSelectScene extends Phaser.Scene {
                 normal: PHASE_TWO.normal,
                 hover: PHASE_TWO.hover,
                 active: PHASE_TWO.active,
-                completed: false,
+                done: PHASE_TWO.normal,
+                completed,
             },
             () => {
                 this.phaseTwoNotice?.destroy();
+                node.setTexture(PHASE_TWO.active).setDepth(DEPTH_CLOUD + 1);
                 this.phaseTwoNotice = this.add
                     .text(CENTER_X, 215, "Phase 2 is coming soon.", {
                         fontFamily: "Arial",
@@ -409,11 +412,18 @@ export default class LessonSelectScene extends Phaser.Scene {
                     })
                     .setOrigin(0.5)
                     .setDepth(DEPTH_CLOUD + 2);
-                this.time.delayedCall(1800, () => this.phaseTwoNotice?.destroy());
+                this.time.delayedCall(1800, () => {
+                    this.phaseTwoNotice?.destroy();
+                    if (node.active) {
+                        node.setTexture(PHASE_TWO.normal).setDepth(DEPTH_NODE);
+                    }
+                });
             }
         );
 
-        this.addCloud(PHASE_TWO.cloud);
+        if (!completed) {
+            this.addCloud(PHASE_TWO.cloud);
+        }
     }
 
     // --------------------------------------------------
