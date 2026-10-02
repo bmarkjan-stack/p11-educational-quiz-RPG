@@ -9,6 +9,7 @@
             "pages": [
                 {
                     "content": "Modern frontend libraries like React build interfaces from small, reusable components. A component is a reusable piece of UI. Dividing an interface into components makes code reusable and easier to maintain.",
+                    "code": [],
                     "examples": [
                         "<Header />",
                         "<Menu />",
@@ -17,6 +18,7 @@
                 },
                 {
                     "content": "A function component returns a piece of UI written as markup. Reuse is a major benefit: the same UI logic can be used in multiple places without rewriting it.",
+                    "code": [],
                     "examples": [
                         "function Greeting() {",
                         "    return <h1>Hello!</h1>;",
@@ -25,6 +27,7 @@
                 },
                 {
                     "content": "Components can be combined to build a larger interface, such as a full page. Place components inside other components, and use the same component many times. Many components can exist on one page.",
+                    "code": [],
                     "examples": [
                         "function App() {",
                         "    return (",
@@ -75,7 +78,11 @@
             "title": "State & Props",
             "pages": [
                 {
-                    "content": "Props pass data into a component from its parent. In <code>Welcome(props)</code>, props represents the data passed into the component. Read a value with <code>props.name</code>.",
+                    "content": "Props pass data into a component from its parent. In Welcome(props), props represents the data passed into the component. Read a value with props.name.",
+                    "code": [
+                        "Welcome(props)",
+                        "props.name"
+                    ],
                     "examples": [
                         "function Welcome(props) {",
                         "    return <p>",
@@ -87,6 +94,7 @@
                 },
                 {
                     "content": "Props are read-only: a component should not modify the props it receives. State is different. State is data a component manages itself that can change over time.",
+                    "code": [],
                     "examples": [
                         "props.name = \"Ben\"; // wrong",
                         "// Props are read-only"
@@ -94,6 +102,7 @@
                 },
                 {
                     "content": "Key difference: props are passed into a component from outside, while state is managed by the component itself. When state changes, the component can re-render with the updated value.",
+                    "code": [],
                     "examples": [
                         "<User name=\"Ava\" /> // prop",
                         "const [age, setAge] =",
@@ -139,14 +148,20 @@
             "title": "Hooks Basics",
             "pages": [
                 {
-                    "content": "Hooks let function components use React features like state. The <code>useState</code> Hook adds state to a function component. Import it from React before using it.",
+                    "content": "Hooks let function components use React features like state. The useState Hook adds state to a function component. Import it from React before using it.",
+                    "code": [
+                        "useState"
+                    ],
                     "examples": [
                         "import { useState }",
                         "    from 'react';"
                     ]
                 },
                 {
-                    "content": "<code>useState(0)</code> returns two things: the current state value and a function to update it. The argument 0 is the initial value, so state starts as 0.",
+                    "content": "useState(0) returns two things: the current state value and a function to update it. The argument 0 is the initial value, so state starts as 0.",
+                    "code": [
+                        "useState(0)"
+                    ],
                     "examples": [
                         "const [count, setCount] =",
                         "    useState(0);",
@@ -154,7 +169,12 @@
                     ]
                 },
                 {
-                    "content": "<code>count</code> is the current state value, and <code>setCount</code> is the function that updates it. <code>setCount(count + 1)</code> sets count to its current value plus one.",
+                    "content": "count is the current state value, and setCount is the function that updates it. setCount(count + 1) sets count to its current value plus one.",
+                    "code": [
+                        "count",
+                        "setCount",
+                        "setCount(count + 1)"
+                    ],
                     "examples": [
                         "setCount(count + 1);",
                         "// count is now 1"
@@ -162,6 +182,7 @@
                 },
                 {
                     "content": "Updating state triggers a re-render: the component runs again with the new value so the UI matches the data. The browser does not reload, and components are not deleted.",
+                    "code": [],
                     "examples": [
                         "function Counter() {",
                         "    const [n, setN] =",
@@ -173,6 +194,7 @@
                 },
                 {
                     "content": "In short: components build reusable UI, props pass data into components, and state manages changing data. Hooks such as useState give function components that state.",
+                    "code": [],
                     "examples": [
                         "<Counter start={5} />",
                         "function Counter(props) {",

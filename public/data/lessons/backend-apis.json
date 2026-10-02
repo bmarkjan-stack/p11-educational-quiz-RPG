@@ -9,6 +9,7 @@
             "pages": [
                 {
                     "content": "In the client-server model, a client such as a browser or app sends an HTTP request. The server receives it, processes it, and sends back an HTTP response. The client initiates the exchange.",
+                    "code": [],
                     "examples": [
                         "Client  --request-->  Server",
                         "Client <--response--  Server"
@@ -16,6 +17,7 @@
                 },
                 {
                     "content": "An HTTP response provides the server's result back to the client. It includes a status code and often data, such as JSON. A response does not replace the original request.",
+                    "code": [],
                     "examples": [
                         "HTTP/1.1 200 OK",
                         "Content-Type: application/json",
@@ -24,6 +26,7 @@
                 },
                 {
                     "content": "HTTP methods describe the action. GET retrieves data. POST creates a new resource. PUT or PATCH updates an existing resource. DELETE removes a resource.",
+                    "code": [],
                     "examples": [
                         "GET /users/42",
                         "POST /users { \"name\": \"Ava\" }",
@@ -72,6 +75,7 @@
             "pages": [
                 {
                     "content": "A REST API exposes resources, such as users or orders, through endpoints. A resource is an entity or piece of data the API exposes. An endpoint is a URL through which the API exposes a resource or operation.",
+                    "code": [],
                     "examples": [
                         "/api/users",
                         "/api/orders",
@@ -80,6 +84,7 @@
                 },
                 {
                     "content": "REST emphasizes predictable, resource-based URLs. The URL names the resource, and the HTTP method says what to do with it. Avoid random URLs or URLs that do not identify resources.",
+                    "code": [],
                     "examples": [
                         "GET    /api/orders",
                         "GET    /api/orders/7",
@@ -88,7 +93,10 @@
                     ]
                 },
                 {
-                    "content": "<code>GET /api/orders/7</code> is a request to retrieve order 7. REST APIs commonly return structured data as JSON, so different clients can consume it. They do not return formats like MP3, PNG, or DOCX.",
+                    "content": "GET /api/orders/7 is a request to retrieve order 7. REST APIs commonly return structured data as JSON, so different clients can consume it. They do not return formats like MP3, PNG, or DOCX.",
+                    "code": [
+                        "GET /api/orders/7"
+                    ],
                     "examples": [
                         "GET /api/orders/7",
                         "{",
@@ -137,6 +145,7 @@
             "pages": [
                 {
                     "content": "Status codes describe the result of a request. 200 OK means success. 201 Created means a resource was created. 400 Bad Request means the request was invalid or badly formed.",
+                    "code": [],
                     "examples": [
                         "200 OK",
                         "201 Created",
@@ -145,6 +154,7 @@
                 },
                 {
                     "content": "401 Unauthorized means the request lacks valid authentication. 404 Not Found means the requested resource was not found. 500 Internal Server Error means the server hit an error.",
+                    "code": [],
                     "examples": [
                         "401 Unauthorized",
                         "404 Not Found",
@@ -153,6 +163,7 @@
                 },
                 {
                     "content": "Authentication confirms who is making a request. A common approach is an authentication token sent with each request. The server checks the token before sharing protected data.",
+                    "code": [],
                     "examples": [
                         "GET /api/profile",
                         "Authorization: Bearer abc123"

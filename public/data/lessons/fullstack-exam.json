@@ -9,6 +9,7 @@
             "pages": [
                 {
                     "content": "Responsive web design makes websites adapt to different screen sizes and devices. A mobile-first approach designs for small screens first, then enhances the layout for larger screens.",
+                    "code": [],
                     "examples": [
                         "Phone  -> base styles",
                         "Tablet -> min-width: 768px",
@@ -16,7 +17,11 @@
                     ]
                 },
                 {
-                    "content": "The viewport meta tag controls how pages are scaled on devices. <code>width=device-width</code> matches the page width to the device's CSS width, and <code>initial-scale=1.0</code> sets the starting zoom to 100%.",
+                    "content": "The viewport meta tag controls how pages are scaled on devices. width=device-width matches the page width to the device's CSS width, and initial-scale=1.0 sets the starting zoom to 100%.",
+                    "code": [
+                        "width=device-width",
+                        "initial-scale=1.0"
+                    ],
                     "examples": [
                         "<meta name=\"viewport\"",
                         "  content=\"width=device-width,",
@@ -24,7 +29,10 @@
                     ]
                 },
                 {
-                    "content": "Media queries apply CSS under conditions such as screen width. A breakpoint is where responsive styles change. <code>min-width: 768px</code> means at least 768px wide. They can change layout, font size, and spacing.",
+                    "content": "Media queries apply CSS under conditions such as screen width. A breakpoint is where responsive styles change. min-width: 768px means at least 768px wide. They can change layout, font size, and spacing.",
+                    "code": [
+                        "min-width: 768px"
+                    ],
                     "examples": [
                         "@media (min-width: 768px) {",
                         "    .container {",
@@ -34,7 +42,12 @@
                     ]
                 },
                 {
-                    "content": "Flexbox arranges items along one direction with <code>display: flex;</code>, and <code>justify-content</code> spaces them along the main axis. CSS Grid handles two-dimensional layouts; <code>grid-template-columns</code> defines its columns.",
+                    "content": "Flexbox arranges items along one direction with display: flex;, and justify-content spaces them along the main axis. CSS Grid handles two-dimensional layouts; grid-template-columns defines its columns.",
+                    "code": [
+                        "display: flex;",
+                        "justify-content",
+                        "grid-template-columns"
+                    ],
                     "examples": [
                         "display: flex;",
                         "justify-content: center;",
@@ -44,7 +57,11 @@
                     ]
                 },
                 {
-                    "content": "Relative units scale more flexibly than fixed pixels. The <code>vw</code> unit is relative to viewport width, and <code>rem</code> to the root font size. Combine mobile-first design, media queries, flexible layouts, and relative units.",
+                    "content": "Relative units scale more flexibly than fixed pixels. The vw unit is relative to viewport width, and rem to the root font size. Combine mobile-first design, media queries, flexible layouts, and relative units.",
+                    "code": [
+                        "vw",
+                        "rem"
+                    ],
                     "examples": [
                         "font-size: 1rem;",
                         "width: 50vw;",
@@ -260,7 +277,13 @@
             "title": "Python Fundamentals Review",
             "pages": [
                 {
-                    "content": "Python is dynamically typed, so variables need no type declaration. Types include <code>int</code> for whole numbers, <code>float</code> for decimals, <code>str</code> for text, and <code>bool</code> for True or False.",
+                    "content": "Python is dynamically typed, so variables need no type declaration. Types include int for whole numbers, float for decimals, str for text, and bool for True or False.",
+                    "code": [
+                        "int",
+                        "float",
+                        "str",
+                        "bool"
+                    ],
                     "examples": [
                         "name = \"Ava\"",
                         "score = 95",
@@ -269,7 +292,12 @@
                     ]
                 },
                 {
-                    "content": "Use <code>if</code> to make decisions, <code>elif</code> for else if, and <code>else</code> for code that runs when the condition is false. Python uses indentation, not curly braces, to define code blocks.",
+                    "content": "Use if to make decisions, elif to check another condition, and else for code that runs when the condition is false. Python uses indentation, not curly braces, to define code blocks.",
+                    "code": [
+                        "if",
+                        "elif",
+                        "else"
+                    ],
                     "examples": [
                         "if score >= 90:",
                         "    print(\"A\")",
@@ -280,7 +308,11 @@
                     ]
                 },
                 {
-                    "content": "A <code>while</code> loop repeats while a condition remains true. A <code>for</code> loop repeats code for each item in a sequence.",
+                    "content": "A while loop repeats while a condition remains true. A for loop repeats code for each item in a sequence.",
+                    "code": [
+                        "while",
+                        "for"
+                    ],
                     "examples": [
                         "while count < 3:",
                         "    count += 1",
@@ -289,7 +321,12 @@
                     ]
                 },
                 {
-                    "content": "Functions are reusable blocks of code made with <code>def</code>. Parameters are inputs they can receive, and <code>return</code> sends a value back. Here <code>add(2, 3)</code> returns 5.",
+                    "content": "Functions are reusable blocks of code made with def. Parameters are inputs they can receive, and return sends a value back. Here add(2, 3) returns 5.",
+                    "code": [
+                        "def",
+                        "return",
+                        "add(2, 3)"
+                    ],
                     "examples": [
                         "def add(a, b):",
                         "    return a + b",
@@ -298,6 +335,7 @@
                 },
                 {
                     "content": "In short: variables store values, control flow controls execution, and functions provide reusable blocks of code.",
+                    "code": [],
                     "examples": [
                         "def greet(name):",
                         "    return \"Hello \" + name"
@@ -512,14 +550,22 @@
             "title": "JavaScript Fundamentals Review",
             "pages": [
                 {
-                    "content": "JavaScript adds programming logic and interactivity to web applications. Variables store values: <code>let</code> is for values that may be reassigned, and <code>const</code> for values that should not be. Reassigning a const causes an error.",
+                    "content": "JavaScript adds programming logic and interactivity to web applications. Variables store values: let is for values that may be reassigned, and const for values that should not be. Reassigning a const causes an error.",
+                    "code": [
+                        "let",
+                        "const"
+                    ],
                     "examples": [
                         "let score = 100;",
                         "const playerName = \"Ava\";"
                     ]
                 },
                 {
-                    "content": "Functions group reusable instructions. Values in the parentheses of a declaration are parameters, and <code>return</code> sends a value back. Call a function by name with parentheses; <code>add(2, 3)</code> returns 5.",
+                    "content": "Functions group reusable instructions. Values in the parentheses of a declaration are parameters, and return sends a value back. Call a function by name with parentheses; add(2, 3) returns 5.",
+                    "code": [
+                        "return",
+                        "add(2, 3)"
+                    ],
                     "examples": [
                         "function add(a, b) {",
                         "    return a + b;",
@@ -529,6 +575,7 @@
                 },
                 {
                     "content": "Arrays store an ordered list of values in square brackets. Indexing is zero-based, so the first item is at index 0. In the colors array, index 1 is green and index 2 is blue.",
+                    "code": [],
                     "examples": [
                         "const colors = [\"red\",",
                         "    \"green\", \"blue\"];",
@@ -538,6 +585,7 @@
                 },
                 {
                     "content": "Concepts combine: a const variable can hold an array, and a function result can be stored in a variable with let or const. Only square brackets create an array.",
+                    "code": [],
                     "examples": [
                         "const numbers = [1, 2, 3];",
                         "let result = add(2, 3);"
@@ -753,6 +801,7 @@
             "pages": [
                 {
                     "content": "A relational database organizes data into tables containing rows and columns. A row is a single record, and a column is a field representing one type of data.",
+                    "code": [],
                     "examples": [
                         "users(id, name, email)",
                         "1 | Ava | ava@mail.com"
@@ -760,6 +809,7 @@
                 },
                 {
                     "content": "A primary key uniquely identifies a row in a table. A foreign key connects a row to a related row in another table, establishing a relationship between tables.",
+                    "code": [],
                     "examples": [
                         "users(id, name)",
                         "orders(id, user_id, total)",
@@ -767,7 +817,10 @@
                     ]
                 },
                 {
-                    "content": "SQL SELECT retrieves data from a table, and <code>*</code> means all columns. WHERE filters which rows are returned based on a condition.",
+                    "content": "SQL SELECT retrieves data from a table, and * means all columns. WHERE filters which rows are returned based on a condition.",
+                    "code": [
+                        "*"
+                    ],
                     "examples": [
                         "SELECT * FROM customers;",
                         "SELECT * FROM products",
@@ -776,6 +829,7 @@
                 },
                 {
                     "content": "JOIN combines related data from multiple tables. A plain JOIN is an INNER JOIN, returning only rows with matching data in both tables. LEFT JOIN also keeps unmatched left-table rows.",
+                    "code": [],
                     "examples": [
                         "SELECT customers.name,",
                         "       orders.id",
@@ -786,7 +840,12 @@
                     ]
                 },
                 {
-                    "content": "GROUP BY organizes rows into groups based on one or more columns. Aggregate functions such as <code>COUNT()</code>, <code>SUM()</code>, and <code>AVG()</code> calculate values from groups or sets of rows.",
+                    "content": "GROUP BY organizes rows into groups based on one or more columns. Aggregate functions such as COUNT(), SUM(), and AVG() calculate values from groups or sets of rows.",
+                    "code": [
+                        "COUNT()",
+                        "SUM()",
+                        "AVG()"
+                    ],
                     "examples": [
                         "SELECT category_id, COUNT(*)",
                         "FROM products",
@@ -1003,6 +1062,7 @@
             "pages": [
                 {
                     "content": "Component-based frontend libraries organize user interfaces into reusable components. A function component returns a piece of UI, and components can be combined to build a larger interface.",
+                    "code": [],
                     "examples": [
                         "function Welcome() {",
                         "    return <h1>Hello</h1>;",
@@ -1010,7 +1070,10 @@
                     ]
                 },
                 {
-                    "content": "Components receive read-only data from their parents through props. In <code>Welcome(props)</code>, props is the data passed into the component.",
+                    "content": "Components receive read-only data from their parents through props. In Welcome(props), props is the data passed into the component.",
+                    "code": [
+                        "Welcome(props)"
+                    ],
                     "examples": [
                         "<User name=\"Ava\" />",
                         "function User(props) {",
@@ -1022,20 +1085,27 @@
                 },
                 {
                     "content": "State is data managed by a component that can change over time. Props are passed in from outside; state is managed by the component itself.",
+                    "code": [],
                     "examples": [
                         "// props: passed in",
                         "// state: managed inside"
                     ]
                 },
                 {
-                    "content": "Hooks let function components use features such as state. <code>useState(0)</code> gives a current state value, starting at 0, and an updater function.",
+                    "content": "Hooks let function components use features such as state. useState(0) gives a current state value, starting at 0, and an updater function.",
+                    "code": [
+                        "useState(0)"
+                    ],
                     "examples": [
                         "const [count, setCount] =",
                         "    useState(0);"
                     ]
                 },
                 {
-                    "content": "<code>setCount(count + 1)</code> updates count to its current value plus one. Updating state can cause the component to render again with the new value.",
+                    "content": "setCount(count + 1) updates count to its current value plus one. Updating state can cause the component to render again with the new value.",
+                    "code": [
+                        "setCount(count + 1)"
+                    ],
                     "examples": [
                         "setCount(count + 1);",
                         "// UI re-renders"
@@ -1251,6 +1321,7 @@
             "pages": [
                 {
                     "content": "Backend applications process client requests and return responses. The client initiates a request, and the server processes it and sends an HTTP response back with the result.",
+                    "code": [],
                     "examples": [
                         "Client  --request-->  Server",
                         "Client <--response--  Server"
@@ -1258,6 +1329,7 @@
                 },
                 {
                     "content": "HTTP methods: GET retrieves data, POST creates data, PUT or PATCH updates data, and DELETE removes data.",
+                    "code": [],
                     "examples": [
                         "GET /api/users/42",
                         "POST /api/users",
@@ -1266,7 +1338,10 @@
                     ]
                 },
                 {
-                    "content": "REST APIs expose resources through endpoints, which are URLs. They use predictable, resource-based URLs and commonly return structured data as JSON. <code>GET /api/orders/7</code> retrieves order 7.",
+                    "content": "REST APIs expose resources through endpoints, which are URLs. They use predictable, resource-based URLs and commonly return structured data as JSON. GET /api/orders/7 retrieves order 7.",
+                    "code": [
+                        "GET /api/orders/7"
+                    ],
                     "examples": [
                         "GET /api/orders/7",
                         "{ \"id\": 7, \"total\": 42.5 }"
@@ -1274,6 +1349,7 @@
                 },
                 {
                     "content": "Status codes communicate results: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, and 500 Internal Server Error.",
+                    "code": [],
                     "examples": [
                         "200 OK",
                         "201 Created",
@@ -1285,6 +1361,7 @@
                 },
                 {
                     "content": "Authentication confirms who is making a request. Authentication tokens are a common way to verify request identities.",
+                    "code": [],
                     "examples": [
                         "GET /api/profile",
                         "Authorization: Bearer abc123"
@@ -1292,6 +1369,7 @@
                 },
                 {
                     "content": "A typical full-stack application combines a responsive frontend, application logic, an API, and a relational database. The database is the layer that stores structured application data.",
+                    "code": [],
                     "examples": [
                         "Frontend -> API -> Database",
                         "GET /api/users/42"
