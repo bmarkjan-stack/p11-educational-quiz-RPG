@@ -68,3 +68,6 @@ coverage/
 saves/
 *.save
 *.local.json
+
+# Desktop builds
+release/
