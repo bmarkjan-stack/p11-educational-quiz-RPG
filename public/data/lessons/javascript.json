@@ -8,14 +8,24 @@
             "title": "Variables",
             "pages": [
                 {
-                    "content": "Variables store values you can use later. Declare one with <code>let</code> or <code>const</code>. The statement <code>let score = 0;</code> creates a variable named score with a starting value of 0.",
+                    "content": "Variables store values you can use later. Declare one with let or const. The statement let score = 0; creates a variable named score with a starting value of 0.",
+                    "code": [
+                        "let",
+                        "const",
+                        "let score = 0;"
+                    ],
                     "examples": [
                         "let score = 0;",
                         "console.log(score); // 0"
                     ]
                 },
                 {
-                    "content": "Use <code>let</code> for values that can be reassigned. Use <code>const</code> for values that cannot be reassigned after initialization. Older code may use <code>var</code>, but modern code prefers let and const.",
+                    "content": "Use let for values that can be reassigned. Use const for values that cannot be reassigned after initialization. Older code may use var, but modern code prefers let and const.",
+                    "code": [
+                        "let",
+                        "const",
+                        "var"
+                    ],
                     "examples": [
                         "let score = 0;",
                         "score = 10;",
@@ -23,7 +33,10 @@
                     ]
                 },
                 {
-                    "content": "Reassigning a <code>const</code> variable makes JavaScript report an error. Words like fixed, static, or constant are not valid keywords for declaring variables. Text values go inside quotes.",
+                    "content": "Reassigning a const variable makes JavaScript report an error. Words like fixed, static, or constant are not valid keywords for declaring variables. Text values go inside quotes.",
+                    "code": [
+                        "const"
+                    ],
                     "examples": [
                         "const name = \"Ava\";",
                         "name = \"Ben\";",
@@ -70,7 +83,10 @@
             "title": "Functions",
             "pages": [
                 {
-                    "content": "A function is a reusable block of code. Declare one with the <code>function</code> keyword, a name, parentheses, and braces. Write the code once, then reuse it many times. Empty parentheses mean no parameters.",
+                    "content": "Functions are reusable blocks of code. Declare one with the function keyword, a name, parentheses, and braces. Write the code once, then reuse it many times. Empty parentheses mean no parameters.",
+                    "code": [
+                        "function"
+                    ],
                     "examples": [
                         "function greet() {",
                         "    console.log(\"Hi!\");",
@@ -78,7 +94,10 @@
                     ]
                 },
                 {
-                    "content": "Values inside the parentheses of a function declaration are called parameters. They act as inputs. The <code>return</code> keyword sends a value back from the function.",
+                    "content": "Values inside the parentheses of a function declaration are called parameters. They act as inputs. The return keyword sends a value back from the function.",
+                    "code": [
+                        "return"
+                    ],
                     "examples": [
                         "function add(a, b) {",
                         "    return a + b;",
@@ -86,7 +105,10 @@
                     ]
                 },
                 {
-                    "content": "Call a function by writing its name followed by parentheses. Values you pass in are arguments. Store the returned value in a variable to use it later. Here <code>add(2, 3)</code> returns 5, not 23.",
+                    "content": "Call a function by writing its name followed by parentheses. Values you pass in are arguments. Store the returned value in a variable to use it later. Here add(2, 3) returns 5, not 23.",
+                    "code": [
+                        "add(2, 3)"
+                    ],
                     "examples": [
                         "greet();",
                         "add(2, 3); // 5",
@@ -133,6 +155,7 @@
             "pages": [
                 {
                     "content": "An array stores an ordered list of values. Create one with square brackets and separate items with commas. Only square brackets create an array; parentheses and curly braces mean something else.",
+                    "code": [],
                     "examples": [
                         "const numbers = [1, 2, 3];",
                         "const colors = [",
@@ -144,6 +167,7 @@
                 },
                 {
                     "content": "Array indexes start at 0, so the first item is at index 0. Read an item with square brackets and its index. In a three-item array, the last item is at index 2.",
+                    "code": [],
                     "examples": [
                         "colors[0]; // \"red\"",
                         "colors[1]; // \"green\"",
@@ -153,6 +177,7 @@
                 },
                 {
                     "content": "Concepts combine. A const variable can hold an array, and a function can read values from it. Remember: the index of \"green\" in the colors array is 1, because counting starts at 0.",
+                    "code": [],
                     "examples": [
                         "const numbers = [1, 2, 3];",
                         "function first(list) {",

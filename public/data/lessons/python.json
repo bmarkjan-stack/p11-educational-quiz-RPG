@@ -9,6 +9,7 @@
             "pages": [
                 {
                     "content": "Python variables don't need a declared type. Create one with a name, an equals sign, and a value. Python works out the type automatically, so there is no int, var, or let in front.",
+                    "code": [],
                     "examples": [
                         "score = 10",
                         "name = \"Ava\"",
@@ -16,7 +17,13 @@
                     ]
                 },
                 {
-                    "content": "Common types are <code>int</code> for whole numbers, <code>float</code> for decimal numbers, <code>str</code> for text, and <code>bool</code> for True or False values.",
+                    "content": "Common types are int for whole numbers, float for decimal numbers, str for text, and bool for True or False values.",
+                    "code": [
+                        "int",
+                        "float",
+                        "str",
+                        "bool"
+                    ],
                     "examples": [
                         "score = 0         # int",
                         "price = 19.99    # float",
@@ -26,6 +33,7 @@
                 },
                 {
                     "content": "Text goes inside quotes to make a string. Booleans are written True and False with a capital first letter; lowercase true is not valid Python. A quoted \"True\" is text, not a Boolean.",
+                    "code": [],
                     "examples": [
                         "is_active = True",
                         "is_admin = False",
@@ -71,7 +79,11 @@
             "title": "Control Flow",
             "pages": [
                 {
-                    "content": "Control flow decides which code runs. The <code>if</code> statement runs code only when a condition is true. Use <code>else</code> for code that runs when the condition is false.",
+                    "content": "Control flow decides which code runs. The if statement runs code only when a condition is true. Use else for code that runs when the condition is false.",
+                    "code": [
+                        "if",
+                        "else"
+                    ],
                     "examples": [
                         "if score > 10:",
                         "    print(\"High score!\")",
@@ -80,7 +92,10 @@
                     ]
                 },
                 {
-                    "content": "<code>elif</code> means else if. It checks another condition when the previous condition was false. You can place several elif branches between if and else.",
+                    "content": "elif means else if. It checks another condition when the previous condition was false. You can place several elif branches between if and else.",
+                    "code": [
+                        "elif"
+                    ],
                     "examples": [
                         "if score >= 90:",
                         "    print(\"A\")",
@@ -92,6 +107,7 @@
                 },
                 {
                     "content": "Python uses indentation, not curly braces, to define blocks of code. Statements inside conditions and loops must be indented, usually by four spaces. Incorrect indentation causes an error.",
+                    "code": [],
                     "examples": [
                         "if True:",
                         "    print(\"Inside\")",
@@ -99,7 +115,11 @@
                     ]
                 },
                 {
-                    "content": "Loops repeat code. A <code>while</code> loop repeats while a condition remains true. A <code>for</code> loop repeats code for each item in a sequence.",
+                    "content": "Loops repeat code. A while loop repeats while a condition remains true. A for loop repeats code for each item in a sequence.",
+                    "code": [
+                        "while",
+                        "for"
+                    ],
                     "examples": [
                         "count = 0",
                         "while count < 3:",
@@ -147,7 +167,10 @@
             "title": "Functions",
             "pages": [
                 {
-                    "content": "A function is a reusable block of code. Define one with the <code>def</code> keyword, a name, parentheses, and a colon. The indented lines below are the function's body.",
+                    "content": "A function is a reusable block of code. Define one with the def keyword, a name, parentheses, and a colon. The indented lines below are the function's body.",
+                    "code": [
+                        "def"
+                    ],
                     "examples": [
                         "def greet():",
                         "    print(\"Hello!\")",
@@ -155,14 +178,21 @@
                     ]
                 },
                 {
-                    "content": "Parameters are inputs defined by the function; they receive values when the function is called. The <code>return</code> keyword sends a value back to the code that called the function.",
+                    "content": "Parameters are inputs defined by the function; they receive values when the function is called. The return keyword sends a value back to the code that called the function.",
+                    "code": [
+                        "return"
+                    ],
                     "examples": [
                         "def add(a, b):",
                         "    return a + b"
                     ]
                 },
                 {
-                    "content": "Calling <code>add(2, 3)</code> returns 5. Python functions start with <code>def</code> and end the first line with a colon. Words like function, func, and define, or curly braces, are not Python.",
+                    "content": "Calling add(2, 3) returns 5. Python functions start with def and end the first line with a colon. Words like function, func, and define, or curly braces, are not Python.",
+                    "code": [
+                        "add(2, 3)",
+                        "def"
+                    ],
                     "examples": [
                         "def add(a, b):",
                         "    return a + b",
@@ -172,6 +202,7 @@
                 },
                 {
                     "content": "In short: variables store values, control flow controls execution, and functions provide reusable blocks of code. Together they let programs make decisions and avoid repeating work.",
+                    "code": [],
                     "examples": [
                         "def grade(score):",
                         "    if score >= 90:",

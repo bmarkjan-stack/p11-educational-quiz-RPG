@@ -9,6 +9,7 @@
             "pages": [
                 {
                     "content": "A relational database stores data in tables made of rows and columns. A row is a single record containing related values. A column is a field representing one type of data, such as name or email.",
+                    "code": [],
                     "examples": [
                         "users",
                         "id | name | email",
@@ -18,6 +19,7 @@
                 },
                 {
                     "content": "A primary key uniquely identifies each row in a table, so no two rows share the same value. It is often named id, but it does not have to be.",
+                    "code": [],
                     "examples": [
                         "users(id, name, email)",
                         "PRIMARY KEY: id",
@@ -27,6 +29,7 @@
                 },
                 {
                     "content": "A foreign key links a row to a related row in another table by storing that row's primary key. Foreign keys establish relationships between tables, such as connecting each order to its user.",
+                    "code": [],
                     "examples": [
                         "users(id, name, email)",
                         "orders(id, user_id, total)",
@@ -72,14 +75,21 @@
             "title": "Querying with SELECT & WHERE",
             "pages": [
                 {
-                    "content": "SELECT retrieves data from a table. List the columns you want after SELECT and the table after FROM. <code>SELECT name, age FROM users;</code> returns only the name and age columns.",
+                    "content": "SELECT retrieves data from a table. List the columns you want after SELECT and the table after FROM. SELECT name, age FROM users; returns only the name and age columns.",
+                    "code": [
+                        "SELECT name, age FROM users;"
+                    ],
                     "examples": [
                         "SELECT name, age",
                         "FROM users;"
                     ]
                 },
                 {
-                    "content": "The asterisk <code>*</code> means all columns. <code>SELECT * FROM users;</code> retrieves every column from the users table. SQL statements usually end with a semicolon.",
+                    "content": "The asterisk * means all columns. SELECT * FROM users; retrieves every column from the users table. SQL statements usually end with a semicolon.",
+                    "code": [
+                        "*",
+                        "SELECT * FROM users;"
+                    ],
                     "examples": [
                         "SELECT * FROM users;",
                         "SELECT id, name FROM users;"
@@ -87,6 +97,7 @@
                 },
                 {
                     "content": "WHERE filters rows based on a condition. Only rows meeting the condition are returned. WHERE does not change or delete data. Here, only users whose age is greater than 18 are returned.",
+                    "code": [],
                     "examples": [
                         "SELECT * FROM users",
                         "WHERE age > 18;"
@@ -132,6 +143,7 @@
             "pages": [
                 {
                     "content": "JOIN combines related rows from two or more tables using a related column, such as a foreign key. The ON clause says how rows match.",
+                    "code": [],
                     "examples": [
                         "SELECT orders.id, users.name",
                         "FROM orders",
@@ -140,7 +152,10 @@
                     ]
                 },
                 {
-                    "content": "The condition <code>orders.user_id = users.id</code> connects each order to its user. A plain JOIN is an INNER JOIN: it returns only rows with matching data in both tables. LEFT JOIN also keeps unmatched left-table rows.",
+                    "content": "The condition orders.user_id = users.id connects each order to its user. A plain JOIN is an INNER JOIN: it returns only rows with matching data in both tables. LEFT JOIN also keeps unmatched left-table rows.",
+                    "code": [
+                        "orders.user_id = users.id"
+                    ],
                     "examples": [
                         "SELECT * FROM users",
                         "INNER JOIN orders",
@@ -152,6 +167,7 @@
                 },
                 {
                     "content": "GROUP BY groups rows that share a value in one or more columns. It is often used with aggregate functions, which calculate one value for each group of rows.",
+                    "code": [],
                     "examples": [
                         "SELECT department, COUNT(*)",
                         "FROM employees",
@@ -159,7 +175,12 @@
                     ]
                 },
                 {
-                    "content": "<code>COUNT()</code> counts rows, <code>SUM()</code> adds numeric values, and <code>AVG()</code> calculates the average of numeric values. These are the standard aggregate functions.",
+                    "content": "COUNT() counts rows, SUM() adds numeric values, and AVG() calculates the average of numeric values. These are the standard aggregate functions.",
+                    "code": [
+                        "COUNT()",
+                        "SUM()",
+                        "AVG()"
+                    ],
                     "examples": [
                         "SELECT COUNT(*) FROM users;",
                         "SELECT SUM(total) FROM orders;",
@@ -168,6 +189,7 @@
                 },
                 {
                     "content": "Queries combine these ideas. SELECT chooses columns, WHERE filters rows, JOIN connects tables, and GROUP BY with aggregates summarizes results. To combine users and orders, join them on their related IDs.",
+                    "code": [],
                     "examples": [
                         "SELECT * FROM users",
                         "JOIN orders",
