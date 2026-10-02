@@ -9,6 +9,7 @@
             "pages": [
                 {
                     "content": "Responsive web design lets a webpage adapt to different screen sizes, from phones to desktops. One flexible layout works everywhere instead of separate sites per device. It matters because people visit pages on screens of many sizes.",
+                    "code": [],
                     "examples": [
                         "Phone: 1 column",
                         "Tablet: 2 columns",
@@ -16,7 +17,10 @@
                     ]
                 },
                 {
-                    "content": "Mobile-first design means designing for small screens first, then enhancing the layout for larger screens. Start with simple base styles for phones, then add <code>min-width</code> media queries as the screen grows.",
+                    "content": "Mobile-first design means designing for small screens first, then enhancing the layout for larger screens. Start with simple base styles for phones, then add min-width media queries as the screen grows.",
+                    "code": [
+                        "min-width"
+                    ],
                     "examples": [
                         "/* base: phones */",
                         ".card { width: 100%; }",
@@ -28,6 +32,7 @@
                 },
                 {
                     "content": "The viewport meta tag controls how a page is scaled and displayed on different devices. Without it, mobile browsers may show a tiny, zoomed-out desktop layout. Place it in the head of your HTML.",
+                    "code": [],
                     "examples": [
                         "<meta name=\"viewport\"",
                         "  content=\"width=device-width,",
@@ -35,7 +40,11 @@
                     ]
                 },
                 {
-                    "content": "<code>width=device-width</code> matches the page width to the device's CSS width, not a fixed number like 1000 pixels. <code>initial-scale=1.0</code> sets the starting zoom to 100%. Together they make pages fit the screen.",
+                    "content": "width=device-width matches the page width to the device's CSS width, not a fixed number like 1000 pixels. initial-scale=1.0 sets the starting zoom to 100%. Together they make pages fit the screen.",
+                    "code": [
+                        "width=device-width",
+                        "initial-scale=1.0"
+                    ],
                     "examples": [
                         "width=device-width",
                         "= match device CSS width",
@@ -83,6 +92,7 @@
             "pages": [
                 {
                     "content": "A media query is a CSS mechanism that applies rules only when certain conditions are met, such as a minimum or maximum screen width. One stylesheet can then give different styles to different screens.",
+                    "code": [],
                     "examples": [
                         "@media (min-width: 768px) {",
                         "    .box {",
@@ -93,6 +103,7 @@
                 },
                 {
                     "content": "Media queries can change layouts, font sizes, spacing, and other CSS properties. A breakpoint is a screen width or condition where responsive styles can change. Common breakpoints are around 480px, 768px, and 1024px.",
+                    "code": [],
                     "examples": [
                         "@media (min-width: 768px) {",
                         "    body {",
@@ -102,7 +113,11 @@
                     ]
                 },
                 {
-                    "content": "<code>min-width: 768px</code> applies styles when the viewport is at least 768 pixels wide. <code>max-width: 768px</code> applies them when it is at most 768 pixels wide. Mobile-first designs mostly use min-width.",
+                    "content": "min-width: 768px applies styles when the viewport is at least 768 pixels wide. max-width: 768px applies them when it is at most 768 pixels wide. Mobile-first designs mostly use min-width.",
+                    "code": [
+                        "min-width: 768px",
+                        "max-width: 768px"
+                    ],
                     "examples": [
                         "@media (min-width: 768px) {",
                         "  .container {",
@@ -117,7 +132,12 @@
                     ]
                 },
                 {
-                    "content": "<code>(width: 768px)</code> matches only a viewport of exactly 768 pixels, so it is rarely useful. Names such as <code>screen-width</code> or <code>screen</code> with a size are not valid media features. Use min-width or max-width.",
+                    "content": "(width: 768px) matches only a viewport of exactly 768 pixels, so it is rarely useful. Names such as screen-width or screen with a size are not valid media features. Use min-width or max-width.",
+                    "code": [
+                        "(width: 768px)",
+                        "screen-width",
+                        "screen"
+                    ],
                     "examples": [
                         "@media (min-width: 768px)",
                         "  -> 768px and wider",
@@ -166,7 +186,10 @@
             "title": "Flexible Layouts (Flexbox & Grid)",
             "pages": [
                 {
-                    "content": "Flexbox arranges items mainly along a single direction: a row or a column. Enable it with <code>display: flex;</code>. It suits navigation bars, button rows, and lists of cards.",
+                    "content": "Flexbox arranges items mainly along a single direction: a row or a column. Enable it with display: flex;. It suits navigation bars, button rows, and lists of cards.",
+                    "code": [
+                        "display: flex;"
+                    ],
                     "examples": [
                         ".nav {",
                         "    display: flex;",
@@ -174,7 +197,12 @@
                     ]
                 },
                 {
-                    "content": "<code>justify-content</code> distributes space between items along the main axis. <code>align-items</code> controls alignment on the cross axis. <code>flex-direction</code> switches between row and column.",
+                    "content": "justify-content distributes space between items along the main axis. align-items controls alignment on the cross axis. flex-direction switches between row and column.",
+                    "code": [
+                        "justify-content",
+                        "align-items",
+                        "flex-direction"
+                    ],
                     "examples": [
                         ".nav {",
                         "    display: flex;",
@@ -185,7 +213,10 @@
                     ]
                 },
                 {
-                    "content": "CSS Grid arranges items in two dimensions, using rows and columns at the same time. Enable it with <code>display: grid;</code>. It suits page layouts and galleries.",
+                    "content": "CSS Grid arranges items in two dimensions, using rows and columns at the same time. Enable it with display: grid;. It suits page layouts and galleries.",
+                    "code": [
+                        "display: grid;"
+                    ],
                     "examples": [
                         ".gallery {",
                         "    display: grid;",
@@ -194,7 +225,12 @@
                     ]
                 },
                 {
-                    "content": "<code>grid-template-columns</code> defines the columns of a Grid. The <code>fr</code> unit shares available space in fractions, so <code>repeat(3, 1fr)</code> creates three equal columns.",
+                    "content": "grid-template-columns defines the columns of a Grid. The fr unit shares available space in fractions, so repeat(3, 1fr) creates three equal columns.",
+                    "code": [
+                        "grid-template-columns",
+                        "fr",
+                        "repeat(3, 1fr)"
+                    ],
                     "examples": [
                         ".gallery {",
                         "    display: grid;",
@@ -204,7 +240,15 @@
                     ]
                 },
                 {
-                    "content": "Relative units such as %, em, rem, vw, and vh scale more flexibly than fixed pixels. The <code>vw</code> unit is relative to the viewport width, and <code>vh</code> to the viewport height.",
+                    "content": "Relative units such as %, em, rem, vw, and vh scale more flexibly than fixed pixels. The vw unit is relative to the viewport width, and vh to the viewport height.",
+                    "code": [
+                        "em",
+                        "rem",
+                        "vw",
+                        "vh",
+                        "vw",
+                        "vh"
+                    ],
                     "examples": [
                         "width: 50vw;",
                         "height: 100vh;",
@@ -212,7 +256,11 @@
                     ]
                 },
                 {
-                    "content": "The <code>rem</code> unit is relative to the root element's font size. The <code>em</code> unit is relative to the font size of the relevant element or inherited context. Both help text and spacing scale smoothly.",
+                    "content": "The rem unit is relative to the root element's font size. The em unit is relative to the font size of the relevant element or inherited context. Both help text and spacing scale smoothly.",
+                    "code": [
+                        "rem",
+                        "em"
+                    ],
                     "examples": [
                         "html { font-size: 16px; }",
                         "h1 { font-size: 2rem; }",
@@ -221,6 +269,7 @@
                 },
                 {
                     "content": "Effective responsive layouts combine mobile-first design, media queries, Flexbox or Grid, and relative units. Avoid only fixed pixel widths and desktop-only styles so layouts adapt across screen sizes.",
+                    "code": [],
                     "examples": [
                         ".grid {",
                         "    display: grid;",
