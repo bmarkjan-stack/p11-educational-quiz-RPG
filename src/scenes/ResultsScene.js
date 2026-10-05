@@ -3,6 +3,7 @@ import Button from "../ui/Button.js";
 import ExperienceBar from "../ui/ExperienceBar.js";
 import { CAPSTONE_LESSON } from "../systems/curriculum.js";
 import { applyFloatyText } from "../ui/sceneEffects.js";
+import { playMusic } from "../systems/AudioManager.js";
 
 export default class ResultsScene extends Phaser.Scene {
     constructor() {
@@ -136,7 +137,7 @@ export default class ResultsScene extends Phaser.Scene {
 
     const musicKey = passed ? "bgm-victory" : "bgm-defeat";
 
-    this.sound.play(musicKey, {
+    playMusic(this, musicKey, {
         loop: true,
         volume: 0.5,
     });

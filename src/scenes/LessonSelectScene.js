@@ -4,6 +4,7 @@ import LessonManager from "../systems/LessonManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 import { TRACKS, CAPSTONE_LESSON } from "../systems/curriculum.js";
 import { applyFloatyText } from "../ui/sceneEffects.js";
+import { playMusic } from "../systems/AudioManager.js";
 
 const CENTER_X = 640;
 const CENTER_Y = 360;
@@ -137,7 +138,7 @@ export default class LessonSelectScene extends Phaser.Scene {
     playMusic() {
         this.sound.stopAll();
 
-        this.sound.play("bgm-lesson", {
+        playMusic(this, "bgm-lesson", {
             loop: true,
             volume: 0.35,
         });

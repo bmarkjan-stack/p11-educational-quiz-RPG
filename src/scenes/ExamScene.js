@@ -9,6 +9,7 @@ import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 import { CAPSTONE_LESSON } from "../systems/curriculum.js";
 import { applyFloatyText } from "../ui/sceneEffects.js";
+import { playMusic, playSfx } from "../systems/AudioManager.js";
 
 // Boss challenges award more XP than a regular section quiz (requirement #5).
 const EXAM_XP_REWARD = 50;
@@ -281,7 +282,7 @@ export default class ExamScene extends Phaser.Scene {
 
     playMusic() {
         this.sound.stopAll();
-        this.sound.play("bgm-battle", { loop: true, volume: 0.35 });
+        playMusic(this, "bgm-battle", { loop: true, volume: 0.35 });
     }
 
     createHeader() {
@@ -321,14 +322,14 @@ export default class ExamScene extends Phaser.Scene {
 
     resolveTurn(isCorrect, selectedIndex, timedOut = false) {
         this.quizManager.checkAnswer(selectedIndex);
-        this.sound.play(isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
+        playSfx(this, isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
 
         if (isCorrect) {
             this.player.attack(this.boss);
-            this.sound.play("sfx-player-attack", { volume: 0.4 });
+            playSfx(this, "sfx-player-attack", { volume: 0.4 });
         } else {
             this.boss.attack(this.player);
-            this.sound.play("sfx-boss-attack", { volume: 0.4 });
+            playSfx(this, "sfx-boss-attack", { volume: 0.4 });
         }
 
         this.time.delayedCall(400, () => {
@@ -458,7 +459,7 @@ export default class ExamScene extends Phaser.Scene {
             : Math.round((this.fullStackSectionCorrect / this.fullStackSectionTotal) * 100);
 
         this.sound.stopAll();
-        this.sound.play("bgm-victory", { volume: 0.5 });
+        playMusic(this, "bgm-victory", { volume: 0.5 });
         this.scene.start("ResultsScene", {
             lesson: this.lesson,
             character: this.character,
@@ -559,7 +560,7 @@ export default class ExamScene extends Phaser.Scene {
 
     showPhaseTransition(titleText, subtitleText, onContinue) {
         this.sound.stopAll();
-        this.sound.play("bgm-battle", { loop: true, volume: 0.35 });
+        playMusic(this, "bgm-battle", { loop: true, volume: 0.35 });
 
         const overlay = this.add
             .image(640, 360, "result-panel")
@@ -632,7 +633,7 @@ export default class ExamScene extends Phaser.Scene {
         const currentStats = xpResult?.stats ?? this.progressManager.getCharacterStats();
 
         this.sound.stopAll();
-        this.sound.play("bgm-victory", { volume: 0.5 });
+        playMusic(this, "bgm-victory", { volume: 0.5 });
 
         this.scene.start("ResultsScene", {
             lesson: this.lesson,
@@ -656,7 +657,7 @@ export default class ExamScene extends Phaser.Scene {
 
     showBattleIncomplete() {
         this.sound.stopAll();
-        this.sound.play("bgm-defeat", { volume: 0.5 });
+        playMusic(this, "bgm-defeat", { volume: 0.5 });
 
         this.add.image(640, 360, "result-panel").setOrigin(0.5).setDepth(10);
         this.add.text(640, 300, "EXAM INCOMPLETE", {
@@ -686,7 +687,7 @@ export default class ExamScene extends Phaser.Scene {
 
     showDefeat() {
         this.sound.stopAll();
-        this.sound.play("bgm-defeat", { volume: 0.5 });
+        playMusic(this, "bgm-defeat", { volume: 0.5 });
 
         this.add.image(640, 360, "result-panel").setOrigin(0.5).setDepth(10);
         this.add.text(640, 320, "YOU WERE DEFEATED", {

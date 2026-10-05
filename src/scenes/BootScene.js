@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { playMusic } from "../systems/AudioManager.js";
 
 export default class BootScene extends Phaser.Scene {
     constructor() {
@@ -17,7 +18,7 @@ export default class BootScene extends Phaser.Scene {
 
     create() {
         if (!this.sound.get("bgm-main")) { 
-            this.sound.play("bgm-main", { 
+            playMusic(this, "bgm-main", { 
                 loop: true, 
                 volume: 0.4, 
             }); 

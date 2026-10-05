@@ -8,6 +8,7 @@ import Button from "../ui/Button.js";
 import QuizManager from "../systems/QuizManager.js";
 import ProgressManager from "../systems/ProgressManager.js";
 import { applyFloatyText } from "../ui/sceneEffects.js";
+import { playMusic, playSfx } from "../systems/AudioManager.js";
 
 // XP awarded for defeating a section's quiz enemy (requirement #5).
 // Boss challenges (the exam) award more XP — see ExamScene.
@@ -200,7 +201,7 @@ export default class BattleScene extends Phaser.Scene {
 
     playMusic() {
         this.sound.stopAll();
-        this.sound.play("bgm-battle", { loop: true, volume: 0.35 });
+        playMusic(this, "bgm-battle", { loop: true, volume: 0.35 });
     }
 
     nextQuestion() {
@@ -219,14 +220,14 @@ export default class BattleScene extends Phaser.Scene {
 
     resolveTurn(isCorrect, selectedIndex, timedOut = false) {
         this.quizManager.checkAnswer(selectedIndex);
-        this.sound.play(isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
+        playSfx(this, isCorrect ? "sfx-correct" : "sfx-incorrect", { volume: 0.6 });
 
         if (isCorrect) {
             this.player.attack(this.boss);
-            this.sound.play("sfx-player-attack", { volume: 0.4 });
+            playSfx(this, "sfx-player-attack", { volume: 0.4 });
         } else {
             this.boss.attack(this.player);
-            this.sound.play("sfx-boss-attack", { volume: 0.4 });
+            playSfx(this, "sfx-boss-attack", { volume: 0.4 });
         }
 
         this.time.delayedCall(400, () => {
@@ -436,7 +437,7 @@ export default class BattleScene extends Phaser.Scene {
 
     showBattleIncomplete() {
         this.sound.stopAll();
-        this.sound.play("bgm-defeat", { volume: 0.5 });
+        playMusic(this, "bgm-defeat", { volume: 0.5 });
 
         this.add
             .image(640, 360, "result-panel")
@@ -487,7 +488,7 @@ export default class BattleScene extends Phaser.Scene {
 
     showDefeat() {
         this.sound.stopAll();
-        this.sound.play("bgm-defeat", { volume: 0.5 });
+        playMusic(this, "bgm-defeat", { volume: 0.5 });
 
         const overlay = this.add
             .image(640, 360, "result-panel")
