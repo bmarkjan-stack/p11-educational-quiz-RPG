@@ -1,6 +1,7 @@
 import { CURRICULUM, CAPSTONE_LESSON } from "./curriculum.js";
+import { readSave, writeSave } from "./platform.js";
 
-const STORAGE_KEY = "learnquest-progress";
+const SAVE_NAME = "progress"; // saves/progress.json next to the game
 const PROGRESS_VERSION = 2;
 
 function defaultProgress() {
@@ -144,7 +145,7 @@ export default class ProgressManager {
 
     load() {
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
+            const raw = readSave(SAVE_NAME);
 
             if (!raw) {
                 return defaultProgress();
@@ -178,7 +179,9 @@ export default class ProgressManager {
 
     save() {
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(this.progress));
+            if (!writeSave(SAVE_NAME, JSON.stringify(this.progress))) {
+                console.warn("Progress could not be written to the save file.");
+            }
         } catch (error) {
             console.warn("Could not save progress.", error);
         }
