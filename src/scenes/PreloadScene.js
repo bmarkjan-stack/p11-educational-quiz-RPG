@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
 import { applyFloatyText } from "../ui/sceneEffects.js";
+import { quitBridge } from "../systems/platform.js";
 
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
@@ -206,11 +207,15 @@ export default class PreloadScene extends Phaser.Scene {
             this.loadingLabel.setText("Assets Loaded!"); 
             this.percentageLabel.setText("100%"); 
             
+            // Textures for the quit prompt exist now, so the window X button can use it.
+            quitBridge.ready();
+
             this.time.delayedCall(300, () => { 
                 this.loadingLabel.destroy(); 
                 this.loadingBox.destroy(); 
                 this.loadingBar.destroy(); 
                 this.percentageLabel.destroy(); 
+
                 this.createContinueButton(); 
             }); 
         });
