@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
 import { applyFloatyText } from "../ui/sceneEffects.js";
-import { quitBridge } from "../systems/platform.js";
+import { consumeLaunchFlag, quitBridge } from "../systems/platform.js";
 
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
@@ -215,6 +215,11 @@ export default class PreloadScene extends Phaser.Scene {
                 this.loadingBox.destroy(); 
                 this.loadingBar.destroy(); 
                 this.percentageLabel.destroy(); 
+                // Reopened after a display-mode switch: no need to click through again.
+                if (consumeLaunchFlag("skipIntro")) { 
+                    this.enterMenu(); 
+                    return; 
+                } 
 
                 this.createContinueButton(); 
             }); 
