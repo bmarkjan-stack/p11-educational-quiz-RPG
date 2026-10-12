@@ -10,6 +10,9 @@ import LessonScene from "./scenes/LessonScene.js";
 import BattleScene from "./scenes/BattleScene.js";
 import ExamScene from "./scenes/ExamScene.js";
 import ResultsScene from "./scenes/ResultsScene.js";
+import ConfirmScene from "./scenes/ConfirmScene.js";
+import { onQuitRequest } from "./systems/platform.js";
+import { requestQuit } from "./systems/QuitFlow.js";
 
 const config = {
     type: Phaser.AUTO,
@@ -38,6 +41,7 @@ const config = {
         BattleScene,
         ExamScene,
         ResultsScene,
+        ConfirmScene,
     ]
 };
 
@@ -47,4 +51,7 @@ await Promise.all(
     )
 );
 
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
+// The desktop shell asks us to confirm whenever the player tries to close the window.
+onQuitRequest(() => requestQuit(game));
