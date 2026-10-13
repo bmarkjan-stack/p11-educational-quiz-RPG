@@ -1,7 +1,9 @@
 import Phaser from "phaser";
 import Button from "../ui/Button.js";
 import { applyFloatyText } from "../ui/sceneEffects.js";
+import { playMusic } from "../systems/AudioManager.js";
 import { consumeLaunchFlag, quitBridge } from "../systems/platform.js";
+import { enableHiResImages } from "../config/hiResAssets.js";
 
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
@@ -20,6 +22,7 @@ export default class PreloadScene extends Phaser.Scene {
     preload() {
         applyFloatyText(this);
         this.createLoadingBar();
+        enableHiResImages(this.load); // no-op until hi-res files are registered
 
         // Backgrounds
         this.load.image("bg-main-menu", "assets/images/background/bg-main-menu.png");
@@ -308,20 +311,7 @@ export default class PreloadScene extends Phaser.Scene {
             width / 2,
             height - 80,
             "Press to Continue",
-            () => {
-                const music = this.sound.get("bgm-main"); 
-                
-                if (!music) { 
-                    this.sound.play("bgm-main", { 
-                        loop: true, 
-                        volume: 0.4, 
-                    }); 
-                } else if (!music.isPlaying) { 
-                    music.play(); 
-                }
-
-                this.scene.start("MenuScene");
-            },
+            () => this.enterMenu(),
             {
                 width: 300,
                 height: 64,
@@ -331,6 +321,19 @@ export default class PreloadScene extends Phaser.Scene {
         );
 
         this.continueButton.setDepth(10);
+    }
+
+    // Starts (or resumes) the menu music and opens the main menu.
+    enterMenu() {
+        const music = this.sound.get("bgm-main");
+
+        if (!music) {
+            playMusic(this, "bgm-main", { loop: true, volume: 0.4 });
+        } else if (!music.isPlaying) {
+            music.play();
+        }
+
+        this.scene.start("MenuScene");
     }
 
     create() {
