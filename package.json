@@ -17,6 +17,8 @@
         "phaser": "^3.90.0"
     },
     "devDependencies": {
+        "electron": "^44.7.0",
+        "electron-builder": "^26.15.3",
         "vite": "^7.0.0"
     },
     "main": "electron/main.cjs",
