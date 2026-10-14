@@ -29,7 +29,6 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("bg-character-creation", "assets/images/background/bg-character-creation.png");
         this.load.image("bg-lesson-select", "assets/images/background/bg-lesson-select.png");
         this.load.image("bg-classroom", "assets/images/background/bg-classroom.png");
-        this.load.image("bg-dungeon", "assets/images/background/bg-dungeon.png");
 
         // Lesson-specific battle and exam backgrounds
         this.load.image("bg-quiz-responsive-web-design", "assets/images/background/quiz/bg-responsive-web-design.png");
